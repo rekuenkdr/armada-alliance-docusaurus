@@ -2,16 +2,16 @@
 module.exports = {
   title: 'Armada Alliance Docs',
   tagline: 'ARM powered Cardano Stake Pool Guides',
-  url: 'https://docs.armada-alliance.com',
-  baseUrl: '/',
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  url: 'https://rekuenkdr.github.io/', // URL for your website. This can also be considered the top-level hostname
+  baseUrl: '/armada-alliance-docusaurus/', // Change this to match your projectName if deploying to Github Pages or / if deploying to a top level domain
+  onBrokenLinks: 'ignore', // Change this to 'throw' for production CI pipelines
+  onBrokenMarkdownLinks: 'warn', 
   favicon: 'img/armada-alliance-logo.png',
-  organizationName: 'armada-alliance', // Usually your GitHub org/user name.
-  projectName: 'master', // Usually your repo name.
-  i18n: {
+  organizationName: 'rekuenkdr', // Change this to your GitHub org/user name.
+  projectName: 'armada-alliance-docusaurus', // Change this to your repo name.
+  i18n: {  // We are using crowdin to translate the site https://docusaurus.io/docs/i18n/crowdin
     defaultLocale: 'en',
-    locales: ['en', 'es', 'fi'],
+    locales: ['en', 'es', 'fi'], // Add locales, run locales and translate https://docusaurus.io/docs/i18n/tutorial
   },
   themeConfig: {
     navbar: {
@@ -22,7 +22,7 @@ module.exports = {
       },
       items: [
         {
-          type: 'localeDropdown',
+          type: 'localeDropdown', // Locale Dropdown
           position: 'left',
         },
         {
@@ -116,13 +116,7 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/armada-alliance/master',
-        },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+            'https://github.com/rekuenkdr/armada-alliance-docusaurus/edit/master/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
