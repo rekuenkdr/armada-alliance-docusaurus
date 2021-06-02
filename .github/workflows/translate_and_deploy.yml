@@ -17,10 +17,10 @@ jobs:
         with:
           node-version: '14.17.0'
       - name: Install dependencies
-      - run: npm install
+        run: npm install
       - name: Install Crowdin CLI
-      - run: npm i -g @crowdin/cli
+        run: npm i -g @crowdin/cli
       - name: Sync Translations with Crowdin
-      - run: npm run crowdin:sync
+        run: npm run crowdin:sync
       - name: Deploy to GH Pages
-      - run: GIT_USER=rekuenkdr USE_SSH=true npm run deploy
+        run: GIT_USER=rekuenkdr USE_SSH=true npm run deploy
