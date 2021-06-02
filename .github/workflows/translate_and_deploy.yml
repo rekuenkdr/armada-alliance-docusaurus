@@ -21,16 +21,11 @@ jobs:
         run: npm install
       - name: Install Crowdin CLI
         run: npm i -g @crowdin/cli
-      - name: Write Translations
-        run: npm run write-translations
       - name: Sync Translations with Crowdin
-        uses: crowdin/github-action@1.1.0
-        with:
-          upload_translations: true
-          download_translations: true
-          token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
-          project_id: 458834
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+      - run: npm run crowdin:sync
       - name: Deploy to GH Pages
         run: GIT_USER=rekuenkdr USE_SSH=true npm run deploy
