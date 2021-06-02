@@ -21,6 +21,8 @@ jobs:
       - name: Install Crowdin CLI
         run: npm i -g @crowdin/cli
       - name: Sync Translations with Crowdin
+       env:
+        CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
         run: npm run crowdin:sync
       - name: Deploy to GH Pages
         run: GIT_USER=rekuenkdr USE_SSH=true npm run deploy
