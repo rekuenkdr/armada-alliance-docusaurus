@@ -6,7 +6,7 @@ description: How to add adapools.org summary.json info to your Grafana instance.
 
 ## Assumptions
 
-You have set up a Cardano node using one of the tutorials provided [here](pi-pool-tutorial/). If so, you should have the necessary dependencies installed that the steps below utilize. If not, see the apt install [Environment Setup](pi-pool-tutorial/pi-node/environment-setup.md#install-packages) section of the Pi-Pool Tutorial.
+You have set up a Cardano node using one of the tutorials provided [here](pi-pool-tutorial/README). If so, you should have the necessary dependencies installed that the steps below utilize. If not, see the apt install [Environment Setup](pi-pool-tutorial/pi-node/environment-setup.md#install-packages) section of the Pi-Pool Tutorial.
 
 ## Make New Directory
 
@@ -82,5 +82,5 @@ http://<YOUR GRAFANA NODE IP>:9100/metrics
 There are other methods you could use to implement this approach. Basically, if you can create a text file with key/value pairs and put it into this new directory, the node exporter should pull the data into Grafana. It opens up a vast array of possibilities. Just ensure you prefix the label names with a unique value \(the **adapools\_** \_\_part in the adapools.prom file above\) per file.
 {% endhint %}
 
-Was this information helpful? Earn rewards with us! [Consider delegating some ADA](../delegate/).
+Was this information helpful? Earn rewards with us! [Consider delegating some ADA](/docs/delegate/README).
 

@@ -4,7 +4,7 @@ module.exports = {
   tagline: 'ARM powered Cardano Stake Pool Guides',
   url: 'https://rekuenkdr.github.io/', // URL for your website. This can also be considered the top-level hostname
   baseUrl: '/armada-alliance-docusaurus/', // Change this to match your projectName if deploying to Github Pages or / if deploying to a top level domain
-  onBrokenLinks: 'ignore', // Change this to 'throw' for production CI pipelines
+  onBrokenLinks: 'warn', // Change this to 'throw' for production CI pipelines
   onBrokenMarkdownLinks: 'warn', 
   favicon: 'img/armada-alliance-logo.png',
   organizationName: 'rekuenkdr', // Change this to your GitHub org/user name.

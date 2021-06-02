@@ -154,17 +154,5 @@
   "theme.common.skipToMainContent": {
     "message": "Skip to main content",
     "description": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation"
-  },
-  "homepage.hero.title": {
-    "message": "Armada Alliance Docs",
-    "description": "The homepage main hero heading"
-  },
-  "homepage.hero.tagline": {
-    "message": "ARM powered Cardano Stake Pool Guides",
-    "description": "The homepage main hero tagline"
-  },
-  "homepage.hero.button_text": {
-    "message": "Start Learning",
-    "description": "The homepage main hero button text"
   }
 }

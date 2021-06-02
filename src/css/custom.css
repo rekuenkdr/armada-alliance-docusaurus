@@ -18,16 +18,19 @@
   --ifm-color-info:#027da5;
   --ifm-color-danger:#bc1142; 
   --ifm-color-success:#75a927;
+  --armada-hero-background-color:#091a26;
+  --armada-hero-text-color:#fff; 
 }
 /* Dark Theme Variables */
 html[data-theme='dark'] {
-  --ifm-color-primary: #bc1142;
-  --ifm-color-primary-dark: #a30e38;
-  /* any other colors you wish to overwrite */
+  --ifm-color-primary: #03a3d6;
+  --ifm-color-primary-dark: #028ab5;
+  --armada-hero-background-color:#303846;
+  --ifm-heading-color:#fff;
 }
-
 .hero--primary{
-  background-color: #303846;
+  background-color: var(--armada-hero-background-color);
+  color:var(--armada-hero-text-color);
 }
 .docusaurus-highlight-code-line {
   background-color: rgb(72, 77, 91);
