@@ -10,8 +10,7 @@ jobs:
   build:
     timeout-minutes: 30
     runs-on: ubuntu-latest
-    env:
-      CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
@@ -22,7 +21,16 @@ jobs:
         run: npm install
       - name: Install Crowdin CLI
         run: npm i -g @crowdin/cli
+      - name: Write Translations
+        run: npm run write-translations
       - name: Sync Translations with Crowdin
-        run: npm run crowdin:sync
+        uses: crowdin/github-action@1.1.0
+        with:
+          upload_translations: true
+          download_translations: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
       - name: Deploy to GH Pages
         run: GIT_USER=rekuenkdr USE_SSH=true npm run deploy
