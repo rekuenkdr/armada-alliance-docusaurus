@@ -16,9 +16,9 @@
     "crowdin:sync": "docusaurus write-translations && crowdin upload && crowdin download"
   },
   "dependencies": {
-    "@crowdin/cli": "^3.6.1",
-    "@docusaurus/core": "2.0.0-beta.0",
-    "@docusaurus/preset-classic": "2.0.0-beta.0",
+    "@crowdin/cli": "3",
+    "@docusaurus/core": "^2.0.0-beta.17",
+    "@docusaurus/preset-classic": "^2.0.0-beta.17",
     "@mdx-js/react": "^1.6.21",
     "@svgr/webpack": "^5.5.0",
     "clsx": "^1.1.1",
