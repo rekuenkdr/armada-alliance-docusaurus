@@ -20,10 +20,10 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: crowdin action
-            uses: crowdin/github-action@1.4.7
-            with:
-              upload_translations: true
-              download_translations: true
+        uses: crowdin/github-action@1.4.7
+        with:
+          upload_translations: true
+          download_translations: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CROWDIN_PROJECT_ID: 458834
