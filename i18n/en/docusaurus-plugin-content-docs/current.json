@@ -50,5 +50,57 @@
   "sidebar.tutorialSidebar.category.Advanced Guides": {
     "message": "Advanced Guides",
     "description": "The label for category Advanced Guides in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Stake Pool Guides": {
+    "message": "Stake Pool Guides",
+    "description": "The label for category Stake Pool Guides in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Stake Pool Guides.link.generated-index.title": {
+    "message": "Stake Pool Guides",
+    "description": "The generated-index page title for category Stake Pool Guides in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Pi-Node Full-Guide (Ubuntu Server)": {
+    "message": "Pi-Node Full-Guide (Ubuntu Server)",
+    "description": "The label for category Pi-Node Full-Guide (Ubuntu Server) in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Apple M1 macOS 🍏": {
+    "message": "Apple M1 macOS 🍏",
+    "description": "The label for category Apple M1 macOS 🍏 in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Apple M1 macOS 🍏.link.generated-index.title": {
+    "message": "Apple M1 macOS 🍏",
+    "description": "The generated-index page title for category Apple M1 macOS 🍏 in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Updating a Cardano Node": {
+    "message": "Updating a Cardano Node",
+    "description": "The label for category Updating a Cardano Node in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Updating a Cardano Node.link.generated-index.title": {
+    "message": "Updating a Cardano Node",
+    "description": "The generated-index page title for category Updating a Cardano Node in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Other Cardano Guides": {
+    "message": "Other Cardano Guides",
+    "description": "The label for category Other Cardano Guides in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Other Cardano Guides.link.generated-index.title": {
+    "message": "Other Cardano Guides",
+    "description": "The generated-index page title for category Other Cardano Guides in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Resources": {
+    "message": "Resources",
+    "description": "The label for category Resources in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Resources.link.generated-index.title": {
+    "message": "Resources",
+    "description": "The generated-index page title for category Resources in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Contribute 🐱‍🚀": {
+    "message": "Contribute 🐱‍🚀",
+    "description": "The label for category Contribute 🐱‍🚀 in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Contribute 🐱‍🚀.link.generated-index.title": {
+    "message": "Contribute 🐱‍🚀",
+    "description": "The generated-index page title for category Contribute 🐱‍🚀 in sidebar tutorialSidebar"
   }
 }
