@@ -42,27 +42,6 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Beginner Guides',
-              to: '/docs/',
-            },
-            {
-              label: 'Intermediate Guides',
-              to: '/docs/',
-            },
-            {
-              label: 'Advance Guides',
-              to: '/docs/',
-            },
-            {
-              label: 'Cardano Developer Guides',
-              to: '/docs/',
-            },
-          ],
-        },
-        {
           title: 'Community',
           items: [
             {
@@ -74,8 +53,12 @@ module.exports = {
               href: 'https://t.me/joinchat/FeKTCBu-pn5OUZUz4joF2w',
             },
             {
+              label: 'Youtube',
+              href: 'https://www.youtube.com/channel/UCligunhcmbMYaBUMvONsKwg',
+            },
+            {
               label: 'Discord',
-              href: 'https://discord.com/channels/815680220827746364/815680224460931074',
+              href: 'https://discord.com/invite/Sqc398qk5a',
             },
             {
               label: 'Twitter',

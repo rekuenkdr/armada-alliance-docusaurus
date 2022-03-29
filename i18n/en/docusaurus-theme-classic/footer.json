@@ -37,7 +37,7 @@
   },
   "link.item.label.Discord": {
     "message": "Discord",
-    "description": "The label of footer link with label=Discord linking to https://discord.com/channels/815680220827746364/815680224460931074"
+    "description": "The label of footer link with label=Discord linking to https://discord.com/invite/Sqc398qk5a"
   },
   "link.item.label.Twitter": {
     "message": "Twitter",
@@ -62,5 +62,9 @@
   "copyright": {
     "message": "Copyright © 2021 Armada Alliance, Built with Docusaurus.",
     "description": "The footer copyright"
+  },
+  "link.item.label.Youtube": {
+    "message": "Youtube",
+    "description": "The label of footer link with label=Youtube linking to https://www.youtube.com/channel/UCligunhcmbMYaBUMvONsKwg"
   }
 }
