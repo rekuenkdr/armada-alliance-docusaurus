@@ -1,4 +1,4 @@
-name: Translate & Deploy
+name: Build and Deploy
 
 on:
   push:
@@ -7,19 +7,22 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-and-deploy:
     timeout-minutes: 30
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: '14.19.1'
+          node-version-file: '.nvmrc'
+
       - name: Install dependencies
         run: npm install
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Deploy to GH Pages
         run: GIT_USER=rekuenkdr USE_SSH=true npm run deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
