@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ master ]
 
+  workflow_dispatch:
+
 jobs:
   build-and-deploy:
     timeout-minutes: 30
@@ -24,6 +26,9 @@ jobs:
         run: npm install
 
       - name: Deploy to GH Pages
-        run: GIT_USER=rekuenkdr USE_SSH=true npm run deploy
+        run: |
+          git config --local user.email "dani@kedarastudios.com"
+          git config --local user.name "Rekuenkdr"
+          GIT_USER=rekuenkdr USE_SSH=true npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
