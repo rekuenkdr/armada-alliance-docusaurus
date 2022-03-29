@@ -117,7 +117,7 @@ module.exports = {
         keywords: ['guides'],
       },
       items: [
-        'cardano-developer-guides/nft-native-assets',
+        //'cardano-developer-guides/nft-native-assets', // TO-DO Check syntax
         'cardano-developer-guides/cardano-nft-collection-tutorial-coming-soon',
         'cardano-developer-guides/cardano-submit-tx-api-tutorial',
         'cardano-developer-guides/create-.img-file',

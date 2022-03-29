@@ -6,7 +6,7 @@ description: How to add adapools.org summary.json info to your Grafana instance.
 
 ## Assumptions
 
-You have setup a node using one of the tutorials provided here. If so, you should have the necessary dependencies installed that the steps below utilize. If not, see the apt install [Environment Setup](intermediate-guide/pi-pool-tutorial/pi-node/environment-setup.md#install-packages) section of the Pi-Pool Tutorial.
+You have setup a node using one of the tutorials provided here. If so, you should have the necessary dependencies installed that the steps below utilize. If not, see the apt install [Environment Setup](stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/environment-setup.md#install-packages) section of the Pi-Pool Tutorial.
 
 Lets go!
 
