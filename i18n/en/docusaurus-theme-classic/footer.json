@@ -13,19 +13,19 @@
   },
   "link.item.label.Beginner Guides": {
     "message": "Beginner Guides",
-    "description": "The label of footer link with label=Beginner Guides linking to /docs/README"
+    "description": "The label of footer link with label=Beginner Guides linking to /docs/"
   },
   "link.item.label.Intermediate Guides": {
     "message": "Intermediate Guides",
-    "description": "The label of footer link with label=Intermediate Guides linking to /docs/README"
+    "description": "The label of footer link with label=Intermediate Guides linking to /docs/"
   },
   "link.item.label.Advance Guides": {
     "message": "Advance Guides",
-    "description": "The label of footer link with label=Advance Guides linking to /docs/README"
+    "description": "The label of footer link with label=Advance Guides linking to /docs/"
   },
   "link.item.label.Cardano Developer Guides": {
     "message": "Cardano Developer Guides",
-    "description": "The label of footer link with label=Cardano Developer Guides linking to /docs/README"
+    "description": "The label of footer link with label=Cardano Developer Guides linking to /docs/"
   },
   "link.item.label.Website": {
     "message": "Website",
@@ -49,7 +49,7 @@
   },
   "link.item.label.Contribute": {
     "message": "Contribute",
-    "description": "The label of footer link with label=Contribute linking to /docs/how-to-contribute/README"
+    "description": "The label of footer link with label=Contribute linking to /docs/how-to-contribute/"
   },
   "link.item.label.Donate": {
     "message": "Donate",

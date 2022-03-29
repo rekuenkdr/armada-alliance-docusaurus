@@ -1,23 +1,14 @@
 ---
-sidebar_label: "Delegate"
-sidebar_position: 2
 description: Support Decentralization
 ---
 
-# Delegate
+# Delegate🤗
 
-Please consider delegating to any of our alliance members if you enjoy these tutorials and resources. Thank You! 🙏 😊
+## Please consider delegating to any of our alliance members if you enjoy these tutorials and resources. Thank You! 🙏 😊
 
-:::note Delegate
+{% embed url="https://armada-alliance.com" caption="" %}
 
-Visit [https://armada-alliance.com](https://armada-alliance.com) to see our members pools.
-
-:::
-
-:::tip Donate
-
+:::success
 **We also take donations** [**https://cointr.ee/armada-alliance**](https://cointr.ee/armada-alliance)**, thank you for your support!**
-
-
 :::
 

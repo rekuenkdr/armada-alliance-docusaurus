@@ -46,19 +46,19 @@ module.exports = {
           items: [
             {
               label: 'Beginner Guides',
-              to: '/docs/README',
+              to: '/docs/',
             },
             {
               label: 'Intermediate Guides',
-              to: '/docs/README',
+              to: '/docs/',
             },
             {
               label: 'Advance Guides',
-              to: '/docs/README',
+              to: '/docs/',
             },
             {
               label: 'Cardano Developer Guides',
-              to: '/docs/README',
+              to: '/docs/',
             },
           ],
         },
@@ -92,7 +92,7 @@ module.exports = {
           items: [
             {
               label: 'Contribute',
-              to: '/docs/how-to-contribute/README',
+              to: '/docs/how-to-contribute/',
             },
             {
               label: 'Donate',
