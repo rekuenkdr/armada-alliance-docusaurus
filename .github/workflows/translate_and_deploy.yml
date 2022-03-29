@@ -19,14 +19,5 @@ jobs:
           node-version: '14.19.1'
       - name: Install dependencies
         run: npm install
-      - name: crowdin action
-        uses: crowdin/github-action@1.4.7
-        with:
-          upload_translations: true
-          download_translations: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CROWDIN_PROJECT_ID: 458834
-          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
       - name: Deploy to GH Pages
         run: GIT_USER=rekuenkdr USE_SSH=true npm run deploy
