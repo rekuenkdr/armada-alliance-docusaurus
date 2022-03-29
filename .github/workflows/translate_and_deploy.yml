@@ -19,5 +19,7 @@ jobs:
           node-version: '14.19.1'
       - name: Install dependencies
         run: npm install
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy to GH Pages
         run: GIT_USER=rekuenkdr USE_SSH=true npm run deploy
