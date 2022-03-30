@@ -34,7 +34,7 @@ The most popular guides out there are aimed at x86 architecture and '_knowing wh
 
 ## Hardware
 
-:::info
+:::tip Raspberry Pi 4 USB Boot Config Guide for SSD / Flash Drives
 
 [Here is a list of working adapters.](https://jamesachambers.com/raspberry-pi-4-usb-boot-config-guide-for-ssd-flash-drives/)
 

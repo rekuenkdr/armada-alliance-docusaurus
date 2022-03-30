@@ -31,6 +31,12 @@ module.exports = {
           type: 'category',
           collapsible: true,
           label: 'Pi-Node Full-Guide (Ubuntu Server)',
+          link:{
+            type: 'generated-index',
+            title: 'Pi-Node Full-Guide (Ubuntu Server)',
+            slug: 'stake-pool-guides/pi-node-full-guide/',
+            keywords: ['guides'],
+          },
           items: [
             {
               type: 'doc',
