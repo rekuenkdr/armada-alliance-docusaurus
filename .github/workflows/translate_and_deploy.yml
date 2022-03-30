@@ -26,9 +26,9 @@ jobs:
         run: npm install
 
       - name: Sync Translations
-        run: |
-        npm install -g @crowdin/cli
-        npm run crowdin:sync
+        run: | 
+          npm install -g @crowdin/cli
+          npm run crowdin:sync
         
       - name: Build Docusaurus website
         run: npm run build
