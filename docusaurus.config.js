@@ -9,7 +9,7 @@ module.exports = {
   favicon: 'img/armada-alliance-logo.png',
   organizationName: 'rekuenkdr', // Change this to your GitHub org/user name.
   projectName: 'armada-alliance-docusaurus', // Change this to your repo name.
-  trailingSlash: false,
+  trailingSlash: true,
   i18n: {  // We are using crowdin to translate the site https://docusaurus.io/docs/i18n/crowdin
     defaultLocale: 'en',
     locales: ['en', 'es', 'fi'], // Add locales, run locales and translate https://docusaurus.io/docs/i18n/tutorial
