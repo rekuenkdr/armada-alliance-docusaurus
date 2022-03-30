@@ -1,8 +1,8 @@
 #
 # Your Crowdin credentials
 #
-project_id : '458834'
-api_token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+project_id_env : '458834'
+api_token_env: CROWDIN_PERSONAL_TOKEN
 preserve_hierarchy: true
 files: 
   - source: /i18n/en/**/*
