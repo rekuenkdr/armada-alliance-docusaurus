@@ -33,7 +33,7 @@ jobs:
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
         
       - name: Build Docusaurus website
-        run: GIT_USER=rekuenkdr USE_SSH=true npm run deploy
+        run: GIT_USER=rekuenkdr USE_SSH=true GIT_PASS=${{ secrets.GITHUB_TOKEN }} npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
