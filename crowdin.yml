@@ -1,6 +1,19 @@
-project_id: '458834'
-api_token: env.CROWDIN_PERSONAL_TOKEN
-preserve_hierarchy: true
+#
+# Your Crowdin credentials
+#
+"project_id" : "458834"
+"api_token_env" : "CROWDIN_PERSONAL_TOKEN"
+"base_url" : "https://api.crowdin.com"
+
+#
+# Choose file structure in Crowdin
+# e.g. true or false
+#
+"preserve_hierarchy": true
+
+#
+# Files configuration
+#
 files: [
     # JSON translation files
     {
@@ -11,5 +24,5 @@ files: [
     {
       source: '/docs/**/*',
       translation: '/i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%',
-    },
+    }
   ]
