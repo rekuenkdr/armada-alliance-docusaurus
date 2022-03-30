@@ -3,54 +3,6 @@
     "message": "Next",
     "description": "The label for version current"
   },
-  "sidebar.tutorialSidebar.category.Delegate": {
-    "message": "Delegate",
-    "description": "The label for category Delegate in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.Contribute": {
-    "message": "Contribute",
-    "description": "The label for category Contribute in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.Contributing Guide": {
-    "message": "Contributing Guide",
-    "description": "The label for category Contributing Guide in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.What is Required": {
-    "message": "What is Required",
-    "description": "The label for category What is Required in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.Beginner Guides": {
-    "message": "Beginner Guides",
-    "description": "The label for category Beginner Guides in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.Rasberry Pi OS Turorials": {
-    "message": "Rasberry Pi OS Turorials",
-    "description": "The label for category Rasberry Pi OS Turorials in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.Intermediate Guides": {
-    "message": "Intermediate Guides",
-    "description": "The label for category Intermediate Guides in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.Pi-Node Image & Guides": {
-    "message": "Pi-Node Image & Guides",
-    "description": "The label for category Pi-Node Image & Guides in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.pi-core-and-pi-cold": {
-    "message": "pi-core-and-pi-cold",
-    "description": "The label for category pi-core-and-pi-cold in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.pi-node": {
-    "message": "pi-node",
-    "description": "The label for category pi-node in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.Cardano Developer Guides": {
-    "message": "Cardano Developer Guides",
-    "description": "The label for category Cardano Developer Guides in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.Advanced Guides": {
-    "message": "Advanced Guides",
-    "description": "The label for category Advanced Guides in sidebar tutorialSidebar"
-  },
   "sidebar.tutorialSidebar.category.Stake Pool Guides": {
     "message": "Stake Pool Guides",
     "description": "The label for category Stake Pool Guides in sidebar tutorialSidebar"
