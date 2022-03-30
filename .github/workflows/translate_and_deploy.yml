@@ -23,7 +23,9 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm i -g npm@latest
+          npm install
 
       - name: Sync Translations
         run: npm run crowdin:sync
