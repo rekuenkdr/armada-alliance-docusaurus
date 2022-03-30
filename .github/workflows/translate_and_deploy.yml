@@ -26,11 +26,10 @@ jobs:
         run: npm install
 
       - name: Sync Translations
-        uses: crowdin/github-action@1.4.7
-        with:
-          upload_translations: true
-          download_translations: true
-      
+        run: |
+        npm install -g @crowdin/cli
+        npm run crowdin:sync
+        
       - name: Build Docusaurus website
         run: npm run build
 
@@ -42,5 +41,4 @@ jobs:
           build_dir: build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
