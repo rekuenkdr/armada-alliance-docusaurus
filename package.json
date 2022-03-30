@@ -12,9 +12,9 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "crowdin:upload:website": "crowdin upload sources --config ./crowdin-v2.yaml",
-    "crowdin:download:website": "crowdin download --config ./crowdin-v2.yaml",
-    "crowdin:sync": "docusaurus write-translations && crowdin:upload:website && crowdin:download:website"
+    "crowdin:upload": "crowdin upload sources --config ./crowdin-v2.yaml",
+    "crowdin:download": "crowdin download --config ./crowdin-v2.yaml",
+    "crowdin:sync": "docusaurus write-translations && npm run crowdin:upload &&  npm run crowdin:download"
   },
   "dependencies": {
     "@crowdin/cli": "3",
