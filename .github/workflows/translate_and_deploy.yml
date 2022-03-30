@@ -26,26 +26,14 @@ jobs:
         run: npm install
 
       - name: Sync Translations
-        uses: crowdin/github-action@1.4.7
-        with:
-          config: 'crowdin-v2.yaml'
-          upload_sources: true
-          upload_translations: false
-          download_translations: true
+        run: npm run crowdin:sync
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
         
       - name: Build Docusaurus website
-        run: npm run build
-
-      - name: Deploy to GitHub Pages
-        if: success()
-        uses: crazy-max/ghaction-github-pages@v2
-        with:
-          target_branch: gh-pages
-          build_dir: build
+        run: GIT_USER=rekuenkdr USE_SSH=true npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
