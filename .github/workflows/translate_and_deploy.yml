@@ -36,7 +36,7 @@ jobs:
         run: |
           git config --global user.email "dani@kedarastudios.com"
           git config --global user.name "rekuenkdr"
-          GIT_USER=rekuenkdr USE_SSH=true GIT_PASS=${{ secrets.GITHUB_TOKEN }} npm run deploy
+          GIT_USER=rekuenkdr GIT_PASS=${{ secrets.GITHUB_TOKEN }} npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
