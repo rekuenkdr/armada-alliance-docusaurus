@@ -30,6 +30,9 @@ jobs:
         with:
           upload_translations: true
           download_translations: true
+          project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
+          token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
 
       - name: Build Docusaurus website
         run: npm run build
