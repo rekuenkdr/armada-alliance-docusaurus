@@ -29,7 +29,7 @@ jobs:
         uses: crowdin/github-action@1.4.7
         with:
           config: 'crowdin-v2.yaml'
-          upload_translations: true
+          upload_translations: false
           download_translations: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
