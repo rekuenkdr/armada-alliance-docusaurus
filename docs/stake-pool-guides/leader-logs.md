@@ -14,23 +14,23 @@ CNCLI method still works, but before you start building, take a look at [this me
 
 ## Build CNCLI \(thanks to [@AndrewWestberg](https://github.com/AndrewWestberg)\)
 
-:::warning
+:::caution
 Running it on your block-producing/Core node is the convenient way, but to save resources you may build and run cncli on another \(i.e. your monitoring\) device. Therefore you will need to get the stake-snapshot.json from one of your running nodes and copy the genesis files and the vrf.skey from your Core to the particular device.
 :::
 
 ### Prepare Rust Environment and install Rustup
 
-```bash
+```bash title=">_ Terminal"
 mkdir -p $HOME/.cargo/bin
 ```
 
-```bash
+```bash title=">_ Terminal"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
 Choose Option 1 \(default\)
 
-```bash
+```bash title=">_ Terminal"
 source $HOME/.cargo/env
 
 rustup install stable
@@ -46,7 +46,7 @@ Install any necessary packages. Your system may already have most to all of thes
 
 {% tabs %}
 {% tab title="Monitor" %}
-```bash
+```bash title=">_ Terminal"
 sudo apt update -y && sudo apt install -y automake \ 
 build-essential pkg-config libffi-dev libgmp-dev \ 
 libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev \ 
@@ -55,7 +55,7 @@ make g++ tmux git jq wget libncursesw5 libtool autoconf
 {% endtab %}
 
 {% tab title="Core" %}
-```bash
+```bash title=">_ Terminal"
 sudo apt update -y
 ```
 {% endtab %}
@@ -63,7 +63,7 @@ sudo apt update -y
 
 ### Build cncli
 
-```bash
+```bash title=">_ Terminal"
 # If you don't have a $HOME/git folder you can create one using:
 # mkdir $HOME/git
 
@@ -76,11 +76,11 @@ cd cncli
 
 Check [https://github.com/AndrewWestberg/cncli](https://github.com/AndrewWestberg/cncli) for the latest tag name and adjust the command below. For the time of writing this, it's v3.1.4
 
-```bash
+```bash title=">_ Terminal"
 git checkout <latest_tag_name>
 ```
 
-```bash
+```bash title=">_ Terminal"
 # This will take some time on a Raspberry Pi - be patient, it'll git r dun.
 # Grab some coffee, check the strawberries, whatever.
 
@@ -89,7 +89,7 @@ cargo install --path . --force
 
 Check if the installation was successful and locate `cncli`
 
-```bash
+```bash title=">_ Terminal"
 cncli --version
 
 command -v cncli
@@ -103,7 +103,7 @@ You should have `.local/bin` on your `PATH`, but in case you don't \(Core should
 
 {% tabs %}
 {% tab title="Monitor" %}
-```bash
+```bash title=">_ Terminal"
 mkdir -p $HOME/.local/bin
 echo PATH="$HOME/.local/bin:$PATH" >> $HOME/.bashrc
 source $HOME/.bashrc
@@ -113,7 +113,7 @@ source $HOME/.bashrc
 
 Move `cncli` from it's current location to `.local/bin`
 
-```bash
+```bash title=">_ Terminal"
 mv <path/to>/cncli $HOME/.local/bin/cncli
 ```
 
@@ -123,7 +123,7 @@ mv <path/to>/cncli $HOME/.local/bin/cncli
 CNCLI sync creates an sqlite3 database \(cncli.db\), and needs to be connected to your running core-node. The guide assumes you have followed the armada-alliance guide so far and use the same folder structure.
 :::
 
-```bash
+```bash title=">_ Terminal"
 mkdir -p $HOME/pi-pool/cncli
 
 sudo nano /etc/systemd/system/cncli-sync.service
@@ -133,7 +133,7 @@ Paste the following, adjust ip and port, save and exit.
 
 {% tabs %}
 {% tab title="Monitor" %}
-```bash
+```bash title=">_ Terminal"
 [Unit]
 Description=CNCLI Sync
 After=multi-user.target
@@ -156,7 +156,7 @@ WantedBy=multi-user.target
 {% endtab %}
 
 {% tab title="Core" %}
-```bash
+```bash title=">_ Terminal"
 [Unit]
 Description=CNCLI Sync
 After=multi-user.target
@@ -181,7 +181,7 @@ WantedBy=multi-user.target
 
 Enable the service
 
-```bash
+```bash title=">_ Terminal"
 sudo systemctl daemon-reload
 
 sudo systemctl enable cncli-sync.service
@@ -191,7 +191,7 @@ sudo systemctl start cncli-sync.service
 
 Make the cncli.db writable \(needed for the following script\)
 
-```bash
+```bash title=">_ Terminal"
 cd $HOME/pi-pool/cncli
 
 sudo chmod a+w cncli.db
@@ -201,14 +201,14 @@ sudo chmod a+w cncli.db
 
 {% tabs %}
 {% tab title="Monitor" %}
-```bash
+```bash title=">_ Terminal"
     mkdir -p $HOME/pi-pool/scripts
   sudo nano $HOME/pi-pool/scripts/leaderlog-stake-snapshot-v4.sh
 ```
 {% endtab %}
 
 {% tab title="Core" %}
-```bash
+```bash title=">_ Terminal"
     sudo nano $HOME/pi-pool/scripts/leaderlog-stake-snapshot-v4.sh
 ```
 {% endtab %}
@@ -218,7 +218,7 @@ Paste the following, adjust parameters, save and exit.
 
 {% tabs %}
 {% tab title="Monitor" %}
-```bash
+```bash title=">_ Terminal"
 #!/bin/bash
 
 ##############################################################
@@ -291,7 +291,7 @@ fi
 {% endtab %}
 
 {% tab title="Core" %}
-```bash
+```bash title=">_ Terminal"
 #!/bin/bash
 
 ##############################################################
@@ -396,11 +396,11 @@ fi
 
 Make it executable
 
-```bash
+```bash title=">_ Terminal"
 sudo chmod +x leaderlog-stake-snapshot-v4.sh
 ```
 
-:::warning
+:::caution
 If you installed cncli on your Core continue with "Run leaderlog script", otherwise you have to do some more steps:
 :::
 
@@ -408,7 +408,7 @@ Run the following command on your Core. Make sure to add your pool id.
 
 {% tabs %}
 {% tab title="Core" %}
-```bash
+```bash title=">_ Terminal"
 cardano-cli query stake-snapshot --stake-pool-id <your_pool_id> --mainnet > stake-snapshot.json
 ```
 {% endtab %}
@@ -418,7 +418,7 @@ Then copy `vrf.skey`, `mainnet-byron-genesis.json`, `mainnet-shelley-genesis.jso
 
 {% tabs %}
 {% tab title="Monitor" %}
-```bash
+```bash title=">_ Terminal"
 mv /path/to/vrf.skey $HOME/pi-pool/cncli/vrf.skey
 mv /path/to/mainnet-byron-genesis.json $HOME/pi-pool/cncli/mainnet-byron-genesis.json
 mv /path/to/mainnet-shelley-genesis.json $HOME/pi-pool/cncli/mainnet-shelley-genesis.json
@@ -429,18 +429,18 @@ mv /path/to/stake-snapshot.json $HOME/pi-pool/scripts/stake-snapshot.json
 
 ### Run leaderlog script
 
-:::warning
+:::caution
 Every time you run the script you need a fresh stake-snapshot.json, except your stake didn't change for the last few epochs.
 :::
 
-```bash
+```bash title=">_ Terminal"
 cd $HOME/pi-pool/scripts
 ./leaderlog-stake-snapshot-v4.sh
 ```
 
 The schedule is saved to slot\_`number-of-epoch`.json.
 
-:::warning
+:::caution
 The script calculates the schedule for the current epoch by default. You can run it for the next epoch 1.5 days before. \(Or at 70% into the current epoch.\) Just change the epoch parameter in the script from "current" to "next".
 :::
 

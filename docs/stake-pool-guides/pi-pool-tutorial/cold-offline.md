@@ -16,7 +16,7 @@ Unzip the img file and flash it with Raspi-imager.
 
 Disable the radios. It would just be foolish to leave these enabled..
 
-```bash
+```bash title=">_ Terminal"
 sudo rfkill block wifi
 sudo rfkill block bluetooth
 ```
@@ -26,17 +26,17 @@ Open up Preferences/Raspberry Pi Configuration window(GUI) and disable auto logi
 
 Create the $USER and add it to sudoers. ada in our case. We have to create a new user so the uid, gid and name match that of the core. It is far less error prone than trying to change the user id of the default user. With the user/group id of 1001 you will not run into issues with permissions transferring between systems.
 
-```bash
+```bash title=">_ Terminal"
 sudo adduser ada; sudo adduser ada sudo
 ```
 
 Reboot the server to stop the autologin pi user process running in the background. Log in as ada and delete the pi user.
 
 
-```bash
+```bash title=">_ Terminal"
 sudo deluser --remove-home pi
 ```
-:::warning
+:::caution
 If you find your keyboard is not correctly printing the home symbol ~, you repair with, sudo locale-gen and reboot.
 :::
 
@@ -46,13 +46,13 @@ Basically repeating the steps to setup an fstab entry from the Core guide. This 
 
 Create the mount point & set default ACL for files and folders with umask.
 
-```bash
+```bash title=">_ Terminal"
 cd; mkdir $HOME/usb-transfer; umask 022 $HOME/usb-transfer
 ```
 
 Attach the external drive and list all drives with fdisk.
 
-```bash
+```bash title=">_ Terminal"
 sudo fdisk -l
 ```
 
@@ -60,7 +60,7 @@ If you are booting from the sdcard the first inserted disk is /dev/sda. The sdca
 
 Example output for my system:
 
-```bash
+```bash title=">_ Terminal"
 Disk /dev/sda: 57.66 GiB, 61907927040 bytes, 120913920 sectors
 Disk model: Cruzer
 Units: sectors of 1 * 512 = 512 bytes
@@ -79,23 +79,23 @@ Locate your drive and get the UUID for the partition we created earlier.
 
 Run blkid and copy the UUID. In my case it is the UUID for /dev/sda1.
 
-```bash
+```bash title=">_ Terminal"
 sudo blkid
 ```
 
 Example output:
 
-```bash
+```bash title=">_ Terminal"
 UUID="c2a8f8c7-3e7a-40f2-8dac-c2b16ab07f37"
 ```
 
 Add a mount entry to the bottom of fstab adding your UUID and the full system path to you backup folder.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/fstab
 ```
 
-```bash
+```bash title=">_ Terminal"
 UUID=c2a8f8c7-3e7a-40f2-8dac-c2b16ab07f37 /home/ada/usb-transfer auto nosuid,nodev,nofail 0 1
 ```
 
@@ -105,7 +105,7 @@ UUID=c2a8f8c7-3e7a-40f2-8dac-c2b16ab07f37 /home/ada/usb-transfer auto nosuid,nod
 
 Mount the drive and confirm it mounted by locating listing the contents. You should see the ada folder, offline-transfer and lost\&found. If they are not present then your drive is not mounted.
 
-```bash
+```bash title=">_ Terminal"
 sudo mount usb-transfer; ls $HOME/usb-transfer
 ```
 
@@ -113,19 +113,19 @@ sudo mount usb-transfer; ls $HOME/usb-transfer
 
 The cold machine will never be online, these machines do not have any cmos battery to keep time. It should not pose too many issues if any. Just be aware that when you fire up the cold machine it's time is off.
 
-```bash
+```bash title=">_ Terminal"
 cd; rsync -aP usb-transfer/ada/ ~/
 ```
 
 Source the .adaenv file on login.
 
-```bash
+```bash title=">_ Terminal"
 echo . ~/.adaenv >> ~/.bashrc
 ```
 
 Switch the Stake Pool Operator scripts to 'offline mode'.
 
-```bash
+```bash title=">_ Terminal"
 cd
 sed -i stakepoolscripts/bin/common.inc \
     -e 's#offlineMode="no"#offlineMode="yes"#'
@@ -133,14 +133,14 @@ sed -i stakepoolscripts/bin/common.inc \
 
 Move the jq binary into it's system PATH.
 
-```bash
+```bash title=">_ Terminal"
 sudo cp usb-transfer/ada/jq /usr/local/bin
 jq -V
 ```
 
 Confirm SPOS is installed.
 
-```bash
+```bash title=">_ Terminal"
 . .adaenv; 00_common.sh
 ```
 

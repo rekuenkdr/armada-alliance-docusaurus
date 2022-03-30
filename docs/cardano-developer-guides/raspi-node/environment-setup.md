@@ -13,7 +13,7 @@
 
 Install the packages we will need.
 
-```bash
+```bash title=">_ Terminal"
 sudo apt install build-essential libssl-dev tcptraceroute python3-pip \
          jq make automake unzip net-tools nginx ssl-cert pkg-config \
          libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev \
@@ -24,7 +24,7 @@ sudo apt install build-essential libssl-dev tcptraceroute python3-pip \
 
 Make some directories.
 
-```bash
+```bash title=">_ Terminal"
 mkdir -p $HOME/.local/bin
 mkdir -p $HOME/pi-pool/files
 mkdir -p $HOME/pi-pool/scripts
@@ -39,13 +39,13 @@ mkdir $HOME/tmp
 [Environment Variables in Linux/Unix](https://askubuntu.com/questions/247738/why-is-etc-profile-not-invoked-for-non-login-shells/247769#247769).
 :::
 
-:::warning
+:::caution
 Changes to this file require reloading .bashrc or logging out then back in.
 :::
 
 {% tabs %}
 {% tab title="Testnet" %}
-```bash
+```bash title=">_ Terminal"
 echo PATH="$HOME/.local/bin:$PATH" >> $HOME/.bashrc
 echo export NODE_HOME=$HOME/pi-pool >> $HOME/.bashrc
 echo export NODE_CONFIG=testnet >> $HOME/.bashrc
@@ -57,7 +57,7 @@ source $HOME/.bashrc
 {% endtab %}
 
 {% tab title="Mainnet" %}
-```bash
+```bash title=">_ Terminal"
 echo PATH="$HOME/.local/bin:$PATH" >> $HOME/.bashrc
 echo export NODE_HOME=$HOME/pi-pool >> $HOME/.bashrc
 echo export NODE_CONFIG=mainnet >> $HOME/.bashrc
@@ -71,7 +71,7 @@ source $HOME/.bashrc
 
 ### Retrieve node files
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_FILES
 wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-config.json
 wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-byron-genesis.json
@@ -82,7 +82,7 @@ wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-
 
 Run the following to modify testnet-config.json and update TraceBlockFetchDecisions to "true"
 
-```bash
+```bash title=">_ Terminal"
 sed -i ${NODE_CONFIG}-config.json \
     -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g"
 ```
@@ -97,7 +97,7 @@ sed -i ${NODE_CONFIG}-config.json \
 The **unofficial** cardano-node & cardano-cli binaries available to us are being built by an IOHK engineer in his **spare time**. Please visit the '[Arming Cardano](https://t.me/joinchat/FeKTCBu-pn5OUZUz4joF2w)' Telegram group for more information.
 :::
 
-```bash
+```bash title=">_ Terminal"
 cd $HOME/tmp
 wget -O cardano_node_$(date +"%m-%d-%y").zip https://ci.zw3rk.com/build/1771/download/1/aarch64-unknown-linux-musl-cardano-node-1.30.1.zip
 unzip *.zip
@@ -106,13 +106,13 @@ rm -r cardano*
 cd $HOME
 ```
 
-:::warning
+:::caution
 If binaries already exist you will have to confirm overwriting the old ones.
 :::
 
 Confirm binaries are in ada $PATH.
 
-```bash
+```bash title=">_ Terminal"
 cardano-node version
 cardano-cli version
 ```
@@ -121,7 +121,7 @@ cardano-cli version
 
 Let us now create the systemd unit file and startup script so systemd can manage cardano-node.
 
-```bash
+```bash title=">_ Terminal"
 nano $HOME/.local/bin/cardano-service
 ```
 
@@ -129,7 +129,7 @@ Paste the following, save & exit.
 
 {% tabs %}
 {% tab title="Testnet" %}
-```bash
+```bash title=">_ Terminal"
 #!/bin/bash
 DIRECTORY=/home/ada/pi-pool
 FILES=/home/ada/pi-pool/files
@@ -151,7 +151,7 @@ cardano-node +RTS -N4 --disable-delayed-os-memory-return -qg -qb -c -RTS run \
 {% endtab %}
 
 {% tab title="Mainnet" %}
-```bash
+```bash title=">_ Terminal"
 #!/bin/bash
 DIRECTORY=/home/ada/pi-pool
 FILES=/home/ada/pi-pool/files
@@ -175,19 +175,19 @@ cardano-node +RTS -N4 --disable-delayed-os-memory-return -qg -qb -c -RTS run \
 
 Allow execution of our new startup script.
 
-```bash
+```bash title=">_ Terminal"
 chmod +x $HOME/.local/bin/cardano-service
 ```
 
 Open /etc/systemd/system/cardano-node.service.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/systemd/system/cardano-node.service
 ```
 
 Paste the following, save & exit.
 
-```bash
+```bash title=">_ Terminal"
 # The Cardano Node Service (part of systemd)
 # file: /etc/systemd/system/cardano-node.service
 
@@ -215,17 +215,17 @@ WantedBy= multi-user.target
 
 Set permissions and reload systemd so it picks up our new service file..
 
-```bash
+```bash title=">_ Terminal"
 sudo systemctl daemon-reload
 ```
 
 Let's add a function to the bottom of our .bashrc file to make life a little easier.
 
-```bash
+```bash title=">_ Terminal"
 nano $HOME/.bashrc
 ```
 
-```bash
+```bash title=">_ Terminal"
 cardano-service() {
     #do things with parameters like $1 such as
     sudo systemctl "$1" cardano-node.service
@@ -234,7 +234,7 @@ cardano-service() {
 
 Save & exit.
 
-```bash
+```bash title=">_ Terminal"
 source $HOME/.bashrc
 ```
 
@@ -267,7 +267,7 @@ Do not attempt this on an 8GB sd card. Not enough space! [Create your image file
 
 I have started taking snapshots of my backup nodes db folder and hosting it in a web directory. With this service it takes around 15 minutes to pull the latest snapshot and maybe another 30 minutes to sync up to the tip of the chain. This service is provided as is. It is up to you. If you want to sync the chain on your own simply:
 
-```bash
+```bash title=">_ Terminal"
 cardano-service enable
 cardano-service start
 cardano-service status
@@ -275,7 +275,7 @@ cardano-service status
 
 Otherwise, be sure your node is **not** running & delete the db folder if it exists and download db.
 
-```bash
+```bash title=">_ Terminal"
 cardano-service stop
 cd $NODE_HOME
 rm -r db/
@@ -285,13 +285,13 @@ Download the DB snapshot.
 
 {% tabs %}
 {% tab title="Testnet" %}
-```bash
+```bash title=">_ Terminal"
 wget -r -np -nH -R "index.html*" -e robots=off https://testnet.adamantium.online/db/
 ```
 {% endtab %}
 
 {% tab title="Mainnet" %}
-```bash
+```bash title=">_ Terminal"
 wget -r -np -nH -R "index.html*" -e robots=off https://mainnet.adamantium.online/db/
 ```
 {% endtab %}
@@ -299,7 +299,7 @@ wget -r -np -nH -R "index.html*" -e robots=off https://mainnet.adamantium.online
 
 Once wget completes enable & start cardano-node.
 
-```bash
+```bash title=">_ Terminal"
 cardano-service enable
 cardano-service start
 cardano-service status
@@ -311,7 +311,7 @@ Guild operators scripts have a couple of useful tools for operating a pool. We d
 
 {% embed url="https://github.com/cardano-community/guild-operators/tree/master/scripts/cnode-helper-scripts" %}
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_HOME/scripts
 wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/env
 wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/gLiveView.sh
@@ -323,7 +323,7 @@ We have to edit the env file to work with our environment. The port number here 
 You can change the port cardano-node runs on in /home/ada/.local/bin/cardano-service.
 :::
 
-```bash
+```bash title=">_ Terminal"
 sed -i env \
     -e "s/\#CNODE_HOME=\"\/opt\/cardano\/cnode\"/CNODE_HOME=\"\home\/ada\/pi-pool\"/g" \
     -e "s/"6000"/"3001"/g" \
@@ -333,7 +333,7 @@ sed -i env \
 
 Allow execution of gLiveView.sh.
 
-```bash
+```bash title=">_ Terminal"
 chmod +x gLiveView.sh
 ```
 
@@ -347,24 +347,24 @@ The list generated will show you the distance in miles & a clue as to where the 
 
 Open a file named topologyUpdater.sh
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_HOME/scripts
 nano topologyUpdater.sh
 ```
 
 Paste in the following, save & exit.
 
-:::warning
+:::caution
 The port number here must match the port cardano-node is running on. If you are using dns records you can add the FQDN that matches on line 6(line 6 only). Leave it as is if you are not using dns. The service will pick up the public IP and use that.
 :::
 
-:::warning
+:::caution
 Don't forget to update User and Paths to your user, unless you used 'ada'
 :::
 
 {% tabs %}
 {% tab title="Testnet" %}
-```bash
+```bash title=">_ Terminal"
 #!/bin/bash
 # shellcheck disable=SC2086,SC2034
 
@@ -404,7 +404,7 @@ curl -s -f -4 "https://api.clio.one/htopology/v1/?port=${CNODE_PORT}&blockNo=${b
 {% endtab %}
 
 {% tab title="Mainnet" %}
-```bash
+```bash title=">_ Terminal"
 #!/bin/bash
 # shellcheck disable=SC2086,SC2034
 
@@ -446,11 +446,11 @@ curl -s -f -4 "https://api.clio.one/htopology/v1/?port=${CNODE_PORT}&blockNo=${b
 
 Save, exit, and make it executable.
 
-```bash
+```bash title=">_ Terminal"
 chmod +x topologyUpdater.sh
 ```
 
-:::warning
+:::caution
 You will not be able to successfully execute ./topologyUpdater.sh until you are fully synced up to the tip of the chain.
 :::
 
@@ -460,7 +460,7 @@ Choose nano when prompted for editor.
 
 Create a cron job that will run the script every hour.
 
-```bash
+```bash title=">_ Terminal"
 crontab -e
 ```
 
@@ -470,7 +470,7 @@ Add the following to the bottom, save & exit.
 The Pi-Node image has this cron entry disabled by default. You can enable it by removing the #.
 :::
 
-```bash
+```bash title=">_ Terminal"
 33 * * * * /home/ada/pi-pool/scripts/topologyUpdater.sh
 ```
 
@@ -478,13 +478,13 @@ After 4 hours of on boarding you will be added to the service and can pull your 
 
 Create another file relay-topology\_pull.sh and paste in the following.
 
-```bash
+```bash title=">_ Terminal"
 nano relay-topology_pull.sh
 ```
 
 {% tabs %}
 {% tab title="Testnet" %}
-```bash
+```bash title=">_ Terminal"
 #!/bin/bash
 BLOCKPRODUCING_IP=<BLOCK PRODUCERS PRIVATE IP>
 BLOCKPRODUCING_PORT=3000
@@ -493,7 +493,7 @@ curl -4 -s -o /home/ada/pi-pool/files/testnet-topology.json "https://api.clio.on
 {% endtab %}
 
 {% tab title="Mainnet" %}
-```bash
+```bash title=">_ Terminal"
 #!/bin/bash
 BLOCKPRODUCING_IP=<BLOCK PRODUCERS PRIVATE IP>
 BLOCKPRODUCING_PORT=3000
@@ -504,7 +504,7 @@ curl -4 -s -o /home/ada/pi-pool/files/mainnet-topology.json "https://api.clio.on
 
 Save, exit and make it executable.
 
-```bash
+```bash title=">_ Terminal"
 chmod +x relay-topology_pull.sh
 ```
 
@@ -514,7 +514,7 @@ Pulling in a new list will overwrite your existing topology file. Keep that in m
 
 After 4 hours you can pull in your new list and restart the cardano-service.
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_HOME/scripts
 ./relay-topology_pull.sh
 ```
@@ -523,7 +523,7 @@ cd $NODE_HOME/scripts
 relay-topology\_pull.sh will add 15 peers to your mainnet-topology file. I usually remove the furthest 5 relays and use the closest 10.
 :::
 
-```bash
+```bash title=">_ Terminal"
 nano $NODE_FILES/${NODE_CONFIG}-topology.json
 ```
 
@@ -533,7 +533,7 @@ You can use gLiveView.sh to view ping times in relation to the peers in your mai
 
 Changes to this file will take affect upon restarting the cardano-service.
 
-:::warning
+:::caution
 Don't forget to remove the last comma in your topology file!
 :::
 
@@ -545,7 +545,7 @@ Once your node syncs past epoch 208(shelley era) you can use gLiveView.sh to mon
 It can take up to an hour for cardano-node to sync to the tip of the chain. Use ./gliveView.sh, htop and log outputs to view process. Be patient it will come up.
 :::
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_HOME/scripts
 ./gLiveView.sh
 ```
@@ -570,13 +570,13 @@ You can connect a Telegram bot to Grafana which can alert you of problems with t
 Prometheus can scrape the http endpoints of other servers running node exporter. Meaning Grafana and Prometheus does not have to be installed on your core and relays. Only the package prometheus-node-exporter is required if you would like to build a central Grafana dashboard for the pool, freeing up resources.
 :::
 
-```bash
+```bash title=">_ Terminal"
 sudo apt-get install -y prometheus prometheus-node-exporter
 ```
 
 Disable them in systemd for now.
 
-```bash
+```bash title=">_ Terminal"
 sudo systemctl disable prometheus.service
 sudo systemctl disable prometheus-node-exporter.service
 ```
@@ -585,13 +585,13 @@ sudo systemctl disable prometheus-node-exporter.service
 
 Open prometheus.yml.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/prometheus/prometheus.yml
 ```
 
 Replace the contents of the file with.
 
-:::warning
+:::caution
 Indentation must be correct YAML format or Prometheus will fail to start.
 :::
 
@@ -642,7 +642,7 @@ Save & exit.
 
 Edit mainnet-config.json so cardano-node exports traces on all interfaces.
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_FILES
 sed -i ${NODE_CONFIG}-config.json -e "s/127.0.0.1/0.0.0.0/g"
 ```
@@ -653,26 +653,26 @@ sed -i ${NODE_CONFIG}-config.json -e "s/127.0.0.1/0.0.0.0/g"
 
 Add Grafana's gpg key to Ubuntu.
 
-```bash
+```bash title=">_ Terminal"
 wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
 ```
 
 Add latest stable repo to apt sources.
 
-```bash
+```bash title=">_ Terminal"
 echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
 ```
 
 Update your package lists & install Grafana.
 
-```bash
+```bash title=">_ Terminal"
 sudo apt update
 sudo apt install grafana
 ```
 
 Change the port Grafana listens on so it does not clash with cardano-node.
 
-```bash
+```bash title=">_ Terminal"
 sudo sed -i /etc/grafana/grafana.ini \
 -e "s/;http_port/http_port/" \
 -e "s/3000/5000/"
@@ -682,14 +682,14 @@ sudo sed -i /etc/grafana/grafana.ini \
 
 Open .bashrc.
 
-```bash
+```bash title=">_ Terminal"
 cd $HOME
 nano .bashrc
 ```
 
 Down at the bottom add.
 
-```bash
+```bash title=">_ Terminal"
 cardano-monitor() {
     #do things with parameters like $1 such as
     sudo systemctl "$1" prometheus.service
@@ -700,18 +700,18 @@ cardano-monitor() {
 
 Save, exit & source.
 
-```bash
+```bash title=">_ Terminal"
 source .bashrc
 ```
 
 Here we tied all three services under one function. Enable Prometheus.service, prometheus-node-exporter.service & grafana-server.service to run on boot and start the services.
 
-```bash
+```bash title=">_ Terminal"
 cardano-monitor enable
 cardano-monitor start
 ```
 
-:::warning
+:::caution
 At this point you may want to start cardano-service and get synced up before we continue to configure Grafana. Skip ahead to [syncing the chain section](https://app.gitbook.com/s/-MVFzwtnGyycav4A2zJu/pi-node/environment-setup). Choose whether you want to wait 30 hours or download my latest chain snapshot. Return here once gLiveView.sh shows you are at the tip of the chain.
 :::
 
@@ -749,13 +749,13 @@ Follow the instructions to install the Grafana plugin, configure your datasource
 
 Follow log output to journal.
 
-```bash
+```bash title=">_ Terminal"
 sudo journalctl --unit=cardano-node --follow
 ```
 
 Follow log output to stdout.
 
-```bash
+```bash title=">_ Terminal"
 sudo tail -f /var/log/syslog
 ```
 
@@ -765,13 +765,13 @@ Let's put Grafana behind Nginx with self signed(snakeoil) certificate. The certi
 
 You will get a warning from your browser. This is because ca-certificates cannot follow a trust chain to a trusted (centralized) source. The connection is however encrypted and will protect your passwords flying around in plain text.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/nginx/sites-available/default
 ```
 
 Replace contents of the file with below.
 
-```bash
+```bash title=">_ Terminal"
 # Default server configuration
 #
 server {
@@ -807,7 +807,7 @@ server {
 
 Check that Nginx is happy with our changes and restart it.
 
-```bash
+```bash title=">_ Terminal"
 sudo nginx -t
 ## if ok do
 sudo service nginx restart

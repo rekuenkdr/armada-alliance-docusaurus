@@ -23,7 +23,7 @@ This guide assumes, that you are always in `$HOME/pool_keys` when running a scri
 
 Let's begin with a directory for your keys.
 
-```bash
+```bash title=">_ Terminal"
 cd
 mkdir pool_keys
 cd pool_keys
@@ -33,14 +33,14 @@ cd pool_keys
 Also make sure the offline machine's time is correct, you'll have to do this everytime you use it!
 :::
 
-```bash
+```bash title=">_ Terminal"
 timedatectl
 timedatectl set-time xxxxx
 ```
 
 # Create a stake pool
 
-:::warning Basically everything is created offline. Make sure that you never expose your secret keys to an online environment and back them up, multiple times best case. The only keys you need on your core are: kes-xxx.skey, vrf.skey and node-xxx.opcert. :::
+:::caution Basically everything is created offline. Make sure that you never expose your secret keys to an online environment and back them up, multiple times best case. The only keys you need on your core are: kes-xxx.skey, vrf.skey and node-xxx.opcert. :::
 
 ## Workflow
 
@@ -52,7 +52,7 @@ First of all you'll need a wallet and with it a staking key. Create the keys and
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 03a_genStakingPaymentAddr.sh wallet_name cli
 ```
 {% endtab %}
@@ -62,7 +62,7 @@ Now copy the addresses to your core to fund the new wallet. You'll need your fre
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh attach wallet_name.payment.addr
 01_workOffline.sh attach wallet_name.staking.addr
 ```
@@ -74,7 +74,7 @@ Extract the address files.
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh extract
 ```
 {% endtab %}
@@ -84,7 +84,7 @@ Retrieve the address and send some funds to your new wallet. You'll need at leas
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 cat wallet_name.payment.addr
 ```
 {% endtab %}
@@ -94,7 +94,7 @@ Query the balance and wait until the new UTXO shows up.
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 01_queryAddress.sh wallet_name.payment
 ```
 {% endtab %}
@@ -104,7 +104,7 @@ When the funds arrived copy the UTXO data to your offline machine.
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh add wallet_name.payment
 ```
 {% endtab %}
@@ -115,7 +115,7 @@ It will be submitted later on.
 
 {% tabs %}
 {% tab title="offline" %}
-```bash 
+```bash title=">_ Terminal" 
 03b_regStakingAddrCert.sh wallet_name.staking 
 ```
 {% endtab %}
@@ -127,7 +127,7 @@ Generate the keys for your core node.
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 04a_genNodeKeys.sh pool_name cli
 04b_genVRFKeys.sh pool_name
 04c_genKESKeys.sh pool_name
@@ -140,7 +140,7 @@ Generate your stakepool certificate and metadata.json.
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 05a_genStakepoolCert.sh pool_name
 ```
 {% endtab %}
@@ -168,7 +168,7 @@ The png icon is limited to 64x64 while the logo could use 400x400 pixels. jpg wo
 
 {% tabs %}
 {% tab title="pool_name.pool.json" %}
-```bash
+```bash title=">_ Terminal"
 {
    "poolName": "pool_name",  
    "poolOwner": [
@@ -204,7 +204,7 @@ The png icon is limited to 64x64 while the logo could use 400x400 pixels. jpg wo
 ```
 {% endtab %}
 {% tab title="extended.metadata.json" %}
-```bash
+```bash title=">_ Terminal"
 {
     "info": {
         "url_png_icon_64x64": "",
@@ -250,7 +250,7 @@ Delegate to your own pool as owner. (Pledge)
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 05b_genDelegationCert.sh pool_name wallet_name
 ```
 {% endtab %}
@@ -260,7 +260,7 @@ Generate the stakepool registration transaction. The script also attaches the ne
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 05c_regStakepoolCert.sh pool_name wallet_name.payment
 ``` 
 {% endtab %}
@@ -270,7 +270,7 @@ Now attach the files needed by the core.
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh attach pool_name.vrf.skey
 01_workOffline.sh attach pool_name.kes-xxx.skey
 01_workOffline.sh attach pool_name.node-xxx.opcert
@@ -282,7 +282,7 @@ You are done with the offline part. Unmount and bring your USB drive to the core
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh extract
 ```
 {% endtab %}
@@ -292,7 +292,7 @@ For convenience rename the core files so you don't have to change the startup sc
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 mv pool_name.kes-xxx.skey kes.skey
 mv pool_name.vrf.skey vrf.skey
 mv pool_name.node-xxx.opcert node.cert
@@ -303,7 +303,7 @@ Now change the startup script and add the three files.
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 nano $HOME/.local/bin/cardano-service
 ```
 {% endtab %}
@@ -334,7 +334,7 @@ Restart the service.
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 cardano-service restart
 ```
 {% endtab %}
@@ -348,7 +348,7 @@ First the staking key registration, then repeat the same command for the stake p
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh execute
 ```
 {% endtab %}
@@ -376,7 +376,7 @@ You should create an account and claim your pool here.
 
 # Rotate KES keys
 
-:::warning
+:::caution
 Make sure to rotate your KES keys and node certificate before! they expire.
 :::
 
@@ -388,7 +388,7 @@ Create the new KES keypair. You will notice that the counter increments automati
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 04c_genKESKeys.sh pool_name
 ```
 {% endtab %}
@@ -398,7 +398,7 @@ Create a new operational certificate.
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 04d_genNodeOpCert.sh pool_name
 ```
 {% endtab %}
@@ -408,7 +408,7 @@ Now attach the new files.
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh attach pool_name.vrf.skey
 01_workOffline.sh attach pool_name.kes-xxx.skey
 01_workOffline.sh attach pool_name.node-xxx.opcert
@@ -421,7 +421,7 @@ Stop the node and extract the files.
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 cardano-service stop
 01_workOffline.sh extract
 ```
@@ -433,7 +433,7 @@ Then start again. That's it.
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 mv pool_name.kes-xxx.skey kes.skey
 mv pool_name.vrf.skey vrf.skey
 mv pool_name.node-xxx.opcert node.cert
@@ -448,7 +448,7 @@ First get up-to-date information from the core via your USB drive.
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh add wallet_name.payment
 ```
 {% endtab %}
@@ -458,7 +458,7 @@ Switch to the offline machine and edit the values you want to change in the `poo
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 chmod 600 pool_name.pool.json
 nano pool_name.pool.json
 chmod 400 pool_name.pool.json
@@ -470,7 +470,7 @@ Create a new certificate `pool_name.pool.cert` and `pool_name.metadata.json`.
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 05a_genStakepoolCert.sh pool_name
 ```
 {% endtab %}
@@ -480,7 +480,7 @@ Create the registration transaction. If the metadata didn't change you don't nee
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 05c_regStakepoolCert.sh pool_name wallet_name.payment
 ```
 {% endtab %}
@@ -492,7 +492,7 @@ Otherwise skip this step and submit the transaction directly.
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh execute
 ```
 {% endtab %}
@@ -504,7 +504,7 @@ First get up-to-date information from the core via your USB drive.
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh add wallet_name.payment
 01_workOffline.sh add wallet_name.staking
 ```
@@ -515,7 +515,7 @@ Switch over to the offline machine.
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 01_claimRewards.sh wallet_name.staking wallet_name.payment
 ```
 {% endtab %}
@@ -525,7 +525,7 @@ Back to the core.
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh execute
 ```
 {% endtab %}
@@ -538,7 +538,7 @@ Create a `other_wallet.payment.addr` which contains the address (and only the ad
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh add wallet_name.payment
 01_workOffline.sh attach other_wallet.payment.addr
 ```
@@ -551,21 +551,21 @@ This will send 1000 ADA from your pledge wallet to the other wallet.
 
 {% tabs %}
 {% tab title="offline" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh extract
 01_sendLovelaces.sh wallet_name.payment other_wallet.payment 1000000000
 ```
 {% endtab %}
 {% endtabs %}
 
-:::warning Make sure to meet your pledge at any time. And some ADA for transactions fees on top aren't bad.
+:::caution Make sure to meet your pledge at any time. And some ADA for transactions fees on top aren't bad.
 :::
 
 USB transfer and submitting at your core.
 
 {% tabs %}
 {% tab title="core" %}
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh execute
 ```
 {% endtab %}

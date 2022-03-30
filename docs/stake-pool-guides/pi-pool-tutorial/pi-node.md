@@ -18,16 +18,16 @@ It is best to just leave it running. 🏃♀
 
 ### 2. ssh into the server.
 
-```bash
+```bash title=">_ Terminal"
 ssh ada@<pi-node private IPv4>
 ```
 
 Default credentials = **ada:lovelace**
 
-:::warning
+:::caution
 Check which version of cardano-node is on the image. Follow the static build upgrade instructions to upgrade. [static-build.md](../updating-a-cardano-node/static-build.md "mention")
 
-```bash
+```bash title=">_ Terminal"
 cardano-node version
 ```
 :::
@@ -35,13 +35,13 @@ cardano-node version
 ## Choose testnet or mainnet. **Defaults to testnet**.
 Switch between testnet & mainnet, for mainnet issue..
 Config file path /home/ada/.adaenv
-```bash
+```bash title=">_ Terminal"
 sed -i .adaenv -e "s/NODE_CONFIG=testnet/NODE_CONFIG=mainnet/g"; source .adaenv
 ```
 
 ### Retrieve node files
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_FILES
 wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-config.json
 wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-byron-genesis.json
@@ -53,7 +53,7 @@ wget -N https://raw.githubusercontent.com/input-output-hk/cardano-node/master/ca
 
 Run the following to modify ${NODE_CONFIG}-config.json and update TraceBlockFetchDecisions to "true" & listen on all interfaces with Prometheus Node Exporter.
 
-```bash
+```bash title=">_ Terminal"
 sed -i ${NODE_CONFIG}-config.json \
     -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g" \
     -e "s/127.0.0.1/0.0.0.0/g"
@@ -61,33 +61,33 @@ sed -i ${NODE_CONFIG}-config.json \
 
 ### 3. Enter the pi-pool folder.
 
-```bash
+```bash title=">_ Terminal"
 cd /home/ada/pi-pool
 ```
 
 ### 4. Download database snapshot.
 
-```bash
+```bash title=">_ Terminal"
 wget -r -np -nH -R "index.html*" -e robots=off https://$NODE_CONFIG.adamantium.online/db/
 ```
 
 ### 5. Enable & start the cardano-service.
 
-```bash
+```bash title=">_ Terminal"
 cardano-service enable
 cardano-service start
 ```
 
 ### 6. Enable & start the cardano-monitor.
 
-```bash
+```bash title=">_ Terminal"
 cardano-monitor enable
 cardano-monitor start
 ```
 
 ### 7. Confirm they are running.
 
-```bash
+```bash title=">_ Terminal"
 cardano-service status
 cardano-monitor status
 ```
@@ -102,7 +102,7 @@ sudo tail -f /var/log/syslog
 ### 8. gliveview.sh
 allow these files to update if they wish to.
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_HOME/scripts
 ./gLiveView.sh
 ```

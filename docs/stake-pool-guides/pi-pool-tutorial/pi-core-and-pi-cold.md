@@ -12,7 +12,7 @@ You do not enable the topology updater service on a core node so feel free to de
 Make sure your core node is synced to the tip of the blockchain.
 :::
 
-:::warning
+:::caution
 There exists a way to create your pool wallets **payment keypair** by creating a wallet in Yoroi and using cardano-wallet to extract the key pair from the mnemonic seed from Yoroi. This allows you to have a seed backup of the wallet and to also easily extract rewards or send funds elsewhere. You can do this with any shelley era mnemonic seed. I prefer Yoroi because it is quick.
 
 [https://gist.github.com/ilap/3fd57e39520c90f084d25b0ef2b96894​](https://gist.github.com/ilap/3fd57e39520c90f084d25b0ef2b96894)
@@ -31,7 +31,7 @@ sed -i ${NODE_FILES}/${NODE_CONFIG}-config.json \
 
 ## Generate Keys & Issue Operational Certificate
 
-:::warning
+:::caution
 
 #### Rotating the KES keys
 
@@ -43,7 +43,7 @@ Generate a KES key pair: **kes.vkey** & **kes.skey**
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cd ${NODE_HOME}
 cardano-cli node key-gen-KES \
   --verification-key-file kes.vkey \
@@ -58,7 +58,7 @@ Generate a node cold key pair: **node.vkey**, **node.skey** and **node.counter**
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 mkdir ${HOME}/cold-keys
 cd cold-keys
 cardano-cli node key-gen \
@@ -72,14 +72,14 @@ cardano-cli node key-gen \
 
 ## Variables for guide interopability
 
-:::warning
+:::caution
 In order for these commands to work on mainnet & testnet we have to set the $CONFIG_NET variable and the $MAGIC variable.
 This is because on testnet we are required to use --testnet-magic $MAGIC, where MAGIC= the magic value found in your ${NODE_CONFIG}-shelley-genesis.json.
 
 The official docs do not do this for some reason and I don't want to write this all out twice. If working through documentation elsewhere please substitute ${NODE_CONFIG} with ${CONFIG_NET} when submitting to the chain on testnet. For mainnet disregard /rant.
 :::
 
-```bash
+```bash title=">_ Terminal"
 echo export MAGIC=$(cat ${NODE_FILES}/${NODE_CONFIG}-shelley-genesis.json | jq -r '.networkMagic') >> ${HOME}/.adaenv; . ${HOME}/.adaenv
 if [[ ${NODE_CONFIG} = 'testnet' ]]; then echo export CONFIG_NET='testnet-magic\ ${MAGIC}'; else echo export CONFIG_NET=mainnet; fi >> ${HOME}/.adaenv; . ${HOME}/.adaenv
 ```
@@ -89,7 +89,7 @@ Create variables with the number of slots per KES period from the genesis file a
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 slotsPerKesPeriod=$(cat ${NODE_FILES}/${NODE_CONFIG}-shelley-genesis.json | jq -r '.slotsPerKESPeriod')
 slotNo=$(cardano-cli query tip --${CONFIG_NET} | jq -r '.slot')
 echo slotsPerKesPeriod: ${slotsPerKesPeriod}
@@ -104,7 +104,7 @@ Set the **startKesPeriod** variable by dividing **slotNo** / **slotsPerKESPeriod
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 startKesPeriod=$((${slotNo} / ${slotsPerKesPeriod}))
 echo startKesPeriod: ${startKesPeriod}
 ```
@@ -121,7 +121,7 @@ Replace **startKesPeriod** with the value you wrote down.
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli node issue-op-cert \
   --kes-verification-key-file kes.vkey \
   --cold-signing-key-file ${HOME}/cold-keys/node.skey \
@@ -140,7 +140,7 @@ Generate a VRF key pair.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli node key-gen-VRF \
   --verification-key-file vrf.vkey \
   --signing-key-file vrf.skey
@@ -154,7 +154,7 @@ For security purposes the **vrf.skey** **needs** read only permissions or cardan
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 chmod 400 vrf.skey
 ```
 
@@ -166,7 +166,7 @@ Edit the cardano-service startup script by adding **kes.skey**, **vrf.skey** and
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 nano ${HOME}/.local/bin/cardano-service
 ```
 
@@ -176,7 +176,7 @@ nano ${HOME}/.local/bin/cardano-service
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 TOPOLOGY=${NODE_FILES}/${NODE_CONFIG}-topology.json
 DB_PATH=${NODE_HOME}/db
 CONFIG=${NODE_FILES}/${NODE_CONFIG}-config.json
@@ -200,7 +200,7 @@ cardano-node run +RTS -N4 -RTS \
 
 Change the port to 3000 in the .adaenv file.
 
-```bash
+```bash title=">_ Terminal"
 nano ${HOME}/.adaenv
 . ${HOME}/.adaenv
 ```
@@ -210,7 +210,7 @@ Add your relay(s) to ${NODE_CONFIG}-topolgy.json.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 nano ${NODE_FILES}/${NODE_CONFIG}-topology.json
 ```
 
@@ -302,7 +302,7 @@ Restart and your node is now running as a core.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-service restart
 ```
 
@@ -327,7 +327,7 @@ cardano-service restart
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 cd ${NODE_HOME}
 cardano-cli address key-gen \
   --verification-key-file payment.vkey \
@@ -342,7 +342,7 @@ cardano-cli address key-gen \
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli stake-address key-gen \
   --verification-key-file stake.vkey \
   --signing-key-file stake.skey
@@ -356,7 +356,7 @@ cardano-cli stake-address key-gen \
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli stake-address build \
   --stake-verification-key-file stake.vkey \
   --out-file stake.addr \
@@ -371,7 +371,7 @@ cardano-cli stake-address build \
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli address build \
   --payment-verification-key-file payment.vkey \
   --stake-verification-key-file stake.vkey \
@@ -392,7 +392,7 @@ Copy **payment.addr** to a thumb drive and move it to the core nodes pi-pool fol
 
 Add funds to the wallet. This is the only wallet the pool uses so your pledge goes here as well. There is a 2 ada staking registration fee and a 500 ada pool registration deposit that you can get back when retiring your pool.
 
-:::warning
+:::caution
 Test the wallet by sending a small amount waiting a few minutes and querying it's balance.
 :::
 
@@ -405,7 +405,7 @@ Core node needs to be synced to the tip of the blockchain.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli query utxo \
   --address $(cat payment.addr) \
   --${CONFIG_NET}
@@ -421,7 +421,7 @@ Issue a staking registration certificate: **stake.cert**
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli stake-address registration-certificate \
   --stake-verification-key-file stake.vkey \
   --out-file stake.cert
@@ -437,7 +437,7 @@ Query current slot number or tip of the chain.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 slotNo=$(cardano-cli query tip --${CONFIG_NET} | jq -r '.slot')
 echo slotNo: ${slotNo}
 ```
@@ -450,7 +450,7 @@ Get the utxo or balance of the wallet.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli query utxo \
   --address $(cat payment.addr) \
   --${CONFIG_NET} > fullUtxo.out
@@ -489,7 +489,7 @@ If however the cardano-node does not shutdown 'cleanly' for whatever reason it c
 
 Query --${CONFIG_NET} for protocol parameters.
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli query protocol-parameters \
   --${CONFIG_NET} \
   --out-file params.json
@@ -500,7 +500,7 @@ Retrieve **stakeAddressDeposit** value from **params.json**.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 stakeAddressDeposit=$(cat ${NODE_HOME}/params.json | jq -r '.stakeAddressDeposit')
 echo stakeAddressDeposit : ${stakeAddressDeposit}
 ```
@@ -512,7 +512,7 @@ echo stakeAddressDeposit : ${stakeAddressDeposit}
 Stake address registration is 2,000,000 lovelace or 2 ada.
 :::
 
-:::warning
+:::caution
 Take note of the invalid-hereafter input. We are taking the current slot number(tip of the chain) and adding 1,000 slots. If we do not issue the signed transaction before the chain reaches this slot number the tx will be invalidated. A slot is one second so you have 16.666666667 minutes to get this done. 🐌
 :::
 
@@ -521,7 +521,7 @@ Build **tx.tmp** file to hold some information.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli transaction build-raw \
   ${tx_in} \
   --tx-out $(cat payment.addr)+0 \
@@ -539,7 +539,7 @@ Calculate the minimal fee.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 fee=$(cardano-cli transaction calculate-min-fee \
   --tx-body-file tx.tmp \
   --tx-in-count ${txcnt} \
@@ -559,7 +559,7 @@ Calculate txOut.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 txOut=$((${total_balance}-${stakeAddressDeposit}-${fee}))
 echo Change Output: ${txOut}
 ```
@@ -572,7 +572,7 @@ Build the full transaction to register your staking address.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli transaction build-raw \
   ${tx_in} \
   --tx-out $(cat payment.addr)+${txOut} \
@@ -590,7 +590,7 @@ Transfer **tx.raw** to your Cold offline machine and sign the transaction with t
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli transaction sign \
   --tx-body-file tx.raw \
   --signing-key-file payment.skey \
@@ -609,7 +609,7 @@ Submit the transaction to the blockchain.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli transaction submit \
   --tx-file tx.signed \
   --${CONFIG_NET}
@@ -622,7 +622,7 @@ cardano-cli transaction submit \
 
 Create a **poolMetaData.json** file. It will contain important information about your pool. You will need to host this file somewhere online forevermore. It must be online and you cannot edit it without resubmitting/updating your pool.cert. In the next couple steps we will hash
 
-:::warning
+:::caution
 metadata-url must be less than 64 characters.
 :::
 
@@ -635,7 +635,7 @@ I say host it on your Pi with Nginx.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cd ${NODE_HOME}
 nano poolMetaData.json
 ```
@@ -643,7 +643,7 @@ nano poolMetaData.json
 {% endtab %}
 {% endtabs %}
 
-:::warning
+:::caution
 The **extendedPoolMetaData.json** file is used by adapools and others to scrape information like where to find your pool logo and social media links. Unlike the **poolMetaData.json** this files hash is not stored in your registration certificate and can be edited without having to rehash and resubmit **pool.cert**.
 :::
 
@@ -668,7 +668,7 @@ Add the following and customize to your metadata.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli stake-pool metadata-hash \
   --pool-metadata-file poolMetaData.json > poolMetaDataHash.txt
 ```
@@ -693,7 +693,7 @@ Here is my **poolMetaData.json** & **extendedPoolMetaData.json** as a reference 
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 minPoolCost=$(cat ${NODE_HOME}/params.json | jq -r .minPoolCost)
 echo minPoolCost: ${minPoolCost}
 ```
@@ -754,7 +754,7 @@ Copy the vrf.vkey and poolMetaDataHash.txt to your cold machine and issue a stak
 {% tabs %}
 {% tab title="Cold Offline" %}
 
- ```bash
+ ```bash title=">_ Terminal"
  cd ${NODE_HOME}
  nano registration-cert.txt
  ```
@@ -763,7 +763,7 @@ Copy the vrf.vkey and poolMetaDataHash.txt to your cold machine and issue a stak
 --metadata-url must be 64 characters or less.
 :::
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli stake-pool registration-certificate \
   --cold-verification-key-file ${HOME}/cold-keys/node.vkey \
   --vrf-verification-key-file vrf.vkey \
@@ -788,7 +788,7 @@ Issue a delegation certificate from **stake.skey** & **node.vkey**.
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli stake-address delegation-certificate \
   --stake-verification-key-file stake.vkey \
   --cold-verification-key-file ${HOME}/cold-keys/node.vkey \
@@ -803,7 +803,7 @@ Retrieve your stake pool id.
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli stake-pool id --cold-verification-key-file ${HOME}/cold-keys/node.vkey --output-format hex > stakePoolId.txt
 cat stakePoolId.txt
 ```
@@ -818,7 +818,7 @@ Query the current slot number or tip of the chain.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 slotNo=$(cardano-cli query tip --${CONFIG_NET} | jq -r '.slot')
 echo slotNo: ${slotNo}
 ```
@@ -831,7 +831,7 @@ Get the utxo or balance of the wallet.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli query utxo \
   --address $(cat payment.addr) \
   --${CONFIG_NET} > fullUtxo.out
@@ -863,7 +863,7 @@ Parse **params.json** for stake pool registration deposit value. Spoiler: it's 5
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 stakePoolDeposit=$(cat ${NODE_HOME}/params.json | jq -r '.stakePoolDeposit')
 echo stakePoolDeposit: ${stakePoolDeposit}
 ```
@@ -876,7 +876,7 @@ Build temporary **tx.tmp** to hold information while we build our raw transactio
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli transaction build-raw \
   ${tx_in} \
   --tx-out $(cat payment.addr)+$(( ${total_balance} - ${stakePoolDeposit}))  \
@@ -895,7 +895,7 @@ Calculate the transaction fee.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 fee=$(cardano-cli transaction calculate-min-fee \
   --tx-body-file tx.tmp \
   --tx-in-count ${txcnt} \
@@ -915,7 +915,7 @@ Calculate your change output.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 txOut=$((${total_balance}-${stakePoolDeposit}-${fee}))
 echo txOut: ${txOut}
 ```
@@ -928,7 +928,7 @@ Build your **tx.raw** (unsigned) transaction file.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli transaction build-raw \
   ${tx_in} \
   --tx-out $(cat payment.addr)+${txOut} \
@@ -949,7 +949,7 @@ Sign the transaction with your **payment.skey**, **node.skey** & **stake.skey**.
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli transaction sign \
   --tx-body-file tx.raw \
   --signing-key-file payment.skey \
@@ -967,7 +967,7 @@ Move **tx.signed** back to your core node & submit the transaction to the blockc
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli transaction submit \
   --tx-file tx.signed \
   --${CONFIG_NET}

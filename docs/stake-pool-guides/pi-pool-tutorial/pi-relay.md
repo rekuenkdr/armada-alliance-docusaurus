@@ -37,7 +37,7 @@ sudo nano /etc/hosts
 
 Edit the file accordingly, take note that you may not be using the 192.168.1.xxx IP range.
 
-```bash
+```bash title=">_ Terminal"
 127.0.0.1 localhost
 127.0.1.1 r1.example.com r1
 
@@ -61,11 +61,11 @@ Open **50-cloud-init.yaml** and replace the contents of the file with below.
 
 [netplan configuration](https://netplan.io/examples/)
 
-:::warning
+:::caution
 Be sure to use an address on your LAN subnet. In this example I am using **192.168.1.xxx**. Your network may very well be using a different private range.
 :::
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/netplan/50-cloud-init.yaml
 ```
 
@@ -92,13 +92,13 @@ network:
 
 Create a file named **99-disable-network-config.cfg** to disable cloud-init.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
 ```
 
 Add the following, save and exit.
 
-```bash
+```bash title=">_ Terminal"
 network: {config: disabled}
 ```
 
@@ -112,7 +112,7 @@ sudo netplan apply
 
 Open the ~/.adaenv file and change the port it listens on. For R1 or my first relay I will designate port 3001.
 
-```bash
+```bash title=">_ Terminal"
 nano $HOME/.adaenv
 ```
 
@@ -120,7 +120,7 @@ Save and exit. **ctrl+x then y**.
 
 Enable cardano-service at boot & restart the service to load changes.
 
-```bash
+```bash title=">_ Terminal"
 cardano-service enable
 cardano-service restart
 ```
@@ -135,27 +135,27 @@ Log into your router and forward port 3001 to your relay nodes LAN IPv4 address 
 
 ## Topology Updater
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_HOME/scripts
 ```
 
 Configure the script to match your environment.
 
-:::warning
+:::caution
 If you are using IPv4 leave CNODE_HOSTNAME the way it is. The service will pick up your public IP address on it's own. I repeat only change the port to 3001. For DNS change only the first instance. Do not edit "CHANGE ME" further down in the file.
 :::
 
-```bash
+```bash title=">_ Terminal"
 cd ${NODE_HOME}/scripts/
 ```
 
-```bash
+```bash title=">_ Terminal"
 nano topologyUpdater.sh
 ```
 
 Run the updater once to confirm it is working.
 
-```bash
+```bash title=">_ Terminal"
 ./topologyUpdater.sh
 ```
 
@@ -165,11 +165,11 @@ Should look similar to this.
 
 Enable the cron job by removing the # character from crontab.
 
-```bash
+```bash title=">_ Terminal"
 crontab -e
 ```
 
-```bash
+```bash title=">_ Terminal"
 33 * * * * /home/ada/pi-pool/scripts/topologyUpdater.sh
 ```
 
@@ -181,17 +181,17 @@ After four hours of on boarding your relay(s) will start to be available to othe
 
 Open your topolgy file and use **ctrl+k** to cut the entire line of any peer over 5,000 miles away.
 
-:::warning
+:::caution
 Remember to remove the last entries comma in your list or cardano-node will fail to start.
 :::
 
-```bash
+```bash title=">_ Terminal"
 nano ${NODE_HOME}/files/${NODE_CONFIG}-topology.json
 ```
 
 ### Enable blockfetch tracing
 
-```bash
+```bash title=">_ Terminal"
 sed -i ${NODE_FILES}/mainnet-config.json \
     -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g"
 ```
@@ -200,7 +200,7 @@ Reboot your new relay and let it sync back to the tip of the chain.
 
 Use gLiveView.sh to view peer info.
 
-```bash
+```bash title=">_ Terminal"
 cd /home/ada/pi-pool/scripts
 ./gLiveView.sh
 ```
@@ -213,20 +213,20 @@ More incoming connections is generally a good thing, it increases the odds that 
 
 Last thing we can do is change the alias name Prometheus is serving to Grafana. You will have to go into Grafana and edit the panels alias accordingly as well.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/prometheus/prometheus.yml
 ```
 
-:::warning
+:::caution
 You can change.
 
-```bash
+```bash title=">_ Terminal"
 alias: 'N1'
 ```
 
 to
 
-```bash
+```bash title=">_ Terminal"
 alias: 'R1'
 ```
 
@@ -235,7 +235,7 @@ In an upcoming guide I will show how to have Prometheus running on a separate Pi
 
 Update, save and exit.
 
-```bash
+```bash title=">_ Terminal"
 global:
   scrape_interval:     15s # By default, scrape targets every 15 seconds.
 

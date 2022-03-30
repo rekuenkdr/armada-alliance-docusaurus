@@ -14,6 +14,9 @@ module.exports = {
     locales: ['en', 'es', 'fi'], // Add locales, run locales and translate https://docusaurus.io/docs/i18n/tutorial
   },
   themeConfig: {
+    prism: {
+      theme: require('prism-react-renderer/themes/nightOwl'),
+    },
     navbar: {
       title: 'Armada Alliance',
       logo: {

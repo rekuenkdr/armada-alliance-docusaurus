@@ -16,19 +16,19 @@ Feel free to use a different port!
 
 Do this on both machines.
 
-```bash
+```bash title=">_ Terminal"
 sudo apt install wireguard
 ```
 
 Become root.
 
-```bash
+```bash title=">_ Terminal"
 sudo su
 ```
 
 Enter the Wireguard folder and set permissions for any new files created to root only.
 
-```bash
+```bash title=">_ Terminal"
 cd /etc/wireguard
 umask 077
 ```
@@ -39,13 +39,13 @@ Generate key pairs on each machine.
 
 {% tabs %}
 {% tab title="C1" %}
-```bash
+```bash title=">_ Terminal"
 wg genkey | tee C1-privkey | wg pubkey > C1-pubkey
 ```
 {% endtab %}
 
 {% tab title="R1" %}
-```bash
+```bash title=">_ Terminal"
 wg genkey | tee R1-privkey | wg pubkey > R1-pubkey
 ```
 {% endtab %}
@@ -53,7 +53,7 @@ wg genkey | tee R1-privkey | wg pubkey > R1-pubkey
 
 Create a Wireguard configuration file on both machines.
 
-```bash
+```bash title=">_ Terminal"
 nano /etc/wireguard/wg0.conf
 ```
 
@@ -61,14 +61,14 @@ Use cat to print out the key values. Public keys are then used in the other mach
 
 {% tabs %}
 {% tab title="C1" %}
-```bash
+```bash title=">_ Terminal"
 cat C1-privkey
 cat C1-pubkey
 ```
 {% endtab %}
 
 {% tab title="R1" %}
-```bash
+```bash title=">_ Terminal"
 cat R1-privkey
 cat R1-pubkey
 ```
@@ -77,7 +77,7 @@ cat R1-pubkey
 
 {% tabs %}
 {% tab title="C1" %}
-```bash
+```bash title=">_ Terminal"
 [Interface]
 Address = 10.220.0.1/32
 SaveConfig = true
@@ -94,7 +94,7 @@ PersistentKeepalive = 21
 {% endtab %}
 
 {% tab title="R1" %}
-```bash
+```bash title=">_ Terminal"
 [Interface]
 Address = 10.220.0.2/32
 SaveConfig = true
@@ -110,7 +110,7 @@ PersistentKeepalive = 21
 {% endtab %}
 
 {% tab title="Example" %}
-```bash
+```bash title=">_ Terminal"
 [Interface]
 Address = 10.220.0.1/32
 SaveConfig = true
@@ -130,13 +130,13 @@ PersistentKeepalive = 21
 
 Use wg-quick to create the interface & manage Wireguard as a Systemd service on both machines
 
-```bash
+```bash title=">_ Terminal"
 wg-quick up wg0
 ```
 
 Useful commands.
 
-```bash
+```bash title=">_ Terminal"
 sudo wg show # metrics on the interface
 ip a # should see a wg0 interface
 ```
@@ -145,13 +145,13 @@ Once both interfaces are up you can try and ping each other.
 
 {% tabs %}
 {% tab title="C1" %}
-```bash
+```bash title=">_ Terminal"
 ping 10.220.0.2
 ```
 {% endtab %}
 
 {% tab title="R1" %}
-```bash
+```bash title=">_ Terminal"
 ping 10.220.0.1
 ```
 {% endtab %}
@@ -159,14 +159,14 @@ ping 10.220.0.1
 
 If they are connected bring them down and back up with Systemd
 
-```bash
+```bash title=">_ Terminal"
 wg-quick down wg0
 sudo systemctl start wg-quick@wg0
 ```
 
 Enable the Wireguard service on both machines to automatically start on boot.
 
-```bash
+```bash title=">_ Terminal"
 sudo systemctl enable wg-quick@wg0
 sudo systemctl status wg-quick@wg0
 ```
@@ -176,7 +176,7 @@ SaveConfig saves the loaded wg0.conf file in runtime and overwrites the file whe
 
 Like so
 
-```bash
+```bash title=">_ Terminal"
 # become root
 sudo su
 # stop the service
@@ -189,7 +189,7 @@ systemctl start wg-quick@wg0
 
 There is a shortcut you can use instead of the steps above if you are adding or updating peers. The following will reload the config file without affecting peer connections:
 
-```bash
+```bash title=">_ Terminal"
 sudo wg syncconf wg0 <(wg-quick strip wg0)
 ```
 

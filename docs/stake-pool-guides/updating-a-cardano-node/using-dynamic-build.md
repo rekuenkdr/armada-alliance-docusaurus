@@ -2,7 +2,7 @@
 
 _**We at the Armada Alliance actively build the required software packages needed to run a Cardano stake pool node on ARM-based computers like the Raspberry Pi or Apple's MacMini M1.**_
 
-:::warning
+:::caution
 #### To use our dynamic arm64 cardano-node build you must have [libsodium](https://github.com/input-output-hk/libsodium) installed.
 :::
 
@@ -28,7 +28,7 @@ _**We at the Armada Alliance actively build the required software packages neede
 
 Check if libsodium is already installed first.
 
-```bash
+```bash title=">_ Terminal"
 which libsodium
 ```
 
@@ -38,38 +38,38 @@ If this returns no output you need to install libsodium.
 
 Create a working directory for your builds:
 
-```bash
+```bash title=">_ Terminal"
 mkdir -p ~/src
 cd ~/src
 ```
 
 Download and install libsodium:
 
-```bash
+```bash title=">_ Terminal"
 git clone https://github.com/input-output-hk/libsodium
 ```
 
-```bash
+```bash title=">_ Terminal"
 cd libsodium
 git checkout 66f017f1
 ```
 
-```bash
+```bash title=">_ Terminal"
 ./autogen.sh
 ```
 
-```bash
+```bash title=">_ Terminal"
 ./configure
 ```
 
-```bash
+```bash title=">_ Terminal"
 make
 sudo make install
 ```
 
 Add the following to your .bashrc file and source it:
 
-```bash
+```bash title=">_ Terminal"
 echo "export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"" >> ~/.bashrc
 
 echo "export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"" >> ~/.bashrc
@@ -89,19 +89,19 @@ This ensures the system is aware of libsodium (not just at the user level).
 
 Dynamic binaries and Cardano node configuration files provided by [SRN pool ](https://armada-alliance.com/stake-pools/cc1b1c03798884c636703443a23b8d9e827d6c0417921600394198a0):pray: at our [Github repository](https://github.com/armada-alliance/cardano-node-binaries).
 
-```bash
+```bash title=">_ Terminal"
 wget -O cardano-1_34_1-aarch64-ubuntu_2004.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/dynamic-binaries/1.34.1/cardano-1_34_1-aarch64-ubuntu_2004.zip?raw=true
 ```
 
 Extract the content from the zip file.
 
-```bash
+```bash title=">_ Terminal"
 unzip cardano-1_34_1-aarch64-ubuntu_2004.zip?raw=true
 ```
 
 ### Check if cardano-node is running already
 
-:::warning
+:::caution
 **Now we need to make sure we do not have a cardano-node already running. If we do we must shut it down before proceeding.**
 :::
 
@@ -109,7 +109,7 @@ You can check if you have a cardano-node process already running a few ways like
 
 If you have been following our [Pi-Node guide](../pi-pool-tutorial/) you can check your cardano-node status and stop it using the following commands.
 
-```bash
+```bash title=">_ Terminal"
 cardano-service status
 cardano-service stop
 ```
@@ -122,32 +122,32 @@ If you use Linux's `htop` service just check for a processing running starting w
 
 If you are using the [Pi-Node guide](../pi-pool-tutorial/) and your cardano-node & cli in `~/.local/bin`
 
-```bash
+```bash title=">_ Terminal"
 mv cardano-1_34_1-aarch64-ubuntu_2004/cardano-node cardano-1_34_1-aarch64-ubuntu_2004/cardano-cli ~/.local/bin
 ```
 
 ### Check your cardano-node version
 
-```bash
+```bash title=">_ Terminal"
 cardano-node --version
 ```
 
 #### Output:
 
-```bash
+```bash title=">_ Terminal"
 cardano-node 1.34.1 - linux-aarch64 - ghc-8.10
 git rev 2cbe363874d0261bc62f52185cf23ed492cf4859
 ```
 
 ### Check your cardano-cli version
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli --version
 ```
 
 #### Output:
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli 1.34.1 - linux-aarch64 - ghc-8.10
 git rev 2cbe363874d0261bc62f52185cf23ed492cf4859
 ```
@@ -158,13 +158,13 @@ We have already downloaded the configuration files needed for three networks mai
 
 {% tabs %}
 {% tab title="Mainnet Config" %}
-```bash
+```bash title=">_ Terminal"
 mv cardano-1_34_1-aarch64-ubuntu_2004/files/mainnet/* ~/pi-pool/files
 ```
 {% endtab %}
 
 {% tab title="Testnet Config" %}
-```bash
+```bash title=">_ Terminal"
 mv cardano-1_34_1-aarch64-ubuntu_2004/files/testnet/* ~/pi-pool/files
 ```
 {% endtab %}
@@ -175,7 +175,7 @@ mv cardano-1_34_1-aarch64-ubuntu_2004/files/testnet/* ~/pi-pool/files
 Thanks to [OTG pool](https://armada-alliance.com/stake-pools/c825168836c5bf850dec38567eb4771c2e03eea28658ff291df768ae) for providing an up to date  snapshot of the Cardano blockchain to help speed up sync times for a node dramatically.
 :::
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_HOME && rm -rf db
 wget -r -np -nH -R "index.html*" -e robots=off https://$NODE_CONFIG.adamantium.online/db/
 ```
@@ -184,12 +184,12 @@ wget -r -np -nH -R "index.html*" -e robots=off https://$NODE_CONFIG.adamantium.o
 
 Now we just need to restart our cardano-node service if you are using our [Pi-Node guide](../pi-pool-tutorial/) use this command
 
-```bash
+```bash title=">_ Terminal"
 cardano-service start
 ```
 
 Wait a few seconds or so then check the status
 
-```bash
+```bash title=">_ Terminal"
 cardano-service status
 ```

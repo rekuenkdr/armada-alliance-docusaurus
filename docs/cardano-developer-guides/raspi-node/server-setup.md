@@ -4,7 +4,7 @@
 
 Let's save some power, raise the governor on the CPU a bit, and set GPU ram as low as we can.
 
-:::warning
+:::caution
 Here are some links for overclocking and testing your drive speeds. If you have heat sinks you can safely go to 2000. Just pay attention to over volt recommendations to go with your chosen clock speed.
 
 * [https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md](https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md)
@@ -32,11 +32,11 @@ sudo hdparm -Tt /dev/sda
 
 Edit /boot/firmware/config.txt. Just paste Pi Pool additions in at the bottom.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /boot/config.txt
 ```
 
-```bash
+```bash title=">_ Terminal"
 [pi4]
 max_framebuffers=2
 
@@ -143,7 +143,7 @@ Add the following to the bottom of /etc/sysctl.conf. Save and exit.
 [https://gist.github.com/lokhman/cc716d2e2d373dd696b2d9264c0287a3](https://gist.github.com/lokhman/cc716d2e2d373dd696b2d9264c0287a3)
 :::
 
-:::warning
+:::caution
 I am disabling IPv6 and IPv4 forwarding. You may want these. I have seen claims that IPv6 is slower and gets in the way.
 :::
 
@@ -151,7 +151,7 @@ I am disabling IPv6 and IPv4 forwarding. You may want these. I have seen claims 
 sudo nano /etc/sysctl.conf
 ```
 
-```bash
+```bash title=">_ Terminal"
 ## Pi Pool ##
 
 # swap more to zram                     
@@ -259,13 +259,13 @@ We need to get our time synchronization as accurate as possible. Open /etc/chron
 sudo apt install chrony
 ```
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/chrony/chrony.conf
 ```
 
 Replace the contents of the file with below, Save and exit.
 
-```bash
+```bash title=">_ Terminal"
 pool time.google.com       iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
 #pool time.facebook.com     iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
 pool time.euro.apple.com   iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
@@ -304,7 +304,7 @@ leapsectz right/UTC
 local stratum 10
 ```
 
-```bash
+```bash title=">_ Terminal"
 sudo service chrony restart
 ```
 
@@ -330,7 +330,7 @@ sudo systemctl disable dphys-swapfile.service
 sudo apt install zram-tools
 ```
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/default/zramswap
 ```
 
@@ -340,7 +340,7 @@ Multiply default config by 3. This will give you 12.5GB of virtual compressed sw
 mem=$\(\(\(totalmem / 2 / ${NRDEVICES}\) \* 1024 \* 3\)\)
 :::
 
-```bash
+```bash title=">_ Terminal"
 #!/bin/sh
 # load dependency modules
 NRDEVICES=$(grep -c ^processor /proc/cpuinfo | sed 's/^0$/1/')

@@ -6,7 +6,7 @@ Query the chain for protocol parameters, store them in a file named params.json.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cd ${NODE_HOME}
 cardano-cli query protocol-parameters \
   --${CONFIG_NET} \
@@ -22,7 +22,7 @@ If you plan to edit your poolMetaData.json file do so now, run the below command
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli stake-pool metadata-hash \
   --pool-metadata-file poolMetaData.json > poolMetaDataHash.txt
 ```
@@ -41,12 +41,12 @@ cardano-cli stake-pool metadata-hash \
 
  Open or create a file name registration-cert.txt. Use this file to edit the below command before you issue it. It's also handy to leave this file on the cold machine for any future edits. Below is 1,000 ada pledge, 340 cost and a 1% margin. Refer back to the core guide if you are using more than one relay.
 
- ```bash
+ ```bash title=">_ Terminal"
  cd ${NODE_HOME}
  nano registration-cert.txt
  ```
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli stake-pool registration-certificate \
   --cold-verification-key-file ${HOME}/cold-keys/node.vkey \
   --vrf-verification-key-file vrf.vkey \
@@ -73,7 +73,7 @@ Issue a delegation certificate from **stake.skey** & **node.vkey**.
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli stake-address delegation-certificate \
   --stake-verification-key-file stake.vkey \
   --cold-verification-key-file ${HOME}/cold-keys/node.vkey \
@@ -90,7 +90,7 @@ Query the current slot number or tip of the chain.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 slotNo=$(cardano-cli query tip --${CONFIG_NET} | jq -r '.slot')
 echo slotNo: ${slotNo}
 ```
@@ -103,7 +103,7 @@ Query the wallets utxo history and build variables for a transaction.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli query utxo --address $(cat payment.addr) --${CONFIG_NET} > fullUtxo.out
 
 tail -n +3 fullUtxo.out | sort -k3 -nr > balance.out
@@ -134,7 +134,7 @@ Build temporary **tx.tmp** to hold information while we build our raw transactio
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli transaction build-raw \
   ${tx_in} \
   --tx-out $(cat payment.addr)+${total_balance} \
@@ -153,7 +153,7 @@ Calculate the transaction fee.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 fee=$(cardano-cli transaction calculate-min-fee \
   --tx-body-file tx.tmp \
   --tx-in-count ${txcnt} \
@@ -173,7 +173,7 @@ Calculate output that comes back to you (change).
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 txOut=$((${total_balance}-${fee}))
 echo txOut: ${txOut}
 ```
@@ -186,7 +186,7 @@ Build your **tx.raw** (unsigned) transaction file.
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli transaction build-raw \
   ${tx_in} \
   --tx-out $(cat payment.addr)+${txOut} \
@@ -207,7 +207,7 @@ Sign the transaction with your **payment.skey**, **node.skey** & **stake.skey**.
 {% tabs %}
 {% tab title="Cold Offline" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli transaction sign \
   --tx-body-file tx.raw \
   --signing-key-file payment.skey \
@@ -225,7 +225,7 @@ Move **tx.signed** back to your core node & submit the transaction to the blockc
 {% tabs %}
 {% tab title="Core" %}
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli transaction submit \
   --tx-file tx.signed \
   --${CONFIG_NET}

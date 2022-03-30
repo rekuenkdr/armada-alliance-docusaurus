@@ -24,19 +24,19 @@ This guide follows the same setup as our [Pi-Node guide and image](../pi-pool-tu
 
 ### Static binaries and Cardano node configuration files are provided by [\[ZW3RK\]](https://armada-alliance.com/identities/zw3rk) pool🙏 and can be found at our [Github repository](https://github.com/armada-alliance/cardano-node-binaries/tree/main/static-binaries).
 
-```bash
+```bash title=">_ Terminal"
 wget -O 1_34_1.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/1_34_1.zip?raw=true
 ```
 
 Extract the content from the zip file.
 
-```bash
+```bash title=">_ Terminal"
 unzip 1_34_1.zip
 ```
 
 ### Check if cardano-node is running already
 
-:::warning
+:::caution
 **Now we need to make sure we do not have a cardano-node already running. If we do we must shut it down before proceeding.**
 :::
 
@@ -44,7 +44,7 @@ You can check if you have a cardano-node process already running a few ways like
 
 If you have been following our [Pi-Node guide](../pi-pool-tutorial/) you can check your cardano-node status and stop it using the following commands.
 
-```bash
+```bash title=">_ Terminal"
 cardano-service status
 cardano-service stop
 ```
@@ -57,32 +57,32 @@ If you use Linux's `htop` service just check for a processing running starting w
 
 If you are using the [Pi-Node guide](../pi-pool-tutorial/) and your cardano-node & cli in `~/.local/bin`
 
-```bash
+```bash title=">_ Terminal"
 mv cardano-node/* ~/.local/bin
 ```
 
 ### Check your cardano-node version
 
-```bash
+```bash title=">_ Terminal"
 cardano-node --version
 ```
 
 #### Output:
 
-```bash
+```bash title=">_ Terminal"
 cardano-node 1.34.1 - linux-aarch64 - ghc-8.10
 git rev 0000000000000000000000000000000000000000
 ```
 
 ### Check your cardano-cli version
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli --version
 ```
 
 #### Output:
 
-```bash
+```bash title=">_ Terminal"
 cardano-cli 1.34.1 - linux-aarch64 - ghc-8.10
 git rev 0000000000000000000000000000000000000000
 ```
@@ -95,7 +95,7 @@ This step is not needed every time you update your node, typically you only need
 
 {% tabs %}
 {% tab title="Mainnet" %}
-```bash
+```bash title=">_ Terminal"
 cd $NODE_FILES
 wget https://hydra.iohk.io/build/7370192/download/1/mainnet-config.json
 wget https://hydra.iohk.io/build/7370192/download/1/mainnet-byron-genesis.json
@@ -106,7 +106,7 @@ wget https://hydra.iohk.io/build/7370192/download/1/mainnet-topology.json
 {% endtab %}
 
 {% tab title="Testnet" %}
-```bash
+```bash title=">_ Terminal"
 cd $NODE_FILES
 wget https://hydra.iohk.io/build/7370192/download/1/testnet-config.json
 wget https://hydra.iohk.io/build/7370192/download/1/testnet-byron-genesis.json
@@ -123,7 +123,7 @@ wget https://hydra.iohk.io/build/7370192/download/1/testnet-topology.json
 Thanks to [OTG pool](https://armada-alliance.com/stake-pools/c825168836c5bf850dec38567eb4771c2e03eea28658ff291df768ae) for providing an up to date  snapshot of the Cardano blockchain to help speed up sync times for a node dramatically.
 :::
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_HOME && rm -rf db
 wget -r -np -nH -R "index.html*" -e robots=off https://$NODE_CONFIG.adamantium.online/db/
 ```
@@ -132,12 +132,12 @@ wget -r -np -nH -R "index.html*" -e robots=off https://$NODE_CONFIG.adamantium.o
 
 Now we just need to restart our cardano-node service if you are using our [Pi-Node guide](../pi-pool-tutorial/) use this command
 
-```bash
+```bash title=">_ Terminal"
 cardano-service start
 ```
 
 Wait a few seconds or so then check the status
 
-```bash
+```bash title=">_ Terminal"
 cardano-service status
 ```

@@ -41,7 +41,7 @@ guide links for the different operating systems.
 
 Create the repositories on your host system first. They will hold the files to build the docker image as well as the Cardano node configuration files.
 
-```bash
+```bash title=">_ Terminal"
 cd ${HOME}
 sudo mkdir Cardano-node-docker
 cd Cardano-node-docker
@@ -50,7 +50,7 @@ sudo mkdir -p node/db && sudo mkdir -p node/files && sudo mkdir -p dockerfiles/f
 
 The files to build the docker images will be downloaded from [MINI1 pool GitHub](https://github.com/jterrier84/Cardano-node-docker)
 
-```bash
+```bash title=">_ Terminal"
 cd dockerfiles
 sudo wget -N https://raw.githubusercontent.com/jterrier84/Cardano-node-docker/master/dockerfiles/armada-cn-arm64.dockerfile
 sudo wget -N https://raw.githubusercontent.com/jterrier84/Cardano-node-docker/master/dockerfiles/build.sh
@@ -75,7 +75,7 @@ As the configuration files might require modifications over time, it is way more
 rather than have them stored inside the Docker container. Our Cardano Docker node will have access to these files from the container. 
 :::
 
-```bash
+```bash title=">_ Terminal"
 cd ${HOME}/Cardano-node-docker/node/files
 export NODE_CONFIG="testnet"
 export NODE_BUILD_NUM=$(curl https://hydra.iohk.io/job/Cardano/iohk-nix/cardano-deployment/latest-finished/download/1/index.html | grep -e "build" | sed 's/.*build\/\([0-9]*\)\/download.*/\1/g') 
@@ -102,7 +102,7 @@ At this point it's time to build the docker image. The image will include:
 2. gLiveView - Monitoring tool for the Cardano node
 3. ScheduledBlocks - Tool to query the scheduled slots for a block production node. (Credits for this tool goes to [SNAKE POOL](https://github.com/asnakep/ScheduledBlocks))
 
-```bash
+```bash title=">_ Terminal"
 cd ${HOME}/Cardano-node-docker/dockerfiles
 sudo ./build.sh
 ```
@@ -110,13 +110,13 @@ The process might take some minutes.
 
 Once the process is done, you can use the command to see the list of all Docker images on your host system:
 
-```bash
+```bash title=">_ Terminal"
 docker images
 ```
 
 You should see your Cardano node docker image in the list, e.g.
 
-```bash
+```bash title=">_ Terminal"
 REPOSITORY              TAG            IMAGE ID       CREATED          SIZE
 armada/armada-cn        1.34.1         da4414775ce6   37 seconds ago   619MB
 <none>                  <none>         f3891eef21e4   3 minutes ago    1.09GB
@@ -124,7 +124,7 @@ armada/armada-cn        1.34.1         da4414775ce6   37 seconds ago   619MB
 
 All we need is the "armada/armada-cn" image. You can delete the others in the list to free up space on your harddrive, e.g.
 
-```bash
+```bash title=">_ Terminal"
 docker rmi f3891eef21e4 
 ```
 
@@ -132,7 +132,7 @@ docker rmi f3891eef21e4
 
 Let's first configure the run-node.sh script to match your host system environment.
 
-```bash
+```bash title=">_ Terminal"
 cd ${HOME}/Cardano-node-docker/node
 sudo nano run-node.sh
 ```
@@ -143,11 +143,11 @@ Edit the configuration section according to your setup.
 If you are running the node as relay node, you can ignore the paramter CN_KEY_PATH.
 :::
 
-:::warning
+:::caution
 Important: Change the directory paths CN_CONFIG_PATH and CN_DB_PATH to the corresponding locations on your host. 
 :::
 
-```bash
+```bash title=">_ Terminal"
 ##Configuration for relay and block producing node
 CNIMAGENAME="armada/armada-cn"                                   ## Name of the Cardano docker image
 CNVERSION="1.34.1"                                               ## Version of the cardano-node. It must match with the version of the docker i>
@@ -171,7 +171,7 @@ After making the changes, save and close the file.
 
 You can now run the docker image.
 
-```bash
+```bash title=">_ Terminal"
 sudo ./run-node.sh
 ```
 
@@ -179,20 +179,20 @@ sudo ./run-node.sh
 
 You can check the running status of the docker container at any time with:
 
-```bash
+```bash title=">_ Terminal"
 docker ps -a
 ```
 
 If the docker node started successfully, you might see something like this:
 
-```bash
+```bash title=">_ Terminal"
 CONTAINER ID   IMAGE                     COMMAND                  CREATED          STATUS                    PORTS                                                                                      NAMES
 fed0cfbf7d86   armada/armada-cn:1.34.1   "bash -c /home/carda…"   12 seconds ago   Up 10 seconds (healthy)   0.0.0.0:3001->3001/tcp, :::3001->3001/tcp, 0.0.0.0:12799->12798/tcp, :::12799->12798/tcp   cardano-node-testnet-1.34.1
 ```
 
 You can also check the logs of the running cardano-node:
 
-```bash
+```bash title=">_ Terminal"
 docker logs -f {CONTAINER ID}
 ``` 
 
@@ -202,25 +202,25 @@ To exit the logs press `Ctrl+c`
 
 To stop the running Cardano node execute:
 
-```bash
+```bash title=">_ Terminal"
 docker stop {CONTAINER ID}
 ```
 
 A stopped container can be started again with:
 
-```bash
+```bash title=">_ Terminal"
 docker start {CONTAINER ID}
 ```
 
 A stopped container can also be deleted. Once deleted, it can not be started with the command above again.
 
-```bash
+```bash title=">_ Terminal"
 docker rm {CONTAINER ID}
 ```
 
 If you like to start the node again, after having removed the docker container, just run the run-node.sh script.
 
-```bash
+```bash title=">_ Terminal"
 sudo ${HOME}/Cardano-node-docker/node/run-node.sh
 ```
 
@@ -228,7 +228,7 @@ sudo ${HOME}/Cardano-node-docker/node/run-node.sh
 
 While the docker Cardano node is running, you can monitor its status with the tool gLiveView.
 
-```bash
+```bash title=">_ Terminal"
 docker exec -it {CONTAINER ID} /home/cardano/pi-pool/scripts/gLiveView.sh
 ```
 
@@ -239,7 +239,7 @@ query the blockchain for the scheduled slots for your block production node.
 
 Before using the script, make sure that the right configurations are set in our shell script run-node.sh. Set the following variables:
 
-```bash
+```bash title=">_ Terminal"
 CN_BF_ID="mainnetd9PBzlK7KB7wWko8NTKUwJIsHfvEKNaV"               ## Your blockfrost.io project ID (for ScheduledBlock script)
 CN_POOL_ID="c3e7025ebae638e994c149e5703e82619b31897c9e1d64fc684f81c2"   ## Your stake pool ID (for ScheduledBlock script)
 CN_POOL_TICKER="MINI1"                                           ## Your pool ticker (for ScheduledBlock script)
@@ -249,7 +249,7 @@ CN_KEY_PATH="/home/julienterrier/Cardano-node-docker/node/files/.keys"  ## Path 
 
 Start the ScheduledBlocks.py script and follow the instructions on the terminal:
 
-```bash
+```bash title=">_ Terminal"
 docker exec -it {CONTAINER ID} python3 /home/cardano/pi-pool/scripts/ScheduledBlocks/ScheduledBlocks.py
 ```
 

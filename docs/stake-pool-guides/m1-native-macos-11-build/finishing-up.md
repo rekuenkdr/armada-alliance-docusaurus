@@ -8,7 +8,7 @@ description: Setup chrony, start prometheus and fix up gLiveView.
 
 At the time of writing this the brew install of chrony does not create the necessary system service .plist file so we need to create one.
 
-```bash
+```bash title=">_ Terminal"
 ##############################################################
 # Create the .plist service definition
 sudo nano /opt/homebrew/opt/chrony/homebrew.mxcl.chrony.plist
@@ -43,7 +43,7 @@ sudo mkdir /var/run/chrony
 
 Now we need to create the /etc/chrony.conf file which the service will use. I just copied the one from my other block producer.
 
-```bash
+```bash title=">_ Terminal"
 ##############################################################
 sudo nano /etc/chrony.conf
 
@@ -105,7 +105,7 @@ less /var/log/chronyd.log
 For the mini M1 the thermal readings aren't available per node_exporter's default thermal collector. So we need to shut off that collector so logs don't fill up. Let's also
 add a textfile exporter directory so we can collect custom stats.
 
-```bash
+```bash title=">_ Terminal"
 ##############################################################
 nano /opt/homebrew/etc/node_exporter.args
 
@@ -122,7 +122,7 @@ mkdir /opt/homebrew/opt/node_exporter/stats
 
 Register the services with launchctl and start 'em up
 
-```bash
+```bash title=">_ Terminal"
 # Start prometheus
 sudo brew services start prometheus
 
@@ -144,7 +144,7 @@ At this point if you have a Grafana instance on your network you should be able 
 I am noticing that some of the M1 metrics are named slightly differently than the Ubuntu metrics and some are not available at all - like thermal zones. If you are using Grafana you'll need to play with the metrics to get them correct.
 :::
 
-:::warning
+:::caution
 If you turned on the M1 firewall you'll need to ensure port 9090 is available if you're going to add the M1 to Grafana if the Grafana server is sitting elsewhere on your network.
 :::
 
@@ -154,7 +154,7 @@ The normal guild operators env and gLiveView.sh scripts will complain out of the
 
 Unfortunately this requires us to change stuff in the "Do NOT modify code below" section of gLiveView.sh. Which means if you don't specify the **-u** option it'll see the script has changed and ask you to download the new one.
 
-```bash
+```bash title=">_ Terminal"
 ##############################################################
 nano ~/pi-pool/scripts/gLiveView.sh
 

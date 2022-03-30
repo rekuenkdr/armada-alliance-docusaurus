@@ -4,7 +4,7 @@
 
 * This guide is intended to show Raspberry-pi/ARM users how to use the Cardano Submit API with their own running Cardano node to watch for successful transaction submissions while using Nami wallet.
 
-:::warning
+:::caution
 In order to follow this guide you need:
 
 1. A raspberry pi 4 or other arm64 based computer
@@ -16,17 +16,17 @@ In order to follow this guide you need:
 
 Download the latest version of the Cardano node, cli, and tx-submit-api from the [Armada Alliance Github repository](https://github.com/armada-alliance/cardano-node-binaries).
 
-```bash
+```bash title=">_ Terminal"
 wget -O 1_33_1.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/1_33_1.zip?raw=true
 ```
 
 Unzip the contents of the zip file.
 
-```bash
+```bash title=">_ Terminal"
 unzip 1_33_1.zip -d cardano-node-1.33.1
 ```
 
-```bash
+```bash title=">_ Terminal"
 mv cardano-node-1.33.1/cardano-node/cardano-submit-api ~/.local/bin/
 ```
 
@@ -34,13 +34,13 @@ mv cardano-node-1.33.1/cardano-node/cardano-submit-api ~/.local/bin/
 
 You can use whatever text editor you would like and feel free to change the file name if you would like.
 
-```bash
+```bash title=">_ Terminal"
 nano ~/.local/bin/tx-submit-service
 ```
 
 Next, copy and paste the following into the file:
 
-```bash
+```bash title=">_ Terminal"
 #!/bin/bash
 
 cardano-submit-api \
@@ -51,7 +51,7 @@ cardano-submit-api \
   --mainnet
 ```
 
-:::warning
+:::caution
 **Before** you save and exit you need to make sure you have entered the correct **full path** to your Cardano node's `socket` and `tx-submit-mainnet-config.yaml file` because it will be different.
 :::
 
@@ -59,13 +59,13 @@ cardano-submit-api \
 
 Save and exit. Now we need to give permissions to the file so that it can be executed.
 
-```bash
+```bash title=">_ Terminal"
 chmod +x ~/.local/bin/tx-submit-service
 ```
 
 ## Get the tx-submit-mainnet-config.yaml file from IOG's github repository
 
-```bash
+```bash title=">_ Terminal"
 cd ~/pi-pool/files && wget -O tx-submit-mainnet-config.yaml https://raw.githubusercontent.com/input-output-hk/cardano-node/master/cardano-submit-api/config/tx-submit-mainnet-config.yaml
 ```
 
@@ -73,13 +73,13 @@ cd ~/pi-pool/files && wget -O tx-submit-mainnet-config.yaml https://raw.githubus
 
 Create a tmux session for the Cardano Submit API service.
 
-```bash
+```bash title=">_ Terminal"
 tmux new-session -d -t cardano-submit-api && tmux attach -t cardano-submit-api
 ```
 
 Run the Cardano Submit API service.
 
-```bash
+```bash title=">_ Terminal"
 ~/.local/bin/tx-submit-service
 ```
 
@@ -91,7 +91,7 @@ You should see the following output in your terminal:
 
 Now you just need to connect the Cardano Submit API with Nami Wallet. Open your browser with your Nami wallet navigate to settings, select network, switch on custom node mode, then enter in `http://localhost:8090/api/submit/tx`.
 
-:::warning
+:::caution
 _**If you are using a local network node (i.e. a node running at home in your local network) then you need to enter**** ****`http://x.x.x.x:8090/api/submit/tx`**** ****and replace the**** ****`x.x.x.x`**** ****with the IP address of your local network node.**_
 :::
 

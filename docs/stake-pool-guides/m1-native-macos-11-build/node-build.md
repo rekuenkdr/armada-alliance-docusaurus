@@ -18,7 +18,7 @@ If you turned Remote Login on it should connect and ask for a password. At some 
 
 Once on the command prompt, lets brew install a few things.
 
-```bash
+```bash title=">_ Terminal"
 # Install Homebrew for package management
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -36,7 +36,7 @@ chsh -s /opt/homebrew/bin/bash
 
 I followed the guide below word for word. You've already installed XCode and Homebrew so skip that. Once finished you should have the necessary packages installed and a working 1.33 (or newer) version of cardano-node and cardano-cli.
 
-:::warning
+:::caution
 Take note of the callouts for the M1 and use the references for $HOME/.bashrc not $HOME/.zshrc.
 :::
 
@@ -46,7 +46,7 @@ Take note of the callouts for the M1 and use the references for $HOME/.bashrc no
 
 Following the build, let's setup a few things in the terminal. You'll notice here I am using a $HOME/pi-pool directory. My old block producer was created from the Armada Alliance image which uses this path instead of the usual /opt/cardano/cnode you'll find in the Cardano docs. Adjust accordingly.
 
-```bash
+```bash title=">_ Terminal"
 ##############################################################
 # Add a .bash_profile if it doesn't already exist
 nano ~/.bash_profile
@@ -95,7 +95,7 @@ source ~/.bashrc
 
 Allow the pooladmin group that we created earlier access to start/stop the node without sudo.
 
-```bash
+```bash title=">_ Terminal"
 ##############################################################
 # Create a pooladmin sudoers file
 sudo visudo /etc/sudoers.d/pooladmin
@@ -113,7 +113,7 @@ sudo visudo /etc/sudoers.d/pooladmin
 
 Create the cardano-service file in \~/.local/bin and then we'll add it as a system service to the macOS launchctl utility.
 
-```bash
+```bash title=">_ Terminal"
 ##############################################################
 # Add the cardano-service file
 nano ~/.local/bin/cardano-service
@@ -152,7 +152,7 @@ chmod +x ~/.local/bin/cardano-service
 
 Create the launchctl system service .plist file. This will add the cardano-service file we just created to the system so that it starts automatically on a reboot.
 
-```bash
+```bash title=">_ Terminal"
 ##############################################################
 # Create the .plist service definition
 sudo nano /Library/LaunchDaemons/cardano.service.plist
@@ -199,7 +199,7 @@ If you have an existing block producer or relay on your network, you can rsync t
 
 Assuming you have an existing relay on your network, ssh into that relay. I do and I have the directory structure \~/pi-pool available on this relay. From the relay, perform the following rsync commands:
 
-```bash
+```bash title=">_ Terminal"
 # Replace ???? instances with your M1 user name
 
 # rsync the pi-pool config files over from a different node on your network
@@ -229,7 +229,7 @@ Now for the database snapshot we have a couple options. Easiest and quickest wil
 
 Using the service shortcut functions we created in the \~/.bashrc file we can now do this:
 
-```bash
+```bash title=">_ Terminal"
 # Fire up the node :)
 cardano-service start
 
@@ -245,6 +245,6 @@ sudo htop
 less /var/log/system.log
 ```
 
-:::warning
+:::caution
 If you turned on the M1 firewall you'll need to ensure the port you used in the cardano-service file is available.
 :::

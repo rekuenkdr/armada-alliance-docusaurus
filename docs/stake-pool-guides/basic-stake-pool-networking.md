@@ -21,7 +21,7 @@ Your **relay nodes** should be pointed to other remote relay nodes and your bloc
 {% tabs %}
 {% tab title="Relay Node" %}
 {% code title="mainnet-topology.json" %}
-```bash
+```bash title=">_ Terminal"
 {
   "Producers": [
     {
@@ -52,7 +52,7 @@ Your **relay nodes** should be pointed to other remote relay nodes and your bloc
 
 {% tab title="Block Producer" %}
 {% code title="mainnet-topology.json" %}
-```bash
+```bash title=">_ Terminal"
 {
   "Producers": [
     {
@@ -98,7 +98,7 @@ Set **valency** to 0 (zero) to disable a remote peer if you do not wish to delet
 When you create your stake pool's **pool.json** metadata file you will notice a section called **poolRelays**. This is where you would add **public** relays, visible to others. You can add them as static IPs or as a domain name, such as **north.acme.com**. If you are running more than one relay on your internal network you will need to have them assigned to different ports, such as 6001 and 6002.
 
 {% code title="pool.json" %}
-```bash
+```bash title=">_ Terminal"
 "poolRelays": [
     {
       "relayType": "dns",

@@ -40,7 +40,7 @@ Open botfather Follow the t.me link to your bot. Start to enable the bot and cli
 
 ### Find your groups Chat ID
 
-:::warning
+:::caution
 You may have to post in your new group if you cannot find the chat.id that starts with a - sign. Also Firefox displays the json returned in an easier to read format than Chrome.
 :::
 

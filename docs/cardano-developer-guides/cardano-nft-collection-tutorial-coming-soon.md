@@ -280,14 +280,14 @@ module.exports = async (name, filePath) => {
 }
 ```
 
-```bash
+```bash title=">_ Terminal"
 cd ..
 node src/pin-to-ipfs.js
 ```
 
 * Next, we can create a script called pin-images-to-ipfs.js, this will run through our images/assets and "pin" the images to IPFS using our local node.
 
-```bash
+```bash title=">_ Terminal"
 cd src
 nano pin-images-to-ipfs.js
 ```
@@ -327,11 +327,11 @@ async function main() {
 main()
 ```
 
-```bash
+```bash title=">_ Terminal"
 node src/pin-images-to-ipfs.js
 ```
 
-:::warning
+:::caution
 #### Before you continue to the minting process, please understand the importance of minting policies and their scripts!
 :::
 
@@ -343,7 +343,7 @@ node src/pin-images-to-ipfs.js
 
 * We will create an open minting policy script and export it in JSON and TXT format.
 
-```bash
+```bash title=">_ Terminal"
 cd src
 nano create-mint-policy.js
 ```
@@ -412,7 +412,7 @@ node src/create-time-locked-mint-policy.js
 
 * We want to make a script that can get our Policy ID to be used in other parts of our program
 
-```bash
+```bash title=">_ Terminal"
 cd src
 nano get-policy-id.js
 ```
@@ -444,7 +444,7 @@ node src/get-policy-id.js
 4. sign
 5. submit
 
-```bash
+```bash title=">_ Terminal"
 cd src
 nano mint-multiple-assets.js
 ```
@@ -545,7 +545,7 @@ const txHash = cardano.transactionSubmit(signed)
 console.log(txHash)
 ```
 
-```bash
+```bash title=">_ Terminal"
 node src/mint-multiple-assets.js
 ```
 
@@ -553,7 +553,7 @@ node src/mint-multiple-assets.js
 
 * Make a script to send multiple assets back to a wallet in a single transaction.
 
-```bash
+```bash title=">_ Terminal"
 cd src
 nano send-multiple-assets-back-to-wallet.js
 ```
@@ -642,6 +642,6 @@ sendAssets({
 })
 ```
 
-```bash
+```bash title=">_ Terminal"
 node src/send-multiple-assets-back-to-wallet.js
 ```

@@ -13,11 +13,15 @@ The [Pi-Node.img.gz](https://mainnet.adamantium.online/Pi-Node.img.gz) is a pre 
 ![](/img/star-forge-parts.jpeg)
 
 :::danger
+
 It is strongly recommended to work through the [Stake Pool School](https://cardano-foundation.gitbook.io/stake-pool-course/) course presented by the Cardano Foundation.
+
 :::
 
-:::warning
-If you would like to create a .img file of your work that can be flashed for reuse on other Raspberry Pi's you should build on an 8GB sd card. It will take less time to make an image. See [image creation section](https://app.gitbook.com/@ada-pi/s/raspi-spo/intermediate-guide/pi-pool-tutorial/create-.img-file).
+:::caution
+
+If you would like to create a .img file of your work that can be flashed for reuse on other Raspberry Pi's you should build on an 8GB sd card. It will take less time to make an image. See [image creation section](/docs/cardano-developer-guides/create-.img-file).
+
 :::
 
 ## Why this guide?
@@ -31,7 +35,9 @@ The most popular guides out there are aimed at x86 architecture and '_knowing wh
 ## Hardware
 
 :::info
+
 [Here is a list of working adapters.](https://jamesachambers.com/raspberry-pi-4-usb-boot-config-guide-for-ssd-flash-drives/)
+
 :::
 
 ### Shopping list
@@ -68,7 +74,11 @@ The most popular guides out there are aimed at x86 architecture and '_knowing wh
 * [PiShrink](https://github.com/Drewsif/PiShrink)
 * [cardanocli-js](https://docs.pipool.online)
 * Latest chain snapshot for quicker sync
-  * wget -r -np -nH -R "index.html\*" -e robots=off [https://mainnet.adamantium.online/db/](https://mainnet.adamantium.online/db/)
+  ```bash title=">_ Terminal"
+
+    wget -r -np -nH -R "index.html\*" -e robots=off [https://mainnet.adamantium.online/db/](https://mainnet.adamantium.online/db/)
+
+  ```
 
 ## Links
 

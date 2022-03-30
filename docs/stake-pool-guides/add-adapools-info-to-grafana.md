@@ -44,7 +44,7 @@ curl https://js.adapools.org/pools/<YOUR POOL ID>/summary.json 2>/dev/null \
 
 Now when the **getAdaPoolsSummary.sh** is run it'll refresh a file called **adapools.prom** in our new directory. This file will contain metrics that start with the term **adapools** and will be visible in the Grafana query builder metrics section as such.
 
-:::warning
+:::caution
 It's important that the results in the file do not include string values. The node exporter will throw an error and you won't see the adapools metrics.
 :::
 

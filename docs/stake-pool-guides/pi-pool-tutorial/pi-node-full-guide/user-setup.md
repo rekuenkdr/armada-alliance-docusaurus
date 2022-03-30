@@ -4,7 +4,7 @@ description: 'Create the ada user, add to group sudo'
 
 # User Setup
 
-:::warning
+:::caution
 If you are using a Pi-Node image you need only reference this material. The guide builds the image you can download.
 :::
 
@@ -12,7 +12,7 @@ If you are using a Pi-Node image you need only reference this material. The guid
 
 Create a new user and add it to the sudo group.
 
-```bash
+```bash title=">_ Terminal"
 sudo adduser ada; sudo adduser ada sudo
 ```
 
@@ -20,11 +20,11 @@ sudo adduser ada; sudo adduser ada sudo
 
 You can change the users password at anytime with.
 
-```bash
+```bash title=">_ Terminal"
 passwd
 ```
 
-:::warning
+:::caution
 Careful where you use sudo. For example issuing 'sudo passwd' would change the root password. This seems to be a place where new users get confused.
 :::
 
@@ -32,36 +32,36 @@ Careful where you use sudo. For example issuing 'sudo passwd' would change the r
 
 Let's add our ssh public key to our new $USER ada's authorized\_keys file. Then we can log in as ada and delete the default 'ubuntu' user.
 
-```bash
+```bash title=">_ Terminal"
 # drop back into your local terminal
 exit
 ```
 
 Use ssh-copy-id to add your public key to ada users authorized\_keys file.
 
-```bash
+```bash title=">_ Terminal"
 ssh-copy-id -i <ed25519-keyname.pub> ada@<server-ip>
 ```
 
 and ssh into the Pi as ada.
 
-```bash
+```bash title=">_ Terminal"
 ssh ada@<server-ip>
 ```
 
 Test that ada is in the sudo group by updating your package lists and upgrading the system.
 
-:::warning
+:::caution
 If you get error about repos and time it is because the clock is not set. Install chrony now to fix, otherwise we will install and configure it later.
 :::
 
-```bash
+```bash title=">_ Terminal"
 sudo apt update; sudo apt upgrade -y
 ```
 
 We can delete the default ubuntu user and it's home directory.
 
-```bash
+```bash title=">_ Terminal"
 sudo deluser --remove-home ubuntu
 ```
 
@@ -75,15 +75,15 @@ Check out this [nano cheat sheet](https://www.nano-editor.org/dist/latest/cheats
 All the \# commented out values in sshd\_config are the default values. Remove the pound sign and change the value to match below. They will be loaded the next time systemd restarts ssh.
 :::
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/ssh/sshd_config
 ```
 
-:::warning
+:::caution
 Turn off password authentication.
 :::
 
-```bash
+```bash title=">_ Terminal"
 #    $OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp $
 
 # This is the sshd server system-wide configuration file.  See

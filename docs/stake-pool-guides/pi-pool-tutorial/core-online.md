@@ -28,13 +28,13 @@ Refer to the Pi-Relay guide and update these settings accordingly for a Core ser
 * Static IP (192.168.1.150 or whatever works for you on your LAN)
 * Port to 3000
 
-```bash
+```bash title=">_ Terminal"
 sudo reboot
 ```
 
 While your node is syncing back up, clone the Stakepool Operator Scripts repo into your home directory. Create the bin folder to hold the scripts and add them to your PATH.
 
-```bash
+```bash title=">_ Terminal"
 cd; git clone https://github.com/gitmachtl/scripts.git $HOME/stakepoolscripts
 mkdir -p $HOME/stakepoolscripts/bin; cd $_
 echo "export PATH=\"$PWD:\$PATH\"" >> $HOME/.adaenv
@@ -47,7 +47,7 @@ The Cold machine does not run cardano-node. It is offline.
 
 This offline or cold machine protects the nodes cold keys and the owners pledge keys. A json file with built transactions are transfered to the cold machine for signing and then moved back to the core for submission. Preventing node and wallet keys from ever being on a machine connected to the internet.
 
-```bash
+```bash title=">_ Terminal"
 cd $HOME/stakepoolscripts
 git fetch origin; git reset --hard origin/master
 ```
@@ -64,7 +64,7 @@ For example, a commit ID is basically a checksum of...
 * The fields of the commit like author, date, log message, etc...
 * The commit IDs of the parent commits.
 
-```bash
+```bash title=">_ Terminal"
 git fsck --full
 # silence is golden
 git status
@@ -74,7 +74,7 @@ You will see that our new bin folder is untracked. everything else should be up 
 
 Copy the latest versions of the scripts into the bin folder.
 
-```bash
+```bash title=">_ Terminal"
 rsync -av $HOME/stakepoolscripts/cardano/${NODE_CONFIG}/* $HOME/stakepoolscripts/bin
 ```
 
@@ -88,7 +88,7 @@ These would include the latest $HOME/stakepoolscripts/bin folder and a copy of t
 
 Create a variable for testnet magic, Byron to Shelley epoch value and a variable to determine whether we are on mainnet or testnet. If on testnet we append the magic value onto our CONFIG\_NET variable.
 
-```bash
+```bash title=">_ Terminal"
 echo export MAGIC=$(cat ${NODE_FILES}/${NODE_CONFIG}-shelley-genesis.json | jq -r '.networkMagic') >> ${HOME}/.adaenv; . ${HOME}/.adaenv
 if [[ ${NODE_CONFIG} = 'testnet' ]]; then echo export BYRON_SHELLEY_EPOCHS=74; else echo export BYRON_SHELLEY_EPOCHS=208; fi >> ${HOME}/.adaenv
 if [[ ${NODE_CONFIG} = 'testnet' ]]; then echo export CONFIG_NET='testnet-magic\ "${MAGIC}"'; else echo export CONFIG_NET=mainnet; fi >> ${HOME}/.adaenv; . ${HOME}/.adaenv
@@ -96,14 +96,14 @@ if [[ ${NODE_CONFIG} = 'testnet' ]]; then echo export CONFIG_NET='testnet-magic\
 
 Copy the top portion of the 00\_common.sh file into a new file named common.inc. This will hold the variable paths needed to connect these scripts to our running node.
 
-```bash
+```bash title=">_ Terminal"
 cd $HOME/stakepoolscripts/bin/
 sed -n '1,69p' 00_common.sh >> common.inc
 ```
 
 And edit the lines needed to get up and running. I would look in this file beforehand to get an idea of what I am changing from defaults.
 
-```bash
+```bash title=">_ Terminal"
 sed -i common.inc \
     -e 's#socket="db-mainnet/node.socket"#socket="${NODE_HOME}/db/socket"#' \
     -e 's#genesisfile="configuration-mainnet/mainnet-shelley-genesis.json"#genesisfile="'${NODE_FILES}'/'${NODE_CONFIG}'-shelley-genesis.json"#' \
@@ -122,19 +122,19 @@ This gets us what we need to continue. Have a look in the file for more options 
 
 Let's test we have these scripts in our PATH and test they are working.
 
-```bash
+```bash title=">_ Terminal"
 cd; 00_common.sh
 ```
 
 Should see this on testnet or similar for mainnet. If something went wrong Martin presents you with a nice mushroom cloud ascii drawing and a hint as to what failed. If you are not synced to the tip of the chain it will warn you that the socket does not exist!
 
-```bash
+```bash title=">_ Terminal"
 Version-Info: cli 1.33.1 / node 1.33.1		Scripts-Mode: online		Testnet-Magic: 1097911063
 ```
 
 Martin ships a few binaries that are built for x86. These are useless on ARM64 so keep in mind that the token registration and catalyst registration scripts will not work until we can build these binaries for ARM. Lets delete them to save any confusion.
 
-```bash
+```bash title=">_ Terminal"
 cd
 rm stakepoolscripts/bin/catalyst-toolbox
 rm stakepoolscripts/bin/jcli
@@ -146,7 +146,7 @@ rm stakepoolscripts/bin/voter-registration
 
 Watch sync progress by following journalctl.
 
-```bash
+```bash title=">_ Terminal"
 sudo journalctl --unit=cardano-node --follow
 ```
 
@@ -156,19 +156,19 @@ Grab a USB stick and set it up with an ext4 partition owned by $USER that we can
 
 Create the mount point & set default ACL for files and folders with umask.
 
-```bash
+```bash title=">_ Terminal"
 cd; mkdir $HOME/usb-transfer; umask 022 $HOME/usb-transfer
 ```
 
 Attach the external drive into one of the USB2 ports and list all drives with fdisk. Some drive adapters eat a lot of power and you do not want to risk another USB device eating too much power on USB3 triggering a bus reset.
 
-```bash
+```bash title=">_ Terminal"
 sudo fdisk -l
 ```
 
 Example output:
 
-```bash
+```bash title=">_ Terminal"
 Disk /dev/sdb: 57.66 GiB, 61907927040 bytes, 120913920 sectors
 Disk model: Cruzer
 Units: sectors of 1 * 512 = 512 bytes
@@ -184,7 +184,7 @@ In my case it is /dev/sdb. Yours may be /dev/sdc, /dev/sdd or so on. /dev/sda is
 
 **This will wipe the disk**
 
-```bash
+```bash title=">_ Terminal"
 sudo gdisk /dev/sdb
 ```
 
@@ -218,7 +218,7 @@ Your new partition can be found at /dev/sdb1, the first partition on sdb.
 
 #### Optionally Check the drive for bad blocks (takes a few hours)
 
-```bash
+```bash title=">_ Terminal"
 badblocks -c 10240 -s -w -t random -v /dev/sdb
 ```
 
@@ -226,13 +226,13 @@ badblocks -c 10240 -s -w -t random -v /dev/sdb
 
 We still need to create a new ext4 file system on the partition.
 
-```bash
+```bash title=">_ Terminal"
 sudo mkfs.ext4 /dev/sdb1
 ```
 
 Example output:
 
-```bash
+```bash title=">_ Terminal"
 mke2fs 1.46.3 (27-Jul-2021)
 Creating filesystem with 15113979 4k blocks and 3784704 inodes
 Filesystem UUID: c2a8f8c7-3e7a-40f2-8dac-c2b16ab07f37
@@ -252,13 +252,13 @@ Since it will be holding sensitive data we will mount it in a way where only roo
 
 Run blkid and pipe it through awk to get the UUID of the file system we just created.
 
-```bash
+```bash title=">_ Terminal"
 sudo blkid /dev/sdb1 | awk -F'"' '{print $2}'
 ```
 
 Example output:
 
-```bash
+```bash title=">_ Terminal"
 c2a8f8c7-3e7a-40f2-8dac-c2b16ab07f37
 ```
 
@@ -266,11 +266,11 @@ For me the UUID=c2a8f8c7-3e7a-40f2-8dac-c2b16ab07f37
 
 Add a mount entry to the bottom of fstab adding your UUID and the full system path to you usb-transfer folder.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/fstab
 ```
 
-```bash
+```bash title=">_ Terminal"
 UUID=c2a8f8c7-3e7a-40f2-8dac-c2b16ab07f37 /home/ada/usb-transfer auto nosuid,nodev,nofail 0 1
 ```
 
@@ -280,13 +280,13 @@ UUID=c2a8f8c7-3e7a-40f2-8dac-c2b16ab07f37 /home/ada/usb-transfer auto nosuid,nod
 
 Mount the drive and confirm it mounted by locating the lost+found folder. If it is not present then your drive is not mounted.
 
-```bash
+```bash title=">_ Terminal"
 sudo mount usb-transfer; ls $HOME/usb-transfer
 ```
 
 Take ownership of the file system.
 
-```bash
+```bash title=">_ Terminal"
 sudo chown -R $USER:$USER $HOME/usb-transfer
 ```
 
@@ -294,7 +294,7 @@ Now your stick will auto mount if it is left in the core machine and it is reboo
 
 We already set the location of our USB mount in the SPOS common.inc file. We can again test our installation by creating a new offlineTransfer.json file which we need for continuing in offline mode on our Cold machine.
 
-```bash
+```bash title=">_ Terminal"
 01_workOffline.sh new
 ```
 
@@ -308,19 +308,19 @@ The Pi-Node has a static(portable) binary that can be transfered to the cold mac
 
 Locate and copy the static jq binary we built earlier to our $HOME directory.
 
-```bash
+```bash title=">_ Terminal"
 sudo cp /usr/local/bin/jq $HOME
 ```
 
 Create an rsync-exclude.txt file so we can rip through and grab everything we need and skip the rest.
 
-```bash
+```bash title=">_ Terminal"
 cd; nano exclude-list.txt
 ```
 
 Add the following.
 
-```bash
+```bash title=">_ Terminal"
 .bash_history
 .bash_logout
 .bashrc
@@ -346,7 +346,7 @@ exclude-list.txt
 
 Grab this guide so you can view it on the offline machine.
 
-```bash
+```bash title=">_ Terminal"
 wget https://raw.githubusercontent.com/armada-alliance/master/master/docs/intermediate-guide/pi-pool-tutorial/core-online.md
 wget https://raw.githubusercontent.com/armada-alliance/master/master/docs/intermediate-guide/pi-pool-tutorial/cold-offline.md
 ```
@@ -355,19 +355,19 @@ Optionally use VSCodium editor, the opensource VSCode to render markdown files o
 
 {% embed url="https://vscodium.com" %}
 
-```bash
+```bash title=">_ Terminal"
 wget https://github.com/VSCodium/vscodium/releases/download/1.63.2/codium_1.63.2-1639700587_arm64.deb
 ```
 
 Copy the files and folders to the USB stick.
 
-```bash
+```bash title=">_ Terminal"
 rsync -av --exclude-from="exclude-list.txt" /home/ada /home/ada/usb-transfer
 ```
 
 Unmount the drive before removing it.
 
-```bash
+```bash title=">_ Terminal"
 cd; sudo umount usb-transfer
 ```
 

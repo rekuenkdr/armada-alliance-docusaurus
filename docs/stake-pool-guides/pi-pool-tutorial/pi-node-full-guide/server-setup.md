@@ -2,13 +2,16 @@
 description: optimize hardware, harden Ubuntu
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Server Setup
 
 ## Configure Hardware
 
 Let's save some power, raise the governor on the CPU a bit, and set GPU ram as low as we can.
 
-:::warning
+:::caution
 Here are some links for overclocking and testing your drive speeds. If you have heat sinks you can safely go to 2000. Just pay attention to over volt recommendations to go with your chosen clock speed.
 
 - [https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md](https://www.raspberrypi.org/documentation/configuration/config-txt/overclocking.md)
@@ -24,11 +27,11 @@ Take note that Ubuntu stores config.txt in a different location than Raspbian.
 
 Edit /boot/firmware/config.txt. Just paste Pi Node additions in at the bottom.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /boot/firmware/config.txt
 ```
 
-```
+```bash title="/boot/firmware/config.txt"
 ## Pi Node ##
 over_voltage=6
 arm_freq=2000
@@ -39,7 +42,7 @@ dtoverlay=disable-bt
 
 Save and reboot.
 
-```
+```bash title=">_ Terminal"
 sudo reboot
 ```
 
@@ -47,7 +50,7 @@ sudo reboot
 
 ### Disable the root user
 
-```
+```bash title=">_ Terminal"
 sudo passwd -l root
 ```
 
@@ -55,13 +58,13 @@ sudo passwd -l root
 
 Mount shared memory as read only. Open /etc/fstab.
 
-```
+```bash title=">_ Terminal"
 sudo nano /etc/fstab
 ```
 
 Add this line at the bottom, save & exit.
 
-```
+```bash title="/etc/fstab"
 tmpfs    /run/shm    tmpfs    ro,noexec,nosuid    0 0
 ```
 
@@ -69,13 +72,13 @@ tmpfs    /run/shm    tmpfs    ro,noexec,nosuid    0 0
 
 Add a couple lines to the bottom of /etc/security/limits.conf
 
-```bash
+```bash title=">_ Terminal"
 sudo bash -c "echo -e '${USER} soft nofile 800000\n${USER} hard nofile 1048576\n' >> /etc/security/limits.conf"
 ```
 
 Confirm it was added to the bottom.
 
-```bash
+```bash title=">_ Terminal"
 cat /etc/security/limits.conf
 ```
 
@@ -85,17 +88,17 @@ cat /etc/security/limits.conf
 [https://gist.github.com/lokhman/cc716d2e2d373dd696b2d9264c0287a3](https://gist.github.com/lokhman/cc716d2e2d373dd696b2d9264c0287a3)
 :::
 
-:::warning
+:::caution
 If you would like to disable ipv6 or turn on forwarding you can below.
 :::
 
 Add the following to the bottom of /etc/sysctl.conf. Save and exit.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/sysctl.conf
 ```
 
-```
+``` bash title="/etc/sysctl.conf"
 ## Pi Node ##
 
 # swap more to zram
@@ -146,11 +149,11 @@ net.ipv4.tcp_congestion_control = bbr
 
 Create a new file. Paste, save & close.
 
-```
+```bash title=">_ Terminal"
 sudo nano /etc/rc.local
 ```
 
-```
+```bash title="/etc/rc.local"
 #!/bin/bash
 
 # Give CPU startup routines time to settle.
@@ -171,11 +174,11 @@ You should turn off IRQ Balance to make sure you do not get hardware interrupts 
 
 Open /etc/default/irqbalance and add to the bottom. Save, exit and reboot.
 
-```
+```bash title=">_ Terminal"
 sudo nano /etc/default/irqbalance
 ```
 
-```
+```bash title="/etc/default/irqbalance"
 ENABLED="0"
 ```
 
@@ -183,17 +186,17 @@ ENABLED="0"
 
 We need to get our time synchronization as accurate as possible. Open /etc/chrony/chrony.conf
 
-```
+```bash title=">_ Terminal"
 sudo apt install chrony
 ```
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/chrony/chrony.conf
 ```
 
 Replace the contents of the file with below, Save and exit.
 
-```bash
+```bash title="/etc/chrony/chrony.conf"
 pool time.google.com       iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
 pool time.euro.apple.com   iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
 pool time.apple.com        iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
@@ -231,37 +234,43 @@ leapsectz right/UTC
 local stratum 10
 ```
 
-```bash
+```bash title=">_ Terminal"
 sudo service chrony restart
 ```
 
 ### Zram swap
 
 :::info
+
 We have found that cardano-node can safely use this compressed swap in ram essentially giving us around 20gb of ram. We already set kernel parameters for zram in /etc/sysctl.conf
+
 :::
 
 Swapping to disk is slow, swapping to compressed ram space is faster and gives us some overhead before out of memory (oom).
+:::tip MORE INFO ABOUT ZRAM
 
-{% embed url="https://haydenjames.io/raspberry-pi-performance-add-zram-kernel-parameters/" %}
+[https://haydenjames.io/raspberry-pi-performance-add-zram-kernel-parameters/](https://haydenjames.io/raspberry-pi-performance-add-zram-kernel-parameters/)
 
-{% embed url="https://lists.ubuntu.com/archives/lubuntu-users/2013-October/005831.html" %}
+[https://lists.ubuntu.com/archives/lubuntu-users/2013-October/005831.html](https://lists.ubuntu.com/archives/lubuntu-users/2013-October/005831.html)
 
-```
+:::
+
+
+```bash title=">_ Terminal"
 sudo apt install zram-config linux-modules-extra-raspi
 ```
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /usr/bin/init-zram-swapping
 ```
 
 Multiply default config by 3. This will give you 11.5GB of virtual compressed swap in ram.
 
-:::info
-mem=$((totalmem / 2 _ 1024 _ 3))
-:::
+```bash title="/usr/bin/init-zram-swapping"
+mem=$((totalmem / 2 * 1024 * 3))
+```
 
-```bash
+```bash title="/usr/bin/init-zram-swapping"
 #!/bin/sh
 
 modprobe zram
@@ -281,7 +290,7 @@ swapon -p 5 /dev/zram0
 
 Before we start generating keys with a headless server we should have a safe amount of entropy.
 
-:::info
+:::tip MORE INFO ABOUT ENTROPY
 [https://hackaday.com/2017/11/02/what-is-entropy-and-how-do-i-get-more-of-it/](https://hackaday.com/2017/11/02/what-is-entropy-and-how-do-i-get-more-of-it/)
 
 [https://github.com/nhorman/rng-tools](https://github.com/nhorman/rng-tools)
@@ -289,7 +298,7 @@ Before we start generating keys with a headless server we should have a safe amo
 
 > But consider the fate of a standalone, headless server (or a micro controller for that matter) with no human typing or mousing around, and no spinning iron drive providing mechanical irregularity. Where does _it_ get entropy after it starts up? What if an attacker, or bad luck, forces periodic reboots? This is a [real problem](http://www.theregister.co.uk/2015/12/02/raspberry_pi_weak_ssh_keys/).
 
-```
+```bash title=">_ Terminal"
 sudo apt-get install rng-tools
 ```
 
@@ -297,7 +306,7 @@ sudo apt-get install rng-tools
 
 Enable automatic security updates.
 
-```bash
+```bash title=">_ Terminal"
 sudo dpkg-reconfigure -plow unattended-upgrades
 ```
 
@@ -305,14 +314,14 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 
 Install the packages we will need.
 
-```bash
+```bash title=">_ Terminal"
 sudo apt install build-essential libssl-dev tcptraceroute python3-pip \
          make automake unzip net-tools nginx ssl-cert pkg-config \
          libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev \
          zlib1g-dev g++ libncursesw5 libtool autoconf flex bison -y
 ```
 
-```
+```bash title=">_ Terminal"
 sudo reboot
 ```
 
@@ -320,12 +329,12 @@ sudo reboot
 
 #### Write speed
 
-```
+```bash title=">_ Terminal"
 sudo dd if=/dev/zero of=/tmp/output conv=fdatasync bs=384k count=1k; sudo rm -f /tmp/output
 ```
 
 #### Read speed
 
-```
+```bash title=">_ Terminal"
 sudo hdparm -Tt /dev/sda
 ```
