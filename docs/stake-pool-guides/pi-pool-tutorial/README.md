@@ -1,7 +1,8 @@
 ---
-description: >-
-  A guide to building a 4 watt per Pi, Cardano Stake Pool. A reference guide for
-  the Pi-Node.img.gz.
+description: A guide to building a 4 watt per Pi, Cardano Stake Pool.
+title: (GUIDE) Cardano Stake Pool with Raspberry Pi 4 
+image: /img/star-forge-parts.jpeg
+keywords: [guides, cardano stake pool, rasbperry pi, armada alliance, ubuntu]
 ---
 
 # Pi-Node Image & Guide
