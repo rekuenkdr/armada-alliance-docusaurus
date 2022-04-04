@@ -2,6 +2,8 @@
 
 This website is a port from Gitbook of the [Armada Alliance Docs](https://docs.armada-alliance.com/learn/) to [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
 
+The website is deployed at Github Pages https://rekuenkdr.github.io/armada-alliance-docusaurus/docs/
+
 ## Installation
 
 ```console
