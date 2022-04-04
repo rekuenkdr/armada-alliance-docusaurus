@@ -86,7 +86,7 @@ CROWDIN_PROJECT_ID=XXXXXX
 
 Replace **CROWDIN_PERSONAL_TOKEN** value with your own [personal token](https://crowdin.com/settings#api-key)
 
-Do the same with **CROWDIN_PROJECT_ID**, you can find your project's id at [https://crowdin.com/project/<MY_PROJECT_NAME>/settings#api]
+Do the same with **CROWDIN_PROJECT_ID**, you can find your project's id at ``` https://crowdin.com/project/<MY_PROJECT_NAME>/settings#api```
 
 
 ## Build
