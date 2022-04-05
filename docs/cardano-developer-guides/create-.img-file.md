@@ -26,13 +26,14 @@ cat is better than dd for this. cat will use all of your systems cpu cores, wher
 
 Once that completes we will use [PiShrink.sh](https://github.com/Drewsif/PiShrink) to deflate partitions and compress \(among a few other tricks\).
 
-{% code title="install pishrinks.sh" %}
+### install pishrinks.sh
+
 ```bash title=">_ Terminal"
 wget https://raw.githubusercontent.com/Drewsif/PiShrink/master/pishrink.sh
 chmod +x pishrink.sh
 sudo mv pishrink.sh /usr/local/bin
 ```
-{% endcode %}
+
 
 ```bash title=">_ Terminal"
 sudo pishrink.sh -aZ pi-node.img Pi-Node.img.gz

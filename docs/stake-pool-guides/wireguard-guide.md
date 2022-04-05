@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Wireguard Guide
 
 From the [WireGuard](https://www.wireguard.com) project homepage:
@@ -10,7 +13,7 @@ This guide will create a VPN from a core node behind a firewall to a relay node 
 Feel free to use a different port!
 :::
 
-{% embed url="https://github.com/pirate/wireguard-docs" %}
+[WireGuard Documentation](https://github.com/pirate/wireguard-docs)
 
 ### Install Wireguard
 
@@ -37,19 +40,20 @@ umask 077
 
 Generate key pairs on each machine.
 
-{% tabs %}
-{% tab title="C1" %}
+<Tabs>
+  <TabItem value="C1" label="C1" default>
+
 ```bash title=">_ Terminal"
 wg genkey | tee C1-privkey | wg pubkey > C1-pubkey
 ```
-{% endtab %}
+  </TabItem>
+  <TabItem value="R1" label="R1">
 
-{% tab title="R1" %}
 ```bash title=">_ Terminal"
 wg genkey | tee R1-privkey | wg pubkey > R1-pubkey
 ```
-{% endtab %}
-{% endtabs %}
+  </TabItem>
+</Tabs>
 
 Create a Wireguard configuration file on both machines.
 
@@ -59,24 +63,26 @@ nano /etc/wireguard/wg0.conf
 
 Use cat to print out the key values. Public keys are then used in the other machines conf file.
 
-{% tabs %}
-{% tab title="C1" %}
+<Tabs>
+  <TabItem value="C1" label="C1" default>
+
 ```bash title=">_ Terminal"
 cat C1-privkey
 cat C1-pubkey
 ```
-{% endtab %}
+  </TabItem>
+  <TabItem value="R1" label="R1">
 
-{% tab title="R1" %}
 ```bash title=">_ Terminal"
 cat R1-privkey
 cat R1-pubkey
 ```
-{% endtab %}
-{% endtabs %}
+  </TabItem>
+</Tabs>
 
-{% tabs %}
-{% tab title="C1" %}
+<Tabs>
+  <TabItem value="C1" label="C1" default>
+
 ```bash title=">_ Terminal"
 [Interface]
 Address = 10.220.0.1/32
@@ -91,9 +97,9 @@ AllowedIPs = 10.220.0.2/32
 Endpoint = <R1 nodes public ip or hostname>:51820
 PersistentKeepalive = 21
 ```
-{% endtab %}
+  </TabItem>
+  <TabItem value="R1" label="R1" >
 
-{% tab title="R1" %}
 ```bash title=">_ Terminal"
 [Interface]
 Address = 10.220.0.2/32
@@ -107,9 +113,9 @@ AllowedIPs = 10.220.0.1/32
 #Endpoint = endpoint is not needed on the listening side
 PersistentKeepalive = 21
 ```
-{% endtab %}
+  </TabItem>
+  <TabItem value="Example" label="Example" >
 
-{% tab title="Example" %}
 ```bash title=">_ Terminal"
 [Interface]
 Address = 10.220.0.1/32
@@ -123,8 +129,8 @@ AllowedIPs = 10.220.0.2/32
 Endpoint = r1.armada-alliance.com:51820
 PersistentKeepalive = 21
 ```
-{% endtab %}
-{% endtabs %}
+  </TabItem>
+</Tabs>
 
 #### [wg-quick](https://manpages.debian.org/unstable/wireguard-tools/wg-quick.8.en.html)
 
@@ -143,19 +149,22 @@ ip a # should see a wg0 interface
 
 Once both interfaces are up you can try and ping each other.
 
-{% tabs %}
-{% tab title="C1" %}
+<Tabs>
+
+  <TabItem value="C1" label="C1" default>
+
 ```bash title=">_ Terminal"
 ping 10.220.0.2
 ```
-{% endtab %}
+  </TabItem>
+  <TabItem value="R1" label="R1" >
 
-{% tab title="R1" %}
 ```bash title=">_ Terminal"
 ping 10.220.0.1
 ```
-{% endtab %}
-{% endtabs %}
+  </TabItem>
+</Tabs>
+
 
 If they are connected bring them down and back up with Systemd
 
@@ -207,8 +216,10 @@ Likewise update IPv4 address' in /etc/prometheus/prometheus.yml to use the VPN.
 
 Control traffic through the VPN. The following allows for Prometheus/Grafana on C1 to scrape metrics from node-exporter on R1.
 
-{% tabs %}
-{% tab title="C1" %}
+<Tabs>
+  
+  <TabItem value="C1" label="C1" default>
+
 ```c
 # allow ssh access on lan behind router
 sudo ufw allow 22
@@ -217,9 +228,9 @@ sudo ufw deny in on wg0 to any port 22 proto tcp
 # cardano-node port
 sudo ufw allow 3000
 ```
-{% endtab %}
+  </TabItem>
+  <TabItem value="R1" label="R1">
 
-{% tab title="R1" %}
 ```c
 # allow ssh access
 sudo ufw allow 22
@@ -231,8 +242,10 @@ sudo ufw allow 3001
 sudo ufw allow in on wg0 to any port 12798 proto tcp
 sudo ufw allow in on wg0 to any port 9090 proto tcp
 ```
-{% endtab %}
-{% endtabs %}
+
+  </TabItem>
+</Tabs>
+
 
 **Bring up ufw**
 
