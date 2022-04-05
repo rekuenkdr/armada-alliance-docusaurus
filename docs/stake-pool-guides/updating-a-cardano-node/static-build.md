@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Static Build
 
 :::info
@@ -93,8 +96,9 @@ git rev 0000000000000000000000000000000000000000
 This step is not needed every time you update your node, typically you only need to update/replace config files after hard fork events when moving into new eras of the [Cardano blockchain](https://roadmap.cardano.org/en/).
 :::
 
-{% tabs %}
-{% tab title="Mainnet" %}
+<Tabs>
+  <TabItem value="Mainnet" label="Mainnet" default> 
+
 ```bash title=">_ Terminal"
 cd $NODE_FILES
 wget https://hydra.iohk.io/build/7370192/download/1/mainnet-config.json
@@ -103,9 +107,9 @@ wget https://hydra.iohk.io/build/7370192/download/1/mainnet-shelley-genesis.json
 wget https://hydra.iohk.io/build/7370192/download/1/mainnet-alonzo-genesis.json
 wget https://hydra.iohk.io/build/7370192/download/1/mainnet-topology.json
 ```
-{% endtab %}
+  </TabItem>
+  <TabItem value="Testnet" label="Testnet">
 
-{% tab title="Testnet" %}
 ```bash title=">_ Terminal"
 cd $NODE_FILES
 wget https://hydra.iohk.io/build/7370192/download/1/testnet-config.json
@@ -114,8 +118,8 @@ wget https://hydra.iohk.io/build/7370192/download/1/testnet-shelley-genesis.json
 wget https://hydra.iohk.io/build/7370192/download/1/testnet-alonzo-genesis.json
 wget https://hydra.iohk.io/build/7370192/download/1/testnet-topology.json
 ```
-{% endtab %}
-{% endtabs %}
+  </TabItem>
+</Tabs>
 
 ## Download Database snapshot
 
