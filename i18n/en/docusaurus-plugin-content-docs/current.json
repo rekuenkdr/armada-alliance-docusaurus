@@ -54,5 +54,9 @@
   "sidebar.tutorialSidebar.category.Contribute 🐱‍🚀.link.generated-index.title": {
     "message": "Contribute 🐱‍🚀",
     "description": "The generated-index page title for category Contribute 🐱‍🚀 in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Pi-Node Full-Guide (Ubuntu Server).link.generated-index.title": {
+    "message": "Pi-Node Full-Guide (Ubuntu Server)",
+    "description": "The generated-index page title for category Pi-Node Full-Guide (Ubuntu Server) in sidebar tutorialSidebar"
   }
 }
