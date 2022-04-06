@@ -1,6 +1,5 @@
 ---
 description: Turn Pi-Node into an active Cardano relay
-title: (GUIDE) Cardano Relay (Pi-Node)
 keywords: [guides, cardano relay, cardano node, cardano stake pool, rasbperry pi, armada alliance, ubuntu]
 ---
 # Pi-Relay

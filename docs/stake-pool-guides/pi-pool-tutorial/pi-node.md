@@ -1,6 +1,5 @@
 ---
 description: Quickly bootstrap a synced configured Cardano node in a few hours.
-title: (GUIDE) Cardano Node (Pi-Node) Quick Bootstrap 
 keywords: [guides, cardano node, cardano stake pool, rasbperry pi, armada alliance, ubuntu]
 ---
 
