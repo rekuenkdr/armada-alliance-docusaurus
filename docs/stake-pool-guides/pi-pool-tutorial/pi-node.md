@@ -1,16 +1,19 @@
 ---
-description: >-
-  Quickly bootstrap a synced configured node in a few hours.
+description: Quickly bootstrap a synced configured Cardano node in a few hours.
+title: (GUIDE) Cardano Node (Pi-Node) Quick Bootstrap 
+keywords: [guides, cardano node, cardano stake pool, rasbperry pi, armada alliance, ubuntu]
 ---
 
 # Pi-Node (Quick Start)
 
 :::info
+
 After booting the image it will take about 30 minutes to download the chain and another couple hours or so to sync to the tip. You will not be able to do much until your node has synced with the tip of the block chain.
 
 It can take anywhere from 2 to 60 minutes to sync after a reboot depending how the node was shut down or restarted. Check if process is running with htop. If it is, use gLiveView.sh or go for walk. It will sync and the socket will be created.
 
 It is best to just leave it running. 🏃♀
+
 :::
 
 
@@ -25,16 +28,22 @@ ssh ada@<pi-node private IPv4>
 Default credentials = **ada:lovelace**
 
 :::caution
+
 Check which version of cardano-node is on the image. Follow the static build upgrade instructions to upgrade. [static-build.md](../updating-a-cardano-node/static-build.md "mention")
+
+:::
+
 
 ```bash title=">_ Terminal"
 cardano-node version
 ```
-:::
 
 ## Choose testnet or mainnet. **Defaults to testnet**.
+
 Switch between testnet & mainnet, for mainnet issue..
+
 Config file path /home/ada/.adaenv
+
 ```bash title=">_ Terminal"
 sed -i .adaenv -e "s/NODE_CONFIG=testnet/NODE_CONFIG=mainnet/g"; source .adaenv
 ```
@@ -94,13 +103,13 @@ cardano-monitor status
 
 Follow journal output or syslog
 
-```
+```bash title=">_ Terminal"
 sudo journalctl --unit=cardano-node --follow
 sudo tail -f /var/log/syslog
 ```
 
 ### 8. gliveview.sh
-allow these files to update if they wish to.
+Allow these files to update if they wish to.
 
 ```bash title=">_ Terminal"
 cd $NODE_HOME/scripts
@@ -113,12 +122,10 @@ Enter your Node's IPv4 address in your browser.
 
 Default credentials = **admin:admin**
 
-#### Dashboards can be found here.
+:::tip Dashboards can be found here
 
-{% embed url="https://github.com/armada-alliance/dashboards" %}
+[https://github.com/armada-alliance/dashboards](https://github.com/armada-alliance/dashboards)
 
-{% embed url="https://api.pooldata.live/" %}
+[https://api.pooldata.live/](https://github.com/armada-alliance/dashboards)
 
-:::info
-The following guide builds out the image, use it as a reference and please feel free to ask for clarification in our Telegram channel. [https://t.me/armada\_alli](https://t.me/armada\_alli)
 :::

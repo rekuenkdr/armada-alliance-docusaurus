@@ -1,43 +1,35 @@
 ---
-description: Pi-Node to Pi-Relay
+description: Turn Pi-Node into an active Cardano relay
+title: (GUIDE) Cardano Relay (Pi-Node)
+keywords: [guides, cardano relay, cardano node, cardano stake pool, rasbperry pi, armada alliance, ubuntu]
 ---
 # Pi-Relay
 
-To turn Pi-Node into a active relay we have to.
+To turn Pi-Node into an active relay we have to follow the following steps:
 
-1. Configure hostname.
-2. Configure static IP.
-3. Configure port for cardano-service.
-4. Configure port forwarding on router.
-5. Enable cron job.
-6. Wait for service on boarding(4 hours).
-7.  Prune list of best (8) peers.
-8.  Edit the alias name for Prometheus.
-9.  Reboot.
-
-## Hostname
+## 1. Configure hostname
 
 To set a fully qualified domain name (FQDN) for our relay edit /etc/hostname & /etc/hosts.
 
-```
+```bash title=">_ Terminal"
 sudo nano /etc/hostname
 ```
 
 Replace ubuntu with your desired FQDN.
 
-```
+```bash title=">_ Terminal"
 r1.example.com
 ```
 
 Save and exit.
 
-```
+```bash title=">_ Terminal"
 sudo nano /etc/hosts
 ```
 
 Edit the file accordingly, take note that you may not be using the 192.168.1.xxx IP range.
 
-```bash title=">_ Terminal"
+```bash title="/etc/hosts"
 127.0.0.1 localhost
 127.0.1.1 r1.example.com r1
 
@@ -53,23 +45,29 @@ ff02::3 ip6-allhosts
 
 Save and exit.
 
-## Network
+## 2. Network
 
-### Static IP
+### 2.1 Configure static IP
 
 Open **50-cloud-init.yaml** and replace the contents of the file with below.
 
-[netplan configuration](https://netplan.io/examples/)
+:::tip Netplan configuration examples
+
+[Netplan configuration examples](https://netplan.io/examples/)
+
+:::
 
 :::caution
+
 Be sure to use an address on your LAN subnet. In this example I am using **192.168.1.xxx**. Your network may very well be using a different private range.
+
 :::
 
 ```bash title=">_ Terminal"
 sudo nano /etc/netplan/50-cloud-init.yaml
 ```
 
-```yaml
+```yaml title="/etc/netplan/50-cloud-init.yaml"
 # This file is generated from information provided by the datasource.  Changes
 # to it will not persist across an instance reboot.  To disable cloud-init's
 # network configuration capabilities, write a file
@@ -98,7 +96,7 @@ sudo nano /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
 
 Add the following, save and exit.
 
-```bash title=">_ Terminal"
+```bash title="/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg"
 network: {config: disabled}
 ```
 
@@ -108,12 +106,16 @@ Apply your changes.
 sudo netplan apply
 ```
 
-## Configure service port
+### 2.2 Configure service port
 
 Open the ~/.adaenv file and change the port it listens on. For R1 or my first relay I will designate port 3001.
 
 ```bash title=">_ Terminal"
 nano $HOME/.adaenv
+```
+
+```bash title="~/.adaenv"
+export NODE_PORT=3001
 ```
 
 Save and exit. **ctrl+x then y**.
@@ -125,15 +127,17 @@ cardano-service enable
 cardano-service restart
 ```
 
-## Forward port on router
+### 2.3 Forward port on router
 
 :::danger
-Do not forward a port to your Core machine it only connects to your relay(s) on your LAN
+
+Do not forward a port to your Core machine it only connects to your relay(s) on your LAN.
+
 :::
 
 Log into your router and forward port 3001 to your relay nodes LAN IPv4 address port 3001. Second relay forward port 3002 to LAN IPv4 address for relay 2 to port 3002.
 
-## Topology Updater
+### 2.4 Topology Updater
 
 ```bash title=">_ Terminal"
 cd $NODE_HOME/scripts
@@ -142,7 +146,9 @@ cd $NODE_HOME/scripts
 Configure the script to match your environment.
 
 :::caution
+
 If you are using IPv4 leave CNODE_HOSTNAME the way it is. The service will pick up your public IP address on it's own. I repeat only change the port to 3001. For DNS change only the first instance. Do not edit "CHANGE ME" further down in the file.
+
 :::
 
 ```bash title=">_ Terminal"
@@ -163,33 +169,40 @@ Should look similar to this.
 
 > `{ "resultcode": "201", "datetime":"2021-05-20 10:13:40", "clientIp": "1.2.3.4", "iptype": 4, "msg": "nice to meet you" }`
 
+
+## 3. Enable cron job
+
 Enable the cron job by removing the # character from crontab.
 
 ```bash title=">_ Terminal"
 crontab -e
 ```
 
-```bash title=">_ Terminal"
+```bash title="crontab"
 33 * * * * /home/ada/pi-pool/scripts/topologyUpdater.sh
 ```
 
 Save and exit.
 
+## 4. Wait for service on boarding (4 hours).
+
 After four hours of on boarding your relay(s) will start to be available to other peers on the network. **topologyUpdater.sh** will create a list in ${NODE_HOME}/logs.
 
-### Prune the list
+## 5. Prune list of best (8) peers.
 
 Open your topolgy file and use **ctrl+k** to cut the entire line of any peer over 5,000 miles away.
 
 :::caution
+
 Remember to remove the last entries comma in your list or cardano-node will fail to start.
+
 :::
 
 ```bash title=">_ Terminal"
 nano ${NODE_HOME}/files/${NODE_CONFIG}-topology.json
 ```
 
-### Enable blockfetch tracing
+## 6. Enable blockfetch tracing
 
 ```bash title=">_ Terminal"
 sed -i ${NODE_FILES}/mainnet-config.json \
@@ -209,7 +222,7 @@ Many operators block icmp syn packets(ping) because of a security flaw that was 
 
 More incoming connections is generally a good thing, it increases the odds that you will get network data sooner. Though you may want to put a limit on how many connect. The only way to stop incoming connections would be to block the IPv4 address with ufw.
 
-## Prometheus
+## 7. Edit the alias name for Prometheus
 
 Last thing we can do is change the alias name Prometheus is serving to Grafana. You will have to go into Grafana and edit the panels alias accordingly as well.
 
@@ -218,24 +231,31 @@ sudo nano /etc/prometheus/prometheus.yml
 ```
 
 :::caution
-You can change.
 
-```bash title=">_ Terminal"
-alias: 'N1'
-```
+
+In an upcoming guide I will show how to have Prometheus running on a separate Pi scraping data from the pool instead of having Prometheus using system resources on those machines.
+
+For now you can change the alias name Prometheus is serving to Grafana:
+
+
+>  alias: 'N1'
+
 
 to
 
-```bash title=">_ Terminal"
-alias: 'R1'
-```
+> alias: 'R1'
 
-In an upcoming guide I will show how to have Prometheus running on a separate Pi scraping data from the pool instead of having Prometheus using system resources on those machines. This is a yaml file and indentation has to be correct.
+
 :::
 
-Update, save and exit.
+:::danger 
 
-```bash title=">_ Terminal"
+This is a yaml file and indentation has to be correct.
+
+:::
+
+
+```bash title="/etc/prometheus/prometheus.yml"
 global:
   scrape_interval:     15s # By default, scrape targets every 15 seconds.
 
@@ -277,5 +297,9 @@ scrape_configs:
           alias: 'R1'
           type:  'node'
 ```
+
+Update, save and exit.
+
+## 8. Reboot
 
 Reboot the server and give it a while to sync back up. That is just about it. Please feel free to join our Telegram channel for support. [https://t.me/armada_alli](https://t.me/armada_alli)
