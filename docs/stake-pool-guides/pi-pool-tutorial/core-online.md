@@ -10,15 +10,13 @@ Unlike [CNTools](https://cardano-community.github.io/guild-operators/Scripts/cnt
 
 Martin provides a [script](https://github.com/gitmachtl/scripts/tree/master/cardano/mainnet#import-your-existing-pool-from-cli-keys-or-tutorials) that can help you import your existing pool to work with SPOS.
 
-{% embed url="https://github.com/gitmachtl/scripts" %}
+[StakePool Operator Script GitHub](https://github.com/gitmachtl/scripts)
 
 Please visit and review the configuration, scriptfiles syntax & filenames to better familiarize yourself with the workflow and capabilities of this awesome toolset. All the instructions and commands needed to use these scripts are in the README files located in the stakepoolsripts folder.
 
-If you need further assistance with using the Stakepool Operator Scripts you can go through our guide.
+If you need further assistance with using the Stakepool Operator Scripts you can go through our [guide.](stakepoolscripts.md)
 
-{% content-ref url="stakepoolscripts.md" %}
-[stakepoolscripts.md](stakepoolscripts.md)
-{% endcontent-ref %}
+
 
 ### Online Core Installation
 
@@ -298,13 +296,13 @@ We already set the location of our USB mount in the SPOS common.inc file. We can
 01_workOffline.sh new
 ```
 
-Lets copy this environment to the offline machine. We want the environment identicle and rsync is great for this.
+Lets copy this environment to the offline machine. We want the environment identical and rsync is great for this.
 
 ### Grab jq on your way out
 
-The Pi-Node has a static(portable) binary that can be transfered to the cold machine. Build instructions can be found in the environment section of the guide.
+The Pi-Node has a static(portable) binary that can be transferred to the cold machine. Build instructions can be found in the environment section of the guide.
 
-{% embed url="https://github.com/stedolan/jq" %}
+[**Get jq here**](https://github.com/stedolan/jq)
 
 Locate and copy the static jq binary we built earlier to our $HOME directory.
 
@@ -353,7 +351,7 @@ wget https://raw.githubusercontent.com/armada-alliance/master/master/docs/interm
 
 Optionally use VSCodium editor, the opensource VSCode to render markdown files on the offline machine. This makes Martins markdown easier to read. It has no Microsoft non free blobs like VSCode.
 
-{% embed url="https://vscodium.com" %}
+[You can download VSCodium here](https://vscodium.com)
 
 ```bash title=">_ Terminal"
 wget https://github.com/VSCodium/vscodium/releases/download/1.63.2/codium_1.63.2-1639700587_arm64.deb

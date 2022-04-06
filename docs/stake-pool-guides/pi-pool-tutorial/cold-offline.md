@@ -8,7 +8,9 @@ This can be any 64 bit capable Raspi. Any Raspberry Pi 4, Raspberry Pi 3b+ or a 
 
 Raspberry Pi OS desktop is a lot faster and more stable than the gnome desktop in Ubuntu. There is now a 64bit image you can install, it is not available in raspi-imager selection, IDK why. Check out the images in the link below grab the latest version. It is a zip file so we have to unzip it.
 
-{% embed url="https://downloads.raspberrypi.org/raspios_arm64" %}
+[Download Pi 64bit Raspbian OS](https://downloads.raspberrypi.org/raspios_arm64)
+
+
 
 Unzip the img file and flash it with Raspi-imager.
 
@@ -148,12 +150,12 @@ Confirm SPOS is installed.
 
 Right click on the VSCodium .deb file in the usb-transfer folder and choose install. You can then open the markdown files and use ctr+shift+V to render a preview.
 
-{% embed url="https://vscodium.com" %}
+[VSCodium Website](https://vscodium.com)
 
 ### Pool Creation
 
 That's it! you can now use Martins guide in the stakepoolscripts/bin file. Remember to always manually unmount your USB stick before unplugging it. 
 
-{% embed url="https://github.com/gitmachtl/scripts" %}
+[Stake pool operator scripts GitHub](https://github.com/gitmachtl/scripts)
 
 Thank you Martin for all your hard work!
