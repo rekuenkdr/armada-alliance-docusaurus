@@ -318,7 +318,7 @@ cd; nano exclude-list.txt
 
 Add the following.
 
-```bash title=">_ Terminal"
+```bash title="exclude-list.txt"
 .bash_history
 .bash_logout
 .bashrc
