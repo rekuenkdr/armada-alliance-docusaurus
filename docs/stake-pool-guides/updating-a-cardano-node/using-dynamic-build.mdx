@@ -1,3 +1,6 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # Dynamic Build
 
 _**We at the Armada Alliance actively build the required software packages needed to run a Cardano stake pool node on ARM-based computers like the Raspberry Pi or Apple's MacMini M1.**_
@@ -154,20 +157,30 @@ git rev 2cbe363874d0261bc62f52185cf23ed492cf4859
 
 ### Replace the Cardano node configuration files
 
-We have already downloaded the configuration files needed for three networks mainnet and testnet.
+:::info
 
-{% tabs %}
-{% tab title="Mainnet Config" %}
+This step is not needed every time you update your node, typically you only need to update/replace config files after hard fork events when moving into new eras of the [Cardano blockchain](https://roadmap.cardano.org/en/).
+
+:::
+
+We have already downloaded the configuration files needed for the networks mainnet and testnet, now we just need to move them to our pool files directory.
+
+<Tabs>
+<TabItem value="mainnet config" label="MAINNET Config">
+
 ```bash title=">_ Terminal"
 mv cardano-1_34_1-aarch64-ubuntu_2004/files/mainnet/* ~/pi-pool/files
 ```
-{% endtab %}
 
-{% tab title="Testnet Config" %}
+</TabItem>
+<TabItem value="testnet config" label="TESTNET Config">
+
 ```bash title=">_ Terminal"
 mv cardano-1_34_1-aarch64-ubuntu_2004/files/testnet/* ~/pi-pool/files
 ```
-{% endtab %}
+
+</TabItem>
+</Tabs>
 
 ## Download Database snapshot
 
