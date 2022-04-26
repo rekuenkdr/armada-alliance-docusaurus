@@ -313,9 +313,9 @@ We have found that cardano-node can safely use this compressed swap in ram essen
 
 Swapping to disk is slow, swapping to compressed ram space is faster and gives us some overhead before out of memory (oom).
 
-{% embed url="https://haydenjames.io/raspberry-pi-performance-add-zram-kernel-parameters/" %}
+[RPi OS ZRAM Guide](https://haydenjames.io/raspberry-pi-performance-add-zram-kernel-parameters/)
 
-{% embed url="https://lists.ubuntu.com/archives/lubuntu-users/2013-October/005831.html" %}
+[Ubunutu Article on ZRAM](https://lists.ubuntu.com/archives/lubuntu-users/2013-October/005831.html)
 
 Disable Raspbian swapfile.
 
@@ -739,7 +739,7 @@ cardano-service status
 
 Guild operators scripts has a couple useful tools for operating a pool. We do not want the project as a whole, though there are a couple scripts we are going to use.
 
-{% embed url="https://github.com/cardano-community/guild-operators/tree/master/scripts/cnode-helper-scripts" %}
+[Guild Operators Helper Scripts](https://github.com/cardano-community/guild-operators/tree/master/scripts/cnode-helper-scripts)
 
 ```bash title=">_ Terminal"
 cd $NODE_HOME/scripts
@@ -866,7 +866,7 @@ Prometheus connects to cardano-nodes backend and serves metrics over http. Grafa
 You can connect a [Telegram bot](https://docs.armada-alliance.com/learn/intermediate-guide/grafana-alerts-with-telegram) to Grafana which can alert you of problems with the server. Much easier than trying to configure email alerts.
 :::
 
-{% embed url="https://github.com/prometheus" %}
+[Prometheus Github](https://github.com/prometheus)
 
 ![](</img/pi-pool-grafana.png>)
 
@@ -954,7 +954,7 @@ sudo systemctl start prometheus.service
 
 #### Install Grafana
 
-{% embed url="https://github.com/grafana/grafana" %}
+[Grafana GitHub](https://github.com/grafana/grafana)
 
 Add Grafana's gpg key to Ubuntu.
 
@@ -1096,7 +1096,7 @@ In the left hand vertical menu go to **Configure** > **Datasources** and click t
 
 Save the dashboard json files to your local machine.
 
-{% embed url="https://github.com/armada-alliance/dashboards" %}
+[Armada Alliance Grafana Dashboards](https://github.com/armada-alliance/dashboards)
 
 In the left hand vertical menu go to **Dashboards** > **Manage** and click on **Import**. Select the file you just downloaded/created and save. Head back to **Dashboards** > **Manage** and click on your new dashboard.
 
@@ -1106,7 +1106,7 @@ In the left hand vertical menu go to **Dashboards** > **Manage** and click on **
 
 Here you can use the poolData api to bring extra pool data into Grafana like stake & price.
 
-{% embed url="https://api.pooldata.live/dashboard" %}
+[poolData API](https://api.pooldata.live/dashboard)
 
 Follow the instructions to install the Grafana plugin, configure your datasource and import the dashboard.
 
