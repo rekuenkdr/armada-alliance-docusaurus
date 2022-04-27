@@ -40,7 +40,7 @@ I followed the guide below word for word. You've already installed XCode and Hom
 Take note of the callouts for the M1 and use the references for $HOME/.bashrc not $HOME/.zshrc.
 :::
 
-{% embed url="https://developers.cardano.org/docs/get-started/installing-cardano-node#macos" %}
+[Cardano Developer Guides: Installing Cardano Node on macOS](https://developers.cardano.org/docs/get-started/installing-cardano-node#macos)
 
 ### Setup User Environment
 

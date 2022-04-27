@@ -1,5 +1,4 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
 
 # Rotate KES
 
@@ -17,10 +16,8 @@ You only need **kes.skey**, **node.cert** and **vrf.skey** on your Core node.
 
 Determine KES period by querying current slot number divided by slots per KES period found in genesis file.
 
-<Tabs>
-  <TabItem value="Core" label="Core" default>
 
-```bash title=">_ Terminal"
+```bash title="Core"
 cd $NODE_HOME
 slotNo=$(cardano-cli query tip --mainnet | jq -r '.slot')
 slotsPerKESPeriod=$(cat $NODE_FILES/mainnet-shelley-genesis.json | jq -r '.slotsPerKESPeriod')
@@ -28,32 +25,21 @@ kesPeriod=$((${slotNo} / ${slotsPerKESPeriod}))
 startKesPeriod=${kesPeriod}
 echo startKesPeriod: ${startKesPeriod}
 ```
-  </TabItem>
-</Tabs>
-
 
 Generate a new KES key pair.
 
 
-<Tabs>
-  <TabItem value="Core" label="Core" default>
-
-```bash title=">_ Terminal"
+```bash title="Core"
 cardano-cli node key-gen-KES \
   --verification-key-file kes.vkey \
   --signing-key-file kes.skey
 ```
-  </TabItem>
-</Tabs>
 
 
 Move **kes.vkey** to your **Cold Offline** machine & issue a new node.cert.
 
 
-<Tabs>
-  <TabItem value="Cold Offline" label="Cold Offline" default>
-
-```bash title=">_ Terminal"
+```bash title="Cold Offline"
 cd $NODE_HOME
 chmod u+rwx $HOME/cold-keys
 cardano-cli node issue-op-cert \
@@ -64,8 +50,7 @@ cardano-cli node issue-op-cert \
   --out-file node.cert
 chmod a-rwx $HOME/cold-keys
 ```
-  </TabItem>
-</Tabs>
+
 
 
 :::caution
@@ -77,11 +62,6 @@ The cold.counter in your cold-keys folder keeps track of how many times you have
 Move **node.cert** back to Core & restart the cardano-service.
 
 
-<Tabs>
-  <TabItem value="Core" label="Core" default>
-
-```bash title=">_ Terminal"
+```bash title="Core"
 cardano-service restart
 ```
-  </TabItem>
-</Tabs>

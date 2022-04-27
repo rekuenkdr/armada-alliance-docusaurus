@@ -3,37 +3,29 @@
 Query the chain for protocol parameters, store them in a file named params.json.
 
 
-{% tabs %}
-{% tab title="Core" %}
-
-```bash title=">_ Terminal"
+```bash title="Core"
 cd ${NODE_HOME}
 cardano-cli query protocol-parameters \
   --${CONFIG_NET} \
   --out-file $NODE_HOME/params.json
 ```
 
-{% endtab %}
-{% endtabs %}
+
 
 If you plan to edit your poolMetaData.json file do so now, run the below command and move poolMetaDataHash.txt to your cold machine. If your poolMetaData.json is not being edited head over to your cold machine.
 
-{warning}
-{% tabs %}
-{% tab title="Core" %}
 
-```bash title=">_ Terminal"
+
+```bash title="Core"
 cardano-cli stake-pool metadata-hash \
   --pool-metadata-file poolMetaData.json > poolMetaDataHash.txt
 ```
 
-{% endtab %}
-{% endtabs %}
+
 
 ## Create a new pool certificate
 
-{% tabs %}
-{% tab title="Cold Offline" %}
+
 
 :::danger
 --metadata-url must be 64 characters or less.
@@ -41,12 +33,12 @@ cardano-cli stake-pool metadata-hash \
 
  Open or create a file name registration-cert.txt. Use this file to edit the below command before you issue it. It's also handy to leave this file on the cold machine for any future edits. Below is 1,000 ada pledge, 340 cost and a 1% margin. Refer back to the core guide if you are using more than one relay.
 
- ```bash title=">_ Terminal"
+ ```bash title="Cold Offline"
  cd ${NODE_HOME}
  nano registration-cert.txt
  ```
 
-```bash title=">_ Terminal"
+```bash title="Cold Offline"
 cardano-cli stake-pool registration-certificate \
   --cold-verification-key-file ${HOME}/cold-keys/node.vkey \
   --vrf-verification-key-file vrf.vkey \
@@ -63,47 +55,41 @@ cardano-cli stake-pool registration-certificate \
   --out-file pool.cert
 ```
 
-{% endtab %}
-{% endtabs %}
+
 
 Once you are satisfied with your edits copy the command, save the file and issue it in your terminal.
 
 Issue a delegation certificate from **stake.skey** & **node.vkey**.
 
-{% tabs %}
-{% tab title="Cold Offline" %}
 
-```bash title=">_ Terminal"
+
+```bash title="Cold Offline"
 cardano-cli stake-address delegation-certificate \
   --stake-verification-key-file stake.vkey \
   --cold-verification-key-file ${HOME}/cold-keys/node.vkey \
   --out-file deleg.cert
 ```
 
-{% endtab %}
-{% endtabs %}
+
 
 Move **pool.cert**, **deleg.cert** to your online core machine.
 
 Query the current slot number or tip of the chain.
 
-{% tabs %}
-{% tab title="Core" %}
 
-```bash title=">_ Terminal"
+
+```bash title="Core"
 slotNo=$(cardano-cli query tip --${CONFIG_NET} | jq -r '.slot')
 echo slotNo: ${slotNo}
 ```
 
-{% endtab %}
-{% endtabs %}
+
 
 Query the wallets utxo history and build variables for a transaction.
 
-{% tabs %}
-{% tab title="Core" %}
 
-```bash title=">_ Terminal"
+
+```bash title="Core"
 cardano-cli query utxo --address $(cat payment.addr) --${CONFIG_NET} > fullUtxo.out
 
 tail -n +3 fullUtxo.out | sort -k3 -nr > balance.out
@@ -126,15 +112,13 @@ echo Total ADA balance: ${total_balance}
 echo Number of UTXOs: ${txcnt}
 ```
 
-{% endtab %}
-{% endtabs %}
+
 
 Build temporary **tx.tmp** to hold information while we build our raw transaction file.
 
-{% tabs %}
-{% tab title="Core" %}
 
-```bash title=">_ Terminal"
+
+```bash title="Core"
 cardano-cli transaction build-raw \
   ${tx_in} \
   --tx-out $(cat payment.addr)+${total_balance} \
@@ -145,15 +129,13 @@ cardano-cli transaction build-raw \
   --out-file tx.tmp
 ```
 
-{% endtab %}
-{% endtabs %}
+
 
 Calculate the transaction fee.
 
-{% tabs %}
-{% tab title="Core" %}
 
-```bash title=">_ Terminal"
+
+```bash title="Core"
 fee=$(cardano-cli transaction calculate-min-fee \
   --tx-body-file tx.tmp \
   --tx-in-count ${txcnt} \
@@ -165,28 +147,23 @@ fee=$(cardano-cli transaction calculate-min-fee \
   echo fee: ${fee}
 ```
 
-{% endtab %}
-{% endtabs %}
+
 
 Calculate output that comes back to you (change).
 
-{% tabs %}
-{% tab title="Core" %}
 
-```bash title=">_ Terminal"
+```bash title="Core"
 txOut=$((${total_balance}-${fee}))
 echo txOut: ${txOut}
 ```
 
-{% endtab %}
-{% endtabs %}
+
 
 Build your **tx.raw** (unsigned) transaction file.
 
-{% tabs %}
-{% tab title="Core" %}
 
-```bash title=">_ Terminal"
+
+```bash title="Core"
 cardano-cli transaction build-raw \
   ${tx_in} \
   --tx-out $(cat payment.addr)+${txOut} \
@@ -197,17 +174,15 @@ cardano-cli transaction build-raw \
   --out-file tx.raw
 ```
 
-{% endtab %}
-{% endtabs %}
+
 
 Move **tx.raw** to your cold offline machine.
 
 Sign the transaction with your **payment.skey**, **node.skey** & **stake.skey**.
 
-{% tabs %}
-{% tab title="Cold Offline" %}
 
-```bash title=">_ Terminal"
+
+```bash title="Cold Offline"
 cardano-cli transaction sign \
   --tx-body-file tx.raw \
   --signing-key-file payment.skey \
@@ -217,21 +192,15 @@ cardano-cli transaction sign \
   --out-file tx.signed
 ```
 
-{% endtab %}
-{% endtabs %}
 
 Move **tx.signed** back to your core node & submit the transaction to the blockchain.
 
-{% tabs %}
-{% tab title="Core" %}
 
-```bash title=">_ Terminal"
+```bash title="Core"
 cardano-cli transaction submit \
   --tx-file tx.signed \
   --${CONFIG_NET}
 ```
 
-{% endtab %}
-{% endtabs %}
 
 If you lower your pledge you need to wait two epochs before you can remove the ada or your pledge will show as unmet and you will be assigned and forge blocks but neither you nor your delegators will be paid.
