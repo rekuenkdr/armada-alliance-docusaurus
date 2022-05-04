@@ -5,11 +5,13 @@
 * This guide is intended to show Raspberry-pi/ARM users how to use the Cardano Submit API with their own running Cardano node to watch for successful transaction submissions while using Nami wallet.
 
 :::caution
+
 In order to follow this guide you need:
 
 1. A raspberry pi 4 or other arm64 based computer
 2. Your computer must already have the Cardano Node software actively running and synced to the blockchain
 3. You need to install the Nami Wallet google chrome extension from the google app store.
+
 :::
 
 ## Download and Install Cardano Submit API
@@ -52,7 +54,9 @@ cardano-submit-api \
 ```
 
 :::caution
+
 **Before** you save and exit you need to make sure you have entered the correct **full path** to your Cardano node's `socket` and `tx-submit-mainnet-config.yaml file` because it will be different.
+
 :::
 
 
@@ -92,10 +96,12 @@ You should see the following output in your terminal:
 Now you just need to connect the Cardano Submit API with Nami Wallet. Open your browser with your Nami wallet navigate to settings, select network, switch on custom node mode, then enter in `http://localhost:8090/api/submit/tx`.
 
 :::caution
+
 _**If you are using a local network node (i.e. a node running at home in your local network) then you need to enter**** ****`http://x.x.x.x:8090/api/submit/tx`**** ****and replace the**** ****`x.x.x.x`**** ****with the IP address of your local network node.**_
+
 :::
 
-{% embed url="https://www.youtube.com/watch?v=23SDU4dcJr0" %}
+<iframe width="100%" height="450" src="https://www.youtube.com/embed/23SDU4dcJr0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Test the Cardano Submit API with Nami Wallet
 
