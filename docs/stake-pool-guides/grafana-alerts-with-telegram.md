@@ -67,8 +67,4 @@ Grafana Alerts are only available for 'time series' & 'graph (old)' type panels,
 
 I am currently working on an alerts dashboard that can be added to Grafana and will add it to the dashboards repo when it is ready. Please feel free to share your dashboard with the alliance.
 
-:::tip Collection of Armada Alliance Dashboards
-
-[https://github.com/armada-alliance/dashboards](https://github.com/armada-alliance/dashboards)
-
-:::
+[Collection of Armada Alliance Dashboards](https://github.com/armada-alliance/dashboards)

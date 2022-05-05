@@ -124,7 +124,7 @@ module.exports = {
       },
       items: [
         'cardano-developer-guides/nft-native-assets',
-        //'cardano-developer-guides/cardano-nft-collection-tutorial-coming-soon', // Deprecated - Needs update
+        'cardano-developer-guides/cardano-nft-collection-tutorial-coming-soon',
         'cardano-developer-guides/cardano-submit-tx-api-tutorial',
         'cardano-developer-guides/create-.img-file',
         'cardano-developer-guides/how-to-delegate-ada'
@@ -140,8 +140,8 @@ module.exports = {
         keywords: ['resources'],
       },
       items: [
-        'before-you-get-started/library',
-        'before-you-get-started/hardware',
+        'before-you-get-started.../library',
+        'before-you-get-started.../hardware',
         'delegate',
         {
           type: 'category',
@@ -153,9 +153,9 @@ module.exports = {
             keywords: ['contribute'],
           },
           items:[
-            'how-to-contribute/README',
-            'how-to-contribute/style-guide',
-            'how-to-contribute/code-of-conduct'
+            'how-to-contribute/untitled-1/README',
+            'how-to-contribute/untitled-1/style-guide',
+            'how-to-contribute/untitled-1/code-of-conduct'
           ]
         }
       ],
