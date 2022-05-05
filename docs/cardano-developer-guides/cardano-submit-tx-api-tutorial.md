@@ -107,7 +107,7 @@ _**If you are using a local network node (i.e. a node running at home in your lo
 
 :::
 
-{% embed url="https://www.youtube.com/watch?v=23SDU4dcJr0" %}
+<iframe width="100%" height="450" src="https://www.youtube.com/embed/23SDU4dcJr0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Test the Cardano Submit API with Nami Wallet
 

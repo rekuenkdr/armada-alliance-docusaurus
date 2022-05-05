@@ -28,7 +28,7 @@ Default credentials = **ada:lovelace**
 
 :::caution
 
-Check which version of cardano-node is on the image. Follow the static build upgrade instructions to upgrade. [static-build.md](../updating-a-cardano-node/static-build.mdx "mention")
+Check which version of cardano-node is on the image. Follow the static build upgrade instructions to upgrade. [static-build.mdx](../updating-a-cardano-node/static-build.mdx)
 
 :::
 
