@@ -965,15 +965,3 @@ In Grafana find the 'pacman_upgrades_pending' metric. It will not be available u
 [custom-metrics](https://nsrc.org/workshops/2021/sanog37/nmm/netmgmt/en/prometheus/ex-custom-metrics.htm)
 
 [arch prometheus monitoring](https://vdwaa.nl/arch-prometheus-monitoring.html)
-
-
-
-
-
-
-
-
-
-
-
-

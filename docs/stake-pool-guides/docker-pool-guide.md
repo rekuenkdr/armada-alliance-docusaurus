@@ -2,7 +2,7 @@
 description: Running a Cardano full node with a Docker image
 ---
 
-# Cardano Node Docker Image (for ARM64 devices)
+# Cardano Node Docker Image for ARM64 devices 🐳
 
 In this project you will find the files to build a docker image on Linux containing all the needed files to run a Cardano full node.
 The docker image can run on any arm64 device (such as a RaspberryPi, Mac Mini M1, etc.). The node can be configured as a relay or block production node.
@@ -23,10 +23,10 @@ operating system where Docker is installed. Using Docker reduces the complexity 
 * Additional Software: Docker
 * Broadband: 10 Mbps +
 
-:::info
+:::tip
 
 If you intend to use a Raspberry Pi 8GB RAM for the deployment of this docker image, please follow our [Server Setup guide](https://docs.armada-alliance.com/learn/stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/server-setup) first. 
-This guide describes how to optimize the Hardware to satisfy the above listed system requirements.
+This guide describes how to optimize the Hardware to satisfy the above listed system requirements. 
 
 :::
 
@@ -69,14 +69,14 @@ sudo chmod +x run-node.sh
 
 Download the latest official Cardano node configuration files from the IOHK repository and store them on our host system.
 
-:::info
+:::tip
 
 For the sake of this tutorial we will download and set up the configuration files for the Cardano testnet. If you need the files for the mainnet
 just replace "testnet" with "mainnet" here below.
 
 :::
 
-:::info
+:::tip
 
 As the configuration files might require modifications over time, it is way more practical to have them stored on the host, 
 rather than have them stored inside the Docker container. Our Cardano Docker node will have access to these files from the container. 
@@ -95,7 +95,7 @@ sudo wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CON
 sudo wget -O tx-submit-mainnet-config.yaml https://raw.githubusercontent.com/input-output-hk/cardano-node/master/cardano-submit-api/config/tx-submit-mainnet-config.yaml
 ```
 
-:::info
+:::tip
 
 The directory /files contains the downloaded Cardano node configuration files.
 
@@ -113,7 +113,6 @@ At this point it's time to build the docker image. The image will include:
 2. gLiveView - Monitoring tool for the Cardano node
 3. ScheduledBlocks - Tool to query the scheduled slots for a block production node. (Credits for this tool goes to [SNAKE POOL](https://github.com/asnakep/ScheduledBlocks))
 4. Cardano Submit Transaction API - API to connect with a Cardano wallet (e.g. Nami) to send transactions via your own full node
-
 
 ```bash title=">_ Terminal"
 cd ${HOME}/Cardano-node-docker/dockerfiles
@@ -152,7 +151,7 @@ sudo nano run-node.sh
 
 Edit the configuration section according to your setup.
 
-:::info
+:::tip
 
 If you are running the node as relay node, you can ignore the paramter CN_KEY_PATH.
 
@@ -160,7 +159,7 @@ If you are running the node as relay node, you can ignore the paramter CN_KEY_PA
 
 :::caution
 
-Important: Change the directory paths CN_CONFIG_PATH and CN_DB_PATH to the corresponding locations on your host.
+Important: Change the directory paths CN_CONFIG_PATH and CN_DB_PATH to the corresponding locations on your host. 
 
 :::
 
@@ -204,7 +203,7 @@ If the docker node started successfully, you might see something like this:
 
 ```bash title=">_ Terminal"
 CONTAINER ID   IMAGE                     COMMAND                  CREATED          STATUS                    PORTS                                                                                      NAMES
-fed0cfbf7d86   armada/armada-cn:1.34.1   "bash -c /home/carda…"   12 seconds ago   Up 10 seconds (healthy)   0.0.0.0:3001->3001/tcp, :::3001->3001/tcp, 0.0.0.0:12799->12798/tcp, :::12799->12798/tcp   cardano-node-testnet-1.34.1
+fed0cfbf7d86   armada/armada-cn:1.34.1   "bash title=">_ Terminal" -c /home/carda…"   12 seconds ago   Up 10 seconds (healthy)   0.0.0.0:3001->3001/tcp, :::3001->3001/tcp, 0.0.0.0:12799->12798/tcp, :::12799->12798/tcp   cardano-node-testnet-1.34.1
 ```
 
 You can also check the logs of the running cardano-node:
@@ -273,6 +272,10 @@ docker exec -it {CONTAINER ID} python3 /home/cardano/pi-pool/scripts/ScheduledBl
 
 :::caution
 
+# Run node in P2P (peer-to-peer) mode
+
+:::caution
+
 Although P2P can be enabled on Node version 1.34.1, IOHK does not yet recommend using it because it has not yet been officially released.
 
 :::
@@ -288,7 +291,7 @@ To configure P2P on a relay node, we need to make some changes in the *-topology
 cd ${HOME}/Cardano-node-docker/node/files
 sed -i 's+"TurnOnLogging": true,+"TurnOnLogging": true,\n  "TestEnableDevelopmentNetworkProtocols": true,\n  "EnableP2P": true,\n  "MaxConcurrencyBulkSync": 2,\n  "MaxConcurrencyDeadline": 4,\n  "TargetNumberOfRootPeers": 50,\n  "TargetNumberOfKnownPeers": 50,\n  "TargetNumberOfEstablishedPeers": 25,\n  "TargetNumberOfActivePeers": 10,+' *-config.json
 ```
-
+ 
 Open the *-topology.json file with the nano editor and replace the entire content with:
 
 ```bash title=">_ Terminal"
