@@ -124,7 +124,7 @@ module.exports = {
       },
       items: [
         'cardano-developer-guides/nft-native-assets',
-        'cardano-developer-guides/cardano-nft-collection-tutorial-coming-soon',
+        //'cardano-developer-guides/cardano-nft-collection-tutorial-coming-soon', // Deprecated - Needs update
         'cardano-developer-guides/cardano-submit-tx-api-tutorial',
         'cardano-developer-guides/create-.img-file',
         'cardano-developer-guides/how-to-delegate-ada'
