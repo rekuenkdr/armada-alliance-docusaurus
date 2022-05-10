@@ -153,11 +153,15 @@ sudo nano run-node.sh
 Edit the configuration section according to your setup.
 
 :::info
+
 If you are running the node as relay node, you can ignore the paramter CN_KEY_PATH.
+
 :::
 
 :::caution
-Important: Change the directory paths CN_CONFIG_PATH and CN_DB_PATH to the corresponding locations on your host. 
+
+Important: Change the directory paths CN_CONFIG_PATH and CN_DB_PATH to the corresponding locations on your host.
+
 :::
 
 ```bash title=">_ Terminal"
@@ -280,20 +284,20 @@ The P2P networking doesn't require the configuration of a static network topolog
 
 To configure P2P on a relay node, we need to make some changes in the *-topology.json and *-config.json files:
 
-```bash
+```bash title=">_ Terminal"
 cd ${HOME}/Cardano-node-docker/node/files
 sed -i 's+"TurnOnLogging": true,+"TurnOnLogging": true,\n  "TestEnableDevelopmentNetworkProtocols": true,\n  "EnableP2P": true,\n  "MaxConcurrencyBulkSync": 2,\n  "MaxConcurrencyDeadline": 4,\n  "TargetNumberOfRootPeers": 50,\n  "TargetNumberOfKnownPeers": 50,\n  "TargetNumberOfEstablishedPeers": 25,\n  "TargetNumberOfActivePeers": 10,+' *-config.json
 ```
 
 Open the *-topology.json file with the nano editor and replace the entire content with:
 
-```bash
+```bash title=">_ Terminal"
 sudo nano testnet-topology.json  ##use mainnet-topology.json for mainnet
 ```
 
 Don't forget to enter the IP and Port of your block production node in the respective lines below:
 
-```bash
+```bash title=">_ Terminal"
 {
   "LocalRoots": {
     "groups": [
@@ -331,7 +335,7 @@ Don't forget to enter the IP and Port of your block production node in the respe
 
 To configure P2P on the block production node, the steps are the same as above, only the content of the *-topology.json is different:
 
-```bash
+```bash title=">_ Terminal"
 {
   "LocalRoots": {
     "groups": [
