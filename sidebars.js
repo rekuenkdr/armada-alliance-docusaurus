@@ -140,8 +140,6 @@ module.exports = {
         keywords: ['resources'],
       },
       items: [
-        'before-you-get-started.../library',
-        'before-you-get-started.../hardware',
         'delegate',
         {
           type: 'category',

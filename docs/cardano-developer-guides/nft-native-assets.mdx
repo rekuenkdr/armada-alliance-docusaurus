@@ -52,9 +52,9 @@ cardano-cli version; cardano-node version
 Your output should look like this 👇
 
 ```bash title=">_ Terminal"
-cardano-cli 1.30.1 - linux-aarch64 - ghc-8.10
+cardano-cli 1.34.1 - linux-aarch64 - ghc-8.10
 git rev 0000000000000000000000000000000000000000
-cardano-node 1.30.1 - linux-aarch64 - ghc-8.10
+cardano-node 1.34.1 - linux-aarch64 - ghc-8.10
 git rev 0000000000000000000000000000000000000000
 ```
 
@@ -66,7 +66,7 @@ node -v
 ```
 
 ```bash title=">_ Terminal"
-v14.18.1
+v14.19.0
 ```
 
 #### Video Walk-through:
@@ -160,30 +160,50 @@ If you are using testnet make sure you have the correct testnet-magic version nu
 <TabItem value="testnet" label="TESTNET">
 
 ```javascript title="src/cardano.js"
-const Cardano = require("cardanocli-js");
+const CardanocliJs = require("cardanocli-js");
+const os = require("os");
+const path = require("path");
 
-const cardano = new Cardano({
-  network: "testnet-magic 1097911063",
-  dir: __dirname + "/../",
-  shelleyGenesisPath: __dirname + "/../testnet-shelley-genesis.json",
+const dir = path.join(os.homedir(), "cardano-minter");
+const shelleyPath = path.join(
+  os.homedir(),
+  "pi-pool/files",
+  "testnet-shelley-genesis.json"
+);
+
+const cardanocliJs = new CardanocliJs({
+//   era: "mary",
+  network: 'testnet-magic 1097911063',
+  dir,
+  shelleyGenesisPath: shelleyPath,
 });
 
-module.exports = cardano;
+module.exports = cardanocliJs
 ```
 
 </TabItem>
 <TabItem value="mainnet" label="MAINNET">
 
 ```javascript title="src/cardano.js"
-const Cardano = require("cardanocli-js");
+const CardanocliJs = require("cardanocli-js");
+const os = require("os");
+const path = require("path");
 
-const cardano = new Cardano({
-  network: "mainnet",
-  dir: __dirname + "/../",
-  shelleyGenesisPath: __dirname + "/../mainnet-shelley-genesis.json",
+const dir = path.join(os.homedir(), "cardano-minter");
+const shelleyPath = path.join(
+  os.homedir(),
+  "pi-pool/files",
+  "mainnet-shelley-genesis.json"
+);
+
+const cardanocliJs = new CardanocliJs({
+//   era: "mary",
+  network: 'mainnet',
+  dir,
+  shelleyGenesisPath: shelleyPath,
 });
 
-module.exports = cardano;
+module.exports = cardanocliJs
 ```
 
 </TabItem>
@@ -216,13 +236,10 @@ nano create-wallet.js
 const cardano = require("./cardano");
 
 const createWallet = (account) => {
-  const payment = cardano.addressKeyGen(account);
-  const stake = cardano.stakeAddressKeyGen(account);
+  cardano.addressKeyGen(account);
+  cardano.stakeAddressKeyGen(account);
   cardano.stakeAddressBuild(account);
-  cardano.addressBuild(account, {
-    paymentVkey: payment.vkey,
-    stakeVkey: stake.vkey,
-  });
+  cardano.addressBuild(account);
   return cardano.wallet(account);
 };
 
@@ -327,99 +344,113 @@ nano mint-asset.js
 ```
 
 ```javascript title="src/mint-asset.js"
-const cardano = require("./cardano");
+const cardano = require("./cardano")
 
 // 1. Get the wallet
 
-const wallet = cardano.wallet("ADAPI");
+const wallet = cardano.wallet("ADAPI")
 
 // 2. Define mint script
 
 const mintScript = {
-  keyHash: cardano.addressKeyHash(wallet.name),
-  type: "sig",
-};
+    keyHash: cardano.addressKeyHash(wallet.name),
+    type: "sig"
+}
 
 // 3. Create POLICY_ID
 
-const POLICY_ID = cardano.transactionPolicyid(mintScript);
+const POLICY_ID = cardano.transactionPolicyid(mintScript)
 
 // 4. Define ASSET_NAME
 
-const ASSET_NAME = "BerrySpaceGreen";
+const ASSET_NAME = "TimeWarpBerry"
+
+// Convert Asset ASCII name to HEX
+
+const ASSET_NAME_HEX = ASSET_NAME.split("").map(c => c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
+
 
 // 5. Create ASSET_ID
 
-const ASSET_ID = POLICY_ID + "." + ASSET_NAME;
+const ASSET_ID = POLICY_ID + "." + ASSET_NAME_HEX
 
 // 6. Define metadata
 
 const metadata = {
-  721: {
-    [POLICY_ID]: {
-      [ASSET_NAME]: {
-        name: ASSET_NAME,
-        image: "ipfs://QmQqzMTavQgT4f4T5v6PWBp7XNKtoPmC9jvn12WPT3gkSE",
-        description: "Super Fancy Berry Space Green NFT",
-        type: "image/png",
-        src: "ipfs://Qmaou5UzxPmPKVVTM9GzXPrDufP55EDZCtQmpy3T64ab9N",
-        // other properties of your choice
-        authors: ["PIADA", "SBLYR"],
-      },
-    },
-  },
-};
+    721: {
+        [POLICY_ID]: {
+            [ASSET_NAME]: {
+                name: ASSET_NAME,
+                image: "ipfs://QmUxRuzTi3UZS33rfqXzbD4Heut7zwtGUhuD7qSv7Qt584",
+                description: "Time Warp Berry NFT",
+                type: "image/png",
+                src: "ipfs://QmUxRuzTi3UZS33rfqXzbD4Heut7zwtGUhuD7qSv7Qt584",
+                // other properties of your choice
+                authors: ["PIADA", "SBLYR"]
+            }
+        }
+    }
+}
 
 // 7. Define transaction
 
 const tx = {
-  txIn: wallet.balance().utxo,
-  txOut: [
-    {
-      address: wallet.paymentAddr,
-      value: { ...wallet.balance().value, [ASSET_ID]: 1 },
-    },
-  ],
-  mint: {
-    actions: [{ type: "mint", quantity: 1, asset: ASSET_ID }],
-    script: [mintScript],
-  },
-  metadata,
-  witnessCount: 2,
-};
+    txIn: wallet.balance().utxo,
+    txOut: [
+        {
+            address: wallet.paymentAddr,
+            value: { ...wallet.balance().value, [ASSET_ID]: 1 }
+        }
+    ],
+    mint: [
+        { action: "mint", quantity: 1, asset: ASSET_ID, script: mintScript },
+      ],
+    metadata,
+    witnessCount: 2
+}
+
+
+
+if(Object.keys(tx.txOut[0].value).includes("undefined")|| Object.keys(tx.txIn[0].value.includes("undefinded"))){
+    delete tx.txOut[0].value.undefined
+    delete tx.txIn[0].value.undefined
+}
 
 // 8. Build transaction
 
 const buildTransaction = (tx) => {
-  const raw = cardano.transactionBuildRaw(tx);
-  const fee = cardano.transactionCalculateMinFee({
-    ...tx,
-    txBody: raw,
-  });
 
-  tx.txOut[0].value.lovelace -= fee;
+    const raw = cardano.transactionBuildRaw(tx)
+    const fee = cardano.transactionCalculateMinFee({
+        ...tx,
+        txBody: raw
+    })
 
-  return cardano.transactionBuildRaw({ ...tx, fee });
-};
+    tx.txOut[0].value.lovelace -= fee
 
-const raw = buildTransaction(tx);
+    return cardano.transactionBuildRaw({ ...tx, fee })
+}
+
+console.log(tx)
+const raw = buildTransaction(tx)
 
 // 9. Sign transaction
 
 const signTransaction = (wallet, tx) => {
-  return cardano.transactionSign({
-    signingKeys: [wallet.payment.skey, wallet.payment.skey],
-    txBody: tx,
-  });
-};
 
-const signed = signTransaction(wallet, raw);
+    return cardano.transactionSign({
+        signingKeys: [wallet.payment.skey, wallet.payment.skey ],
+        txBody: tx
+    })
+}
+
+const signed = signTransaction(wallet, raw)
 
 // 10. Submit transaction
 
-const txHash = cardano.transactionSubmit(signed);
+const txHash = cardano.transactionSubmit(signed)
 
-console.log(txHash);
+console.log(txHash)
 ```
 
 - **Run the minting script, then wait a few moments to check the balance in our wallet**
@@ -465,44 +496,45 @@ There are few main parts we have to this script in order to send the asset:
 const cardano = require("./cardano");
 
 // 1. get the wallet
+// 2. define the transaction
+// 3. build the transaction
+// 4. calculate the fee
+// 5. pay the fee by subtracting it from the sender utxo
+// 6. build the final transaction
+// 7. sign the transaction
+// 8. submit the transaction
 
 const sender = cardano.wallet("ADAPI");
 
-// 2. define the transaction
-
 console.log(
   "Balance of Sender wallet: " +
-    cardano.toAda(sender.balance().value.lovelace) +
+    cardano.toAda(sender.balance().amount.lovelace) +
     " ADA"
 );
 
 const receiver =
-  "addr1qym6pxg9q4ussr96c9e6xjdf2ajjdmwyjknwculadjya488pqap23lgmrz38glvuz8qlzdxyarygwgu3knznwhnrq92q0t2dv0";
+  "addr_test1qqqydvg5wzd6twvernsjcdjd9akmygyqp7gky7zpm0hrmq3ccwlnumzzuum6k6ja2k47g5dv2p4kwt753mpjjzx8fsmsq2aj0p";
 
 const txInfo = {
   txIn: cardano.queryUtxo(sender.paymentAddr),
   txOut: [
     {
       address: sender.paymentAddr,
-      value: {
-        lovelace: sender.balance().value.lovelace - cardano.toLovelace(1.5),
+      amount: {
+        lovelace: sender.balance().amount.lovelace - cardano.toLovelace(1.5),
       },
     },
     {
       address: receiver,
-      value: {
+      amount: {
         lovelace: cardano.toLovelace(1.5),
-        "ad9c09fa0a62ee42fb9555ef7d7d58e782fa74687a23b62caf3a8025.BerrySpaceGreen": 1,
+       "9e57c3a4aa769063ab4963e3e2fc18aeafb6808b3adbc3f1670a9c00.54696d65576172704265727279": 1,
       },
     },
   ],
 };
 
-// 3. build the transaction
-
 const raw = cardano.transactionBuildRaw(txInfo);
-
-// 4. calculate the fee
 
 const fee = cardano.transactionCalculateMinFee({
   ...txInfo,
@@ -510,26 +542,21 @@ const fee = cardano.transactionCalculateMinFee({
   witnessCount: 1,
 });
 
-// 5. pay the fee by subtracting it from the sender utxo
+//pay the fee by subtracting it from the sender utxo
+txInfo.txOut[0].amount.lovelace -= fee;
 
-txInfo.txOut[0].value.lovelace -= fee;
-
-// 6. build the final transaction
-
+//create final transaction
 const tx = cardano.transactionBuildRaw({ ...txInfo, fee });
 
-// 7. sign the transaction
-
+//sign the transaction
 const txSigned = cardano.transactionSign({
   txBody: tx,
   signingKeys: [sender.payment.skey],
 });
 
-// 8. submit the transaction
-
+//subm transaction
 const txHash = cardano.transactionSubmit(txSigned);
-
-console.log(txHash);
+console.log("TxHash: " + txHash);
 ```
 
 ```bash title=">_ Terminal"
