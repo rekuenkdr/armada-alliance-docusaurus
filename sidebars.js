@@ -151,9 +151,9 @@ module.exports = {
             keywords: ['contribute'],
           },
           items:[
-            'how-to-contribute/untitled-1/README',
-            'how-to-contribute/untitled-1/style-guide',
-            'how-to-contribute/untitled-1/code-of-conduct'
+            'how-to-contribute/README',
+            'how-to-contribute/style-guide',
+            'how-to-contribute/code-of-conduct'
           ]
         }
       ],
