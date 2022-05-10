@@ -92,7 +92,7 @@ cat /etc/security/limits.conf
 If you would like to disable ipv6 or turn on forwarding you can below.
 :::
 
-Add the following to the bottom of /etc/sysctl.conf. Save and exit.
+Add the following to the bottom of /etc/sysctl.d/99-sysctl.conf. Save and exit.
 
 ```bash title=">_ Terminal"
 sudo nano /etc/sysctl.conf

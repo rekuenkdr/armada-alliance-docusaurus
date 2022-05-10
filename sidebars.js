@@ -132,16 +132,14 @@ module.exports = {
     },
     {
       type: 'category',
-      label: 'Resources',
+      label: 'How to Contribute',
       link:{
         type: 'generated-index',
-        title: 'Resources',
-        slug: '/resources/',
-        keywords: ['resources'],
+        title: 'Contributing to our Guides',
+        slug: '/contribute/',
+        keywords: ['contribute'],
       },
       items: [
-        'before-you-get-started/library',
-        'before-you-get-started/hardware',
         'delegate',
         {
           type: 'category',
@@ -153,7 +151,7 @@ module.exports = {
             keywords: ['contribute'],
           },
           items:[
-            'how-to-contribute/README',
+            'how-to-contribute/contributing-guide',
             'how-to-contribute/style-guide',
             'how-to-contribute/code-of-conduct'
           ]
