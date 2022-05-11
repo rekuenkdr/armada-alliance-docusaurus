@@ -39,14 +39,6 @@
     "message": "Other Cardano Guides",
     "description": "The generated-index page title for category Other Cardano Guides in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.Resources": {
-    "message": "Resources",
-    "description": "The label for category Resources in sidebar tutorialSidebar"
-  },
-  "sidebar.tutorialSidebar.category.Resources.link.generated-index.title": {
-    "message": "Resources",
-    "description": "The generated-index page title for category Resources in sidebar tutorialSidebar"
-  },
   "sidebar.tutorialSidebar.category.Contribute 🐱‍🚀": {
     "message": "Contribute 🐱‍🚀",
     "description": "The label for category Contribute 🐱‍🚀 in sidebar tutorialSidebar"
@@ -58,5 +50,13 @@
   "sidebar.tutorialSidebar.category.Pi-Node Full-Guide (Ubuntu Server).link.generated-index.title": {
     "message": "Pi-Node Full-Guide (Ubuntu Server)",
     "description": "The generated-index page title for category Pi-Node Full-Guide (Ubuntu Server) in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.How to Contribute": {
+    "message": "How to Contribute",
+    "description": "The label for category How to Contribute in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.How to Contribute.link.generated-index.title": {
+    "message": "Contributing to our Guides",
+    "description": "The generated-index page title for category How to Contribute in sidebar tutorialSidebar"
   }
 }

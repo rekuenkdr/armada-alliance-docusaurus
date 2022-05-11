@@ -11,7 +11,7 @@ module.exports = {
   projectName: 'armada-alliance-docusaurus', // Change this to your repo name.
   i18n: {  // We are using crowdin to translate the site https://docusaurus.io/docs/i18n/crowdin
     defaultLocale: 'en',
-    locales: ['en', 'es', 'fi'], // Add locales, run locales and translate https://docusaurus.io/docs/i18n/tutorial
+    locales: ['en'], // Add locales, run locales and translate https://docusaurus.io/docs/i18n/tutorial
   },
   themeConfig: {
     prism: {
