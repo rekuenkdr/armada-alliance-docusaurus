@@ -145,7 +145,7 @@ The **unofficial** cardano-node, cardano-cli and cardano-submit-api binaries ava
 
 ```bash title=">_ Terminal"
 cd ${HOME}/tmp
-wget https://ci.zw3rk.com/build/430108/download/1/aarch64-unknown-linux-musl-cardano-node-1.33.1.zip
+wget https://ci.zw3rk.com/build/434354/download/1/aarch64-unknown-linux-musl-cardano-node-73f9a746362695dc2cb63ba757fbcabb81733d23.zip
 unzip *.zip
 mv cardano-node/cardano-* ${HOME}/.local/bin
 rm -r cardano*
@@ -630,13 +630,14 @@ sudo systemctl start prometheus.service
 Add Grafana's gpg key to Ubuntu.
 
 ```bash title=">_ Terminal"
-wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+sudo su
+wget -O- https://packages.grafana.com/gpg.key | gpg --dearmor | sudo tee /usr/share/keyrings/grafana-archive-keyring.gpg
 ```
 
 Add latest stable repo to apt sources.
 
 ```bash title=">_ Terminal"
-echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+echo "deb [arch=arm64 signed-by=/usr/share/keyrings/grafana-archive-keyring.gpg] https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
 ```
 
 Update your package lists & install Grafana.

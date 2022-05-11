@@ -14,6 +14,12 @@ In order to follow this guide you need:
 
 :::
 
+:::caution
+
+If you've set up your node using our [docker image guide](https://docs.armada-alliance.com/learn/stake-pool-guides/docker-pool-guide), you can skip the first part of this guide and jump directly to chapter **Connect the Cardano Submit API with Nami Wallet** below, because the docker image already includes the tx-submit-service.
+
+:::
+
 ## Download and Install Cardano Submit API
 
 Download the latest version of the Cardano node, cli, and tx-submit-api from the [Armada Alliance Github repository](https://github.com/armada-alliance/cardano-node-binaries).
@@ -101,7 +107,15 @@ _**If you are using a local network node (i.e. a node running at home in your lo
 
 :::
 
-<iframe width="100%" height="450" src="https://www.youtube.com/embed/23SDU4dcJr0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe 
+width="100%" 
+height="450"
+src="https://www.youtube.com/embed/23SDU4dcJr0" 
+title="YouTube video player" 
+frameborder="0" 
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+allowfullscreen>
+</iframe>
 
 ## Test the Cardano Submit API with Nami Wallet
 

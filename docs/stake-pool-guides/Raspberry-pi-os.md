@@ -10,8 +10,11 @@ description: Raspberry Pi OS Cardano Stakepool
 
 This guide is intended for people who wants to get a Raspberry-pi 4 with full desktop Raspberry Pi OS installed along with all the required software to get a Cardano Node up and running on the blockchain. This can be a nice setup for those seeking to just do some lightweight develerpment on the blockchain like making NFTs for example.
 
+
 :::caution
+
 **You'll need a monitor (at least for initial setup as SSH is disabled and ufw is up) and you must use the Raspberry Pi 4 with 8GB of RAM!**
+
 :::
 
 ## Download & Flash
@@ -32,14 +35,20 @@ You can find documentation here [https://www.raspberrypi.com/documentation/](htt
 
 Insert the SSD into one of the blue usb3 ports. Then insert the HDMI, Keyboard, Mouse, Ethernet, and power supply.
 
+
 :::caution
+
 The first Pi4's to ship did not boot from USB3 by default, nowadays they do. If your image does not boot the two most common issues are older firmware on your Pi or an incompatible USB3 adaptor.
+
 :::
 
 ![](</img/pi4-usb.jpeg>)
 
+
 :::info
+
 All we really need to do here is disable auto-login & create the ada user with sudo privileges. After we log back in we will delete the default Pi user and configure the server & environment for cardano-node & cardano-cli.
+
 :::
 
 ![Open the Raspberry Pi Configuration utility.](/img/raspberrypi-configuration.png)
@@ -70,8 +79,11 @@ You can change the users password at anytime with the following command.
 passwd
 ```
 
+
 :::caution
+
 Careful where you use sudo. For example issuing 'sudo passwd' would change the root password. This seems to be a place where new users get confused.
+
 :::
 
 #### Delete the pi user
@@ -158,11 +170,13 @@ cat /etc/security/limits.conf
 
 #### Optimize performance & security
 
+
 :::info
 
 [https://gist.github.com/lokhman/cc716d2e2d373dd696b2d9264c0287a3](https://gist.github.com/lokhman/cc716d2e2d373dd696b2d9264c0287a3)
 
 :::
+
 
 :::caution
 
@@ -311,8 +325,11 @@ sudo service chrony restart
 
 #### Zram swap
 
+
 :::info
+
 We have found that cardano-node can safely use this compressed swap in ram essentially giving us around 20gb of ram. We already set kernel parameters for zram in /etc/sysctl.conf
+
 :::
 
 Swapping to disk is slow, swapping to compressed ram space is faster and gives us some overhead before out of memory (oom).
@@ -397,8 +414,11 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 
 ### Choose testnet or mainnet.
 
+
 :::danger
+
 There is a 500 ₳ Registration deposit and another 5 ₳ in registration costs to start a pool on mainnet. First time users are strongly reccomended to use testnet. You can get tada (test ada) from the testnet faucet. [tada faucet link](https://testnets.cardano.org/en/testnets/cardano/tools/faucet/)
+
 :::
 
 Create the directories for our project.
@@ -420,12 +440,18 @@ echo -e NODE_CONFIG=testnet >> ${HOME}/.adaenv; source ${HOME}/.adaenv
 
 #### Create bash variables & add \~/.local/bin to our $PATH 🏃
 
+
 :::info
+
 [Environment Variables in Linux/Unix](https://askubuntu.com/questions/247738/why-is-etc-profile-not-invoked-for-non-login-shells/247769#247769).
+
 :::
 
+
 :::caution
+
 You must reload environment files after updating them. Same goes for cardano-node, changes to the topology or config files require a cardano-service restart.
+
 :::
 
 ```bash title=">_ Terminal"
@@ -491,6 +517,7 @@ sed -i ${NODE_CONFIG}-config.json \
     -e "s/127.0.0.1/0.0.0.0/g"
 ```
 
+
 :::info
 
 **Tip for relay nodes**: It's possible to reduce memory and cpu usage by setting "TraceMemPool" to "false" in **{NODE\_CONFIG}-config.json.** This will turn off mempool data in Grafana and gLiveView.sh.
@@ -498,6 +525,7 @@ sed -i ${NODE_CONFIG}-config.json \
 :::
 
 #### Retrieve aarch64 1.33.1 and cardano-submit-api binaries
+
 
 :::info
 
@@ -513,6 +541,7 @@ mv cardano-node/cardano-* ${HOME}/.local/bin
 rm -r *
 cd ${HOME}
 ```
+
 
 :::caution
 
@@ -623,7 +652,7 @@ sudo nano /etc/systemd/system/cardano-submit.service
 
 Paste the following, You will need to edit the username here if you chose to not use ada. save & exit.
 
-```bash title="/etc/systemd/system/cardano-submit.service"
+```bash title=">_ Terminal"
 # The Cardano Submit Service (part of systemd)
 # file: /etc/systemd/system/cardano-submit.service
 
@@ -757,17 +786,18 @@ wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/
 wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/gLiveView.sh
 ```
 
+
 :::info
 
 You can change the port cardano-node runs on in the .adaenv file in your home directory. Open the file edit the port number. Load the change into your shell & restart the cardano-node service.
-
-:::
 
 ```bash title=">_ Terminal"
 nano /home/ada/.adaenv
 source /home/ada/.adaenv
 cardano-service restart
 ```
+
+:::
 
 Add a line sourcing our .adaenv file to the top of the env file and adjust some paths.
 
@@ -790,6 +820,7 @@ chmod +x gLiveView.sh
 ### topologyUpdater.sh
 
 Until peer to peer is enabled on the network operators need a way to get a list of relays/peers to connect to. The topology updater service runs in the background with cron. Every hour the script will run and tell the service you are a relay and want to be a part of the network. It will add your relay to it's directory after four hours you should see in connections in gLiveView.
+
 
 :::info
 
@@ -815,6 +846,7 @@ Save, exit and make it executable.
 chmod +x topologyUpdater.sh
 ```
 
+
 :::caution
 
 You will not be able to successfully execute ./topologyUpdater.sh until you are fully synced up to the tip of the chain.
@@ -827,6 +859,7 @@ Create a cron job that will run the script every hour.
 crontab -e
 ```
 
+
 :::info
 
 Choose nano when prompted for editor.
@@ -834,6 +867,7 @@ Choose nano when prompted for editor.
 :::
 
 Add the following to the bottom, save & exit.
+
 
 :::info
 
@@ -853,6 +887,7 @@ After four hours you can open ${NODE\_CONFIG}-topology.json and inspect the list
 nano $NODE_FILES/${NODE_CONFIG}-topology.json
 ```
 
+
 :::info
 
 You can use gLiveView.sh to view ping times in relation to the peers in your {NODE\_CONFIG}-topology file. Use Ping to resolve hostnames to IP's.
@@ -860,6 +895,7 @@ You can use gLiveView.sh to view ping times in relation to the peers in your {NO
 :::
 
 Changes to this file will take affect upon restarting the cardano-service.
+
 
 :::caution
 
@@ -870,6 +906,7 @@ Don't forget to remove the last comma in your topology file!
 Status should show as enabled & running.
 
 Once your node syncs past epoch 208(shelley era) you can use gLiveView.sh to monitor your sync progress.
+
 
 :::danger
 
@@ -888,6 +925,7 @@ cd $NODE_HOME/scripts
 
 Prometheus connects to cardano-nodes backend and serves metrics over http. Grafana in turn can use that data to display graphs and create alerts. Our Grafana dashboard will be made up of data from our Ubuntu system & cardano-node. Grafana can display data from other sources as well, like [adapools.org](https://adapools.org).
 
+
 :::info
 
 You can connect a [Telegram bot](https://docs.armada-alliance.com/learn/intermediate-guide/grafana-alerts-with-telegram) to Grafana which can alert you of problems with the server. Much easier than trying to configure email alerts.
@@ -899,6 +937,7 @@ You can connect a [Telegram bot](https://docs.armada-alliance.com/learn/intermed
 ![](</img/pi-pool-grafana.png>)
 
 #### Install Prometheus & Node Exporter.
+
 
 :::info
 
@@ -926,6 +965,7 @@ sudo nano /etc/prometheus/prometheus.yml
 ```
 
 Replace the contents of the file with.
+
 
 :::caution
 
@@ -1052,6 +1092,7 @@ cardano-monitor enable
 cardano-monitor start
 ```
 
+
 :::caution
 
 At this point you may want to start cardano-service and get synced up before we continue to configure Grafana. Go to the syncing the chain section. Choose whether you want to wait 30 hours or download the latest chain snapshot. Return here once gLiveView.sh shows you are at the tip of the chain.
@@ -1151,6 +1192,7 @@ cardano-monitor restart
 
 ### Useful Commands
 
+
 :::info
 
 View how much zram swap cardano-node is using.
@@ -1177,6 +1219,7 @@ View network connections with netstat.
 ```bash title=">_ Terminal"
 sudo netstat -puntw
 ```
+
 :::
 
 From here you have a Pi-Node with tools to build an active relay or a stake pool from the following pages. Best of luck and please join the [armada-alliance](https://armada-alliance.com), together we are stronger! :muscle:
