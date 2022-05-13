@@ -4,8 +4,8 @@ module.exports = {
   tagline: 'ARM powered Cardano Stake Pool Guides',
   url: 'https://docs.armada-alliance.com/', // URL for your website. This can also be considered the top-level hostname
   baseUrl: '/', // Change this to match your projectName if deploying to Github Pages or / if deploying to a top level domain
-  onBrokenLinks: 'warn', // Change this to 'throw' for production CI pipelines
-  onBrokenMarkdownLinks: 'warn', 
+  onBrokenLinks: 'throw', // Change this to 'throw' for production CI pipelines
+  onBrokenMarkdownLinks: 'throw', 
   favicon: 'img/armada-alliance-logo.png',
   organizationName: 'armada-alliance', // Change this to your GitHub org/user name.
   projectName: 'armada-alliance-docusaurus', // Change this to your repo name.
@@ -35,7 +35,13 @@ module.exports = {
           label: 'Documentation',
         },
         {
-          href: 'https://github.com/armada-alliance/master',
+          href: 'https://armada-alliance.com',
+          label: 'Armada Alliance Website',
+          position: 'left',
+          target: '_blank',
+        },
+        {
+          href: 'https://github.com/armada-alliance/armada-alliance-docusaurus',
           label: 'GitHub',
           position: 'right',
         },
