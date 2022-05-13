@@ -2,8 +2,8 @@
 module.exports = {
   title: 'Armada Alliance Docs',
   tagline: 'ARM powered Cardano Stake Pool Guides',
-  url: 'https://armada-alliance.github.io/', // URL for your website. This can also be considered the top-level hostname
-  baseUrl: '/armada-alliance-docusaurus/', // Change this to match your projectName if deploying to Github Pages or / if deploying to a top level domain
+  url: 'https://docs.armada-alliance.com/', // URL for your website. This can also be considered the top-level hostname
+  baseUrl: '/', // Change this to match your projectName if deploying to Github Pages or / if deploying to a top level domain
   onBrokenLinks: 'warn', // Change this to 'throw' for production CI pipelines
   onBrokenMarkdownLinks: 'warn', 
   favicon: 'img/armada-alliance-logo.png',
