@@ -2,12 +2,12 @@
 module.exports = {
   title: 'Armada Alliance Docs',
   tagline: 'ARM powered Cardano Stake Pool Guides',
-  url: 'https://rekuenkdr.github.io/', // URL for your website. This can also be considered the top-level hostname
+  url: 'https://armada-alliance.github.io/', // URL for your website. This can also be considered the top-level hostname
   baseUrl: '/armada-alliance-docusaurus/', // Change this to match your projectName if deploying to Github Pages or / if deploying to a top level domain
   onBrokenLinks: 'warn', // Change this to 'throw' for production CI pipelines
   onBrokenMarkdownLinks: 'warn', 
   favicon: 'img/armada-alliance-logo.png',
-  organizationName: 'rekuenkdr', // Change this to your GitHub org/user name.
+  organizationName: 'armada-alliance', // Change this to your GitHub org/user name.
   projectName: 'armada-alliance-docusaurus', // Change this to your repo name.
   i18n: {  // We are using crowdin to translate the site https://docusaurus.io/docs/i18n/crowdin
     defaultLocale: 'en',
@@ -86,7 +86,7 @@ module.exports = {
             },
             {
               label: 'Project Catalyst',
-              to: 'https://cardano.ideascale.com/a/dtd/ARMing-Cardano/340480-48088#idea-tab-comments',
+              to: 'https://cardano.ideascale.com/c/idea/397744',
             },
           ],
         },
@@ -102,7 +102,7 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/rekuenkdr/armada-alliance-docusaurus/edit/master/',
+            'https://github.com/armada-alliance/armada-alliance-docusaurus/edit/master/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
