@@ -1,8 +1,8 @@
 # Website
 
-This website is a port from Gitbook of the [Armada Alliance Docs](https://docs.armada-alliance.com/learn/) to [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This website is a port from Gitbook of the [Armada Alliance Docs](https://github.com/armada-alliance/master) to [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
 
-The website is deployed at Github Pages https://armada-alliance.github.io/armada-alliance-docusaurus/docs/
+The website is deployed at Github Pages https://docs.armada-alliance.com
 
 ## Installation
 
