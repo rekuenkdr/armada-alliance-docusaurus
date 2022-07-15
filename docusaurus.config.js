@@ -3,12 +3,12 @@ module.exports = {
   title: 'Armada Alliance Docs',
   tagline: 'ARM powered Cardano Stake Pool Guides',
   url: 'https://docs.armada-alliance.com/', // URL for your website. This can also be considered the top-level hostname
-  baseUrl: '/', // Change this to match your projectName if deploying to Github Pages or / if deploying to a top level domain
+  baseUrl: '/docs/', // Change this to match your projectName if deploying to Github Pages or / if deploying to a top level domain
   onBrokenLinks: 'throw', // Change this to 'throw' for production CI pipelines
   onBrokenMarkdownLinks: 'throw', 
   favicon: 'img/armada-alliance-logo.png',
   organizationName: 'armada-alliance', // Change this to your GitHub org/user name.
-  projectName: 'armada-alliance-docusaurus', // Change this to your repo name.
+  projectName: 'docs', // Change this to your repo name.
   i18n: {  // We are using crowdin to translate the site https://docusaurus.io/docs/i18n/crowdin
     defaultLocale: 'en',
     locales: ['en'], // Add locales, run locales and translate https://docusaurus.io/docs/i18n/tutorial
