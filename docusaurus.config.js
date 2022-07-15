@@ -84,7 +84,7 @@ module.exports = {
           items: [
             {
               label: 'Contribute',
-              to: '/docs/docs/how-to-contribute/',
+              to: '/docs/how-to-contribute/',
             },
             {
               label: 'Donate',
