@@ -108,7 +108,7 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/armada-alliance/armada-alliance-docusaurus/edit/master/',
+            'https://github.com/armada-alliance/docs/edit/master/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
