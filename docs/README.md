@@ -1,4 +1,5 @@
 ---
+slug: /
 cover: .gitbook/assets/banner-armada copy.png
 coverY: 0
 ---
