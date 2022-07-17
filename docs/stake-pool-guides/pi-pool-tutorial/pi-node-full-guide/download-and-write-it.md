@@ -28,7 +28,7 @@ Plug the Pi into a monitor, insert the sd card and power up. Once you see a gree
 [https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md](https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md)
 :::
 
-![](</img/otgpoltut (1) (1) (3) (1) (4).png>)
+![](</static/img/otgpoltut4.png>)
 
 <Tabs>
   <TabItem value="Pre configured Pi-Node.img.gz" label="Pre configured Pi-Node.img.gz" default>
