@@ -9,7 +9,7 @@ The docker image can run on any arm64 device (such as a RaspberryPi, Mac Mini M1
 
 ## Why using docker image to run a Cardano node?
 
-The elegant thing about a Cardano node deployed as a Docker image is that it can be installed seamlessly and launched out of the box. 
+The advantage of deploying a Cardano node as a Docker image is that it can be installed seamlessly and launched out of the box. 
 If you ever decide to remove it, you only have to delete one file - the image. Another advantage is that the created image can run on any 
 operating system where Docker is installed. Using Docker reduces the complexity and effort of setting up a Cardano node compared to the traditional way 
 (for example, you don't have to deal with systemd settings).
@@ -17,7 +17,7 @@ operating system where Docker is installed. Using Docker reduces the complexity 
 ## System requirements
 
 * CPU: ARM64 processor min 2 cores at 2GHz or faster.
-* Memory: 12GB of RAM.
+* Memory: 16GB of RAM.
 * Storage: 50 GB.
 * OS: Linux (recommended Ubuntu)
 * Additional Software: Docker
@@ -105,14 +105,42 @@ the Docker container is removed.
 
 :::
 
-# 3. Build the Cardano node docker image
+# 3. The Armada Node Docker Image
 
-At this point it's time to build the docker image. The image will include:
+Now it's time to create the docker image. There are two ways to do this. 
 
-1. cardano-node & cardano-cli v1.34.1 - Cardano binaries to run the node (Download compiled binaries from [Armada Alliance GitHub](https://github.com/armada-alliance/cardano-node-binaries)) 
+1) Pull the pre-built docker image from our Armada Docker Hub repository (easiest and fastest option)
+2) Build the docker image by yourself.
+
+Either way, the docker image includes:
+
+1. cardano-node & cardano-cli (latest version) - Cardano binaries to run the node (Download compiled binaries from [Armada Alliance GitHub](https://github.com/armada-alliance/cardano-node-binaries)) 
 2. gLiveView - Monitoring tool for the Cardano node
 3. ScheduledBlocks - Tool to query the scheduled slots for a block production node. (Credits for this tool goes to [SNAKE POOL](https://github.com/asnakep/ScheduledBlocks))
 4. Cardano Submit Transaction API - API to connect with a Cardano wallet (e.g. Nami) to send transactions via your own full node
+
+## 3.1. Pull the built docker image
+
+Pull the image with:
+
+```bash
+docker pull armadaalliance/armada-cn:1.35.0
+```
+
+You should see your Cardano node docker image in the list:
+
+```bash
+docker images
+```
+
+```bash
+REPOSITORY              TAG            IMAGE ID       CREATED          SIZE
+armadaalliance/armada-cn        1.35.0         da4414775ce6   37 seconds ago   619MB
+```
+
+You can now proceed with chapter 4, in order to start the node.
+
+## 3.2. Build the docker image
 
 ```bash title=">_ Terminal"
 cd ${HOME}/Cardano-node-docker/dockerfiles
@@ -130,7 +158,7 @@ You should see your Cardano node docker image in the list, e.g.
 
 ```bash title=">_ Terminal"
 REPOSITORY              TAG            IMAGE ID       CREATED          SIZE
-armada/armada-cn        1.34.1         da4414775ce6   37 seconds ago   619MB
+armadaalliance/armada-cn        1.35.0         da4414775ce6   37 seconds ago   619MB
 <none>                  <none>         f3891eef21e4   3 minutes ago    1.09GB
 ```
 
@@ -166,7 +194,7 @@ Important: Change the directory paths CN_CONFIG_PATH and CN_DB_PATH to the corre
 ```bash title=">_ Terminal"
 ##Configuration for relay and block producing node
 CNIMAGENAME="armada/armada-cn"                                   ## Name of the Cardano docker image
-CNVERSION="1.34.1"                                               ## Version of the cardano-node. It must match with the version of the docker i>
+CNVERSION="1.35.0"                                               ## Version of the cardano-node. It must match with the version of the docker i>
 CNNETWORK="testnet"                                              ## Use "mainnet" if connecting node to the mainnet
 CNMODE="relay"                                                   ## Use "bp" if you configure the node as block production node
 CNPORT="3001"                                                    ## Define the port of the node
@@ -203,7 +231,7 @@ If the docker node started successfully, you might see something like this:
 
 ```bash title=">_ Terminal"
 CONTAINER ID   IMAGE                     COMMAND                  CREATED          STATUS                    PORTS                                                                                      NAMES
-fed0cfbf7d86   armada/armada-cn:1.34.1   "bash title=">_ Terminal" -c /home/carda…"   12 seconds ago   Up 10 seconds (healthy)   0.0.0.0:3001->3001/tcp, :::3001->3001/tcp, 0.0.0.0:12799->12798/tcp, :::12799->12798/tcp   cardano-node-testnet-1.34.1
+fed0cfbf7d86   armadaalliance/armada-cn:1.35.0   "bash title=">_ Terminal" -c /home/carda…"   12 seconds ago   Up 10 seconds (healthy)   0.0.0.0:3001->3001/tcp, :::3001->3001/tcp, 0.0.0.0:12799->12798/tcp, :::12799->12798/tcp   cardano-node-testnet-1.34.1
 ```
 
 You can also check the logs of the running cardano-node:
@@ -276,7 +304,7 @@ docker exec -it {CONTAINER ID} python3 /home/cardano/pi-pool/scripts/ScheduledBl
 
 :::caution
 
-Although P2P can be enabled on Node version 1.34.1, IOHK does not yet recommend using it because it has not yet been officially released.
+Although P2P can be enabled on Node version 1.35.0, IOHK does not yet recommend using it because it has not yet been officially released.
 
 :::
 
