@@ -212,7 +212,7 @@ Replace `<tag>` with the latest tag in the next command.
 ## Installing/Upgrading the 'cardano-node' and 'cardano-cli' static binaries (AlpineOS uses static binaries almost exclusively so avoid non-static builds)
 
 :::info
-**You may obtain the static binaries for version 1.33.0 via this** [**link** ](github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/1_35_0.zip?raw=true)**thanks to Moritz Angermann, the SPO of ZW3RK pool 🙏**
+**You may obtain the static binaries for version 1.33.0 via this** [**link** ](https://github.com/armada-alliance/cardano-node-binaries)**thanks to Moritz Angermann, the SPO of ZW3RK pool 🙏**
 :::
 
 **Run the following commands to download and install the binaries into the correct directory.**
