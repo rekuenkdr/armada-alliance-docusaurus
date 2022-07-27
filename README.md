@@ -23,9 +23,34 @@ This command starts a local development server and opens up a browser window. Mo
 
 All the docs are inside the [docs folder](https://github.com/rekuenkdr/armada-alliance-docusaurus/tree/master/docs) . 
 
-To add a new one just create an md or mdx file there, please check the [markdown features and components](https://docusaurus.io/docs/markdown-features
-) that Docusaurus supports.
+To add a new one just create an md or mdx (if using JSX components) file  there.
 
+Please refer to the [Docusaurus Markdown Features Guide](https://docusaurus.io/docs/markdown-features
+) to know about the syntax and components that you can use.
+
+- [Markdown Features](https://docusaurus.io/docs/markdown-features)
+- [MDX and React](https://docusaurus.io/docs/markdown-features/react)
+- [Tabs](https://docusaurus.io/docs/markdown-features/tabs)
+- [Code Blocks](https://docusaurus.io/docs/markdown-features/code-blocks)
+- [Admonitions | Alerts](https://docusaurus.io/docs/markdown-features/admonitions)
+- [Headings and Table of contents](https://docusaurus.io/docs/markdown-features/toc)
+- [Assets and Images](https://docusaurus.io/docs/markdown-features/assets)
+- [Markdown Links](https://docusaurus.io/docs/markdown-features/links)
+- [Head Metadata](https://docusaurus.io/docs/markdown-features/head-metadata)
+
+To emmbed videos, use the iframe html tag with 100% width and 600px height:
+
+```
+<iframe
+  width="100%"
+  height="600"
+  src="https://www.youtube.com/embed/oP3jZyPxB-I"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
+```
 
 ## Sidebar Links
 
