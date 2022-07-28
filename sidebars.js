@@ -50,7 +50,7 @@ module.exports = {
             'stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/environment-setup'
           ],
         },
-        'stake-pool-guides/pi-pool-tutorial/pi-node',
+        'stake-pool-guides/pi-pool-tutorial/pi-node-quick',
         'stake-pool-guides/pi-pool-tutorial/pi-relay',
         'stake-pool-guides/pi-pool-tutorial/core-online',
         'stake-pool-guides/pi-pool-tutorial/cold-offline',
