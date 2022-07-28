@@ -1,6 +1,7 @@
 ---
 description: Flash image
 ---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -28,11 +29,10 @@ Plug the Pi into a monitor, insert the sd card and power up. Once you see a gree
 [https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md](https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md)
 :::
 
-![](</img/otgpoltut4.png>)
+![](/img/otgpoltut4.png)
 
 <Tabs>
   <TabItem value="Pre configured Pi-Node.img.gz" label="Pre configured Pi-Node.img.gz" default>
-
 
 **Obtain Pi-Node.img.gz file**
 
@@ -46,22 +46,20 @@ Locate the .img.gz file you downloaded & wish to flash.
 
 Locate your target drive & write it to disk.
 
-![](</img/custom-os.png>)
-  </TabItem>
-  <TabItem value="Fresh Ubuntu 22.04 LTS installation" label="Fresh Ubuntu 22.04 LTS installation">
+![](/img/custom-os.png)
+</TabItem>
+<TabItem value="Fresh Ubuntu 22.04 LTS installation" label="Fresh Ubuntu 22.04 LTS installation">
 
 **Within Raspberry Pi Imager**
 
-
 **Download Ubuntu Server 22.04 (RPI 3/4/400)**
-
 
 [Raspberry Pi Generic (64-bit ARM) preinstalled server image](https://cdimage.ubuntu.com/ubuntu-server/jammy/daily-preinstalled/current/jammy-preinstalled-server-arm64+raspi.img.xz)
 
-**Choose OS -> Use custom** 
+**Choose OS -> Use custom**
 
 Locate the .img.gz file you downloaded & wish to flash. Locate your target drive & write it to disk.
 
-![](</img/custom-os.png>)
-  </TabItem>
+![](/img/custom-os.png)
+</TabItem>
 </Tabs>

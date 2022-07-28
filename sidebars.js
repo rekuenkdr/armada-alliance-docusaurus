@@ -43,7 +43,7 @@ module.exports = {
               label:'Introduction & Hardware',
               id: 'stake-pool-guides/pi-pool-tutorial/README'
             },
-            'stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/download-and-write-it',
+            'stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/download-and-flash',
             'stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/logging-in-securely',
             'stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/user-setup',
             'stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/server-setup',
