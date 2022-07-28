@@ -82,19 +82,18 @@ guide-how-to-build-a-haskell-stakepool-node)
 * Latest chain snapshot for quicker sync
 
 <Tabs groupId="NODE_CONFIG">
-  <TabItem value="mainnet" label="mainnet" default>
+  <TabItem value="mainnet" label="Mainnet" default>
 
 ```bash title=">_ Terminal"
   wget -r -np -nH -R "index.html\*" -e robots=off https://mainnet.adamantium.online/db/
 ```
 
   </TabItem>
-  <TabItem value="testnet" label="testnet">
+  <TabItem value="testnet" label="Testnet">
 
 ```bash title=">_ Terminal"
   wget -r -np -nH -R "index.html\*" -e robots=off https://testnet.adamantium.online/db/
 ```
-
   </TabItem>
   
 </Tabs>

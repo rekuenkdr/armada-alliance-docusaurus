@@ -2,6 +2,9 @@
 description: Configure the environment for Cardano Node
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Environment Setup
 
 ## Choose testnet or mainnet.
@@ -31,7 +34,7 @@ echo -e NODE_CONFIG=testnet >> ${HOME}/.adaenv; source ${HOME}/.adaenv
 
 ### Create bash variables & add \~/.local/bin to our $PATH 🏃
 
-:::tip Environment Variables in Linux/Unix
+:::info Environment Variables in Linux/Unix
 
 [Environment Variables in Linux/Unix](https://askubuntu.com/questions/247738/why-is-etc-profile-not-invoked-for-non-login-shells/247769#247769).
 
@@ -84,6 +87,12 @@ Update link cache for shared libraries and confirm.
 sudo ldconfig; ldconfig -p | grep libsodium
 ```
 
+Confirm linked secp256k1 library
+
+```bash title=">_ Terminal"
+ldconfig -p | grep secp256k1
+```
+
 ## Build a static binary of jq
 
 We need a static binary we can move to the offline machine later in the guide.
@@ -121,7 +130,7 @@ wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-
 wget -N https://raw.githubusercontent.com/input-output-hk/cardano-node/master/cardano-submit-api/config/tx-submit-mainnet-config.yaml
 ```
 
-Run the following to modify ${NODE\_CONFIG}-config.json and update TraceBlockFetchDecisions to "true" & listen on all interfaces with Prometheus Node Exporter.
+Run the following to modify ${NODE_CONFIG}-config.json and update TraceBlockFetchDecisions to "true" & listen on all interfaces with Prometheus Node Exporter.
 
 ```bash title=">_ Terminal"
 sed -i ${NODE_CONFIG}-config.json \
@@ -129,28 +138,49 @@ sed -i ${NODE_CONFIG}-config.json \
     -e "s/127.0.0.1/0.0.0.0/g"
 ```
 
-:::info
-
-**Tip for relay nodes**: It's possible to reduce memory and cpu usage by setting "TraceMemPool" to "false" in **{NODE\_CONFIG}-config.json.** This will turn off mempool data in Grafana and gLiveView.sh.
-
-:::
-
 ### Retrieve aarch64 1.33.1 and cardano-submit-api binaries
 
 :::info
 
-The **unofficial** cardano-node, cardano-cli and cardano-submit-api binaries available to us are being built by an IOHK engineer in his **spare time**. Consider delegating to zw3rk pool to support mobile Haskel development.
+The **unofficial** static cardano-node, cardano-cli and cardano-submit-api binaries available to us are being built by an IOHK engineer in his **spare time**. Consider delegating to zw3rk pool to support mobile Haskel development.
+
+The **unofficial** dynamic cardano-node, cardano-cli and cardano-submit-api binaries available to us are being built by ADASRN in his **spare time**. Consider delegating to SRN pool to support.
 
 :::
 
+:::tip
+
+All previous aarch64 binaries can be found in the [Binary repository](https://github.com/armada-alliance/cardano-node-binaries).
+
+:::
+
+<Tabs groupId="NODE_CONFIG">
+  <TabItem value="mainnet" label="Recommended Mainnet Binaries" default>
+
 ```bash title=">_ Terminal"
 cd ${HOME}/tmp
-wget https://ci.zw3rk.com/build/434354/download/1/aarch64-unknown-linux-musl-cardano-node-73f9a746362695dc2cb63ba757fbcabb81733d23.zip
+wget https://github.com/armada-alliance/cardano-node-binaries/raw/main/static-binaries/1_34_1.zip
 unzip *.zip
-mv cardano-node/cardano-* ${HOME}/.local/bin
+mv cardano-*/cardano-* ${HOME}/.local/bin
 rm -r cardano*
 cd ${HOME}
 ```
+
+  </TabItem>
+  <TabItem value="testnet" label="Recommended Testnet Binaries">
+
+```bash title=">_ Terminal"
+cd ${HOME}/tmp
+wget https://github.com/armada-alliance/cardano-node-binaries/raw/main/dynamic-binaries/1.35.2/cardano-1_35_2-aarch64-ubuntu_2004.zip
+unzip *.zip
+mv cardano-*/cardano-* ${HOME}/.local/bin
+rm -r cardano*
+cd ${HOME}
+```
+
+  </TabItem>
+  
+</Tabs>
 
 :::caution
 
@@ -158,7 +188,7 @@ If binaries already exist (if updating) you will have to confirm overwriting the
 
 :::
 
-Confirm binaries are in $USER's $PATH.
+Confirm binaries are in $USER's $PATH & desired version.
 
 ```bash title=">_ Terminal"
 cardano-node version
@@ -218,10 +248,10 @@ WorkingDirectory= /home/ada/pi-pool
 ExecStart       = /bin/bash -c "PATH=/home/ada/.local/bin:$PATH exec /home/ada/.local/bin/cardano-service"
 KillSignal=SIGINT
 RestartKillSignal=SIGINT
-TimeoutStopSec=10
+TimeoutStopSec=50
 LimitNOFILE=32768
 Restart=always
-RestartSec=10
+RestartSec=50
 EnvironmentFile=-/home/ada/.adaenv
 
 [Install]
@@ -318,27 +348,27 @@ source ${HOME}/.adaenv
 
 What we just did there was add a couple functions to control our cardano-service and cardano-submit without having to type out
 
->  sudo systemctl enable cardano-node.service
-> 
->  sudo systemctl start cardano-node.service
-> 
->  sudo systemctl stop cardano-node.service
-> 
->  sudo systemctl status cardano-node.service
+> sudo systemctl enable cardano-node.service
+>
+> sudo systemctl start cardano-node.service
+>
+> sudo systemctl stop cardano-node.service
+>
+> sudo systemctl status cardano-node.service
 
 Now we just have to:
 
-* cardano-service enable (enables cardano-node.service auto start at boot)
-* cardano-service start (starts cardano-node.service)
-* cardano-service stop (stops cardano-node.service)
-* cardano-service status (shows the status of cardano-node.service)
+- cardano-service enable (enables cardano-node.service auto start at boot)
+- cardano-service start (starts cardano-node.service)
+- cardano-service stop (stops cardano-node.service)
+- cardano-service status (shows the status of cardano-node.service)
 
 Or
 
-* cardano-submit enable (enables cardano-submit.service auto start at boot)
-* cardano-submit start (starts cardano-submit.service)
-* cardano-submit stop (stops cardano-submit.service)
-* cardano-submit status (shows the status of cardano-submit.service)
+- cardano-submit enable (enables cardano-submit.service auto start at boot)
+- cardano-submit start (starts cardano-submit.service)
+- cardano-submit stop (stops cardano-submit.service)
+- cardano-submit status (shows the status of cardano-submit.service)
 
 The submit service listens on port 8090. You can connect your Nami wallet like below to submit tx's yourself in Nami's settings.
 
@@ -348,11 +378,11 @@ http://<node lan ip>:8090/api/submit/tx
 
 ## ⛓ Syncing the chain ⛓
 
-You are now ready to start cardano-node. Doing so will start the process of 'syncing the chain'. This is going to take about 48 hours and the db folder is about 13GB in size right now. We used to have to sync it to one node and copy it from that node to our new ones to save time. However...
+Manually syncing the chain with Raspberry Pi takes forever(days) and the chain is constantly growing about 80gb as of this update to the docs. We host snapshots that you can download that will greatly reduce time to synced node.
 
 ### Download snapshot
 
-I have started taking snapshots of my backup nodes db folder and hosting it in a web directory. With this service it takes around 20 minutes to pull the latest snapshot and maybe another hour to sync up to the tip of the chain. This service is provided as is. It is up to you. If you want to sync the chain on your own simply:
+This service is provided as is. It is up to you. If you want to sync the chain on your own simply:
 
 ```bash title=">_ Terminal"
 cardano-service enable
@@ -442,7 +472,7 @@ Download the topologyUpdater script and have a look at it. Lower the number of p
 wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/topologyUpdater.sh
 ```
 
-Lower the number of MX\_PEERS to 10.
+Lower the number of MX_PEERS to 10.
 
 ```bash title=">_ Terminal"
 nano topologyUpdater.sh
@@ -480,7 +510,7 @@ PATH=/home/ada/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 33 * * * * . $HOME/.adaenv; $HOME/pi-pool/scripts/topologyUpdater.sh
 ```
 
-After four hours you can open ${NODE\_CONFIG}-topology.json and inspect the list of out peers the service suggested for you. Remove anything more than 7k distance(or less). IOHK recently suggested 8 out peers. The more out peers the more system resources it uses. You can also add any peers you wish to connect to manualy inside the script. This is where you would add your block producer or any friends nodes.
+After four hours you can open ${NODE_CONFIG}-topology.json and inspect the list of out peers the service suggested for you. Remove anything more than 7k distance(or less). IOHK recently suggested 8 out peers. The more out peers the more system resources it uses. You can also add any peers you wish to connect to manualy inside the script. This is where you would add your block producer or any friends nodes.
 
 ```bash title=">_ Terminal"
 nano $NODE_FILES/${NODE_CONFIG}-topology.json
@@ -488,7 +518,7 @@ nano $NODE_FILES/${NODE_CONFIG}-topology.json
 
 :::info
 
-You can use gLiveView.sh to view ping times in relation to the peers in your {NODE\_CONFIG}-topology file. Use Ping to resolve hostnames to IP's.
+You can use gLiveView.sh to view ping times in relation to the peers in your {NODE_CONFIG}-topology file. Use Ping to resolve hostnames to IP's.
 
 :::
 
@@ -515,7 +545,7 @@ cd $NODE_HOME/scripts
 ./gLiveView.sh
 ```
 
-![](</img/pi-node-glive.png>)
+![](/img/pi-node-glive.png)
 
 ## Prometheus, Node Exporter & Grafana
 
@@ -533,7 +563,7 @@ You can connect a [Telegram bot](https://docs.armada-alliance.com/learn/stake-po
 
 :::
 
-![](</img/pi-pool-grafana.png>)
+![](/img/pi-pool-grafana.png)
 
 ### Install Prometheus & Node Exporter.
 
@@ -698,7 +728,7 @@ At this point you may want to start cardano-service and get synced up before we 
 
 :::
 
-## Grafana, Nginx proxy\_pass & snakeoil
+## Grafana, Nginx proxy_pass & snakeoil
 
 Let's put Grafana behind Nginx with self signed(snakeoil) certificate. The certificate was generated when we installed the ssl-cert package.
 
@@ -778,7 +808,7 @@ Save the dashboard json files to your local machine.
 
 In the left hand vertical menu go to **Dashboards** > **Manage** and click on **Import**. Select the file you just downloaded/created and save. Head back to **Dashboards** > **Manage** and click on your new dashboard.
 
-![](</img/pi-pool-grafana.png>)
+![](/img/pi-pool-grafana.png)
 
 ### Configure poolDataLive
 
@@ -793,7 +823,6 @@ Here you can use the poolData api to bring extra pool data into Grafana like sta
 Follow the instructions to install the Grafana plugin, configure your datasource and import the dashboard.
 
 ## Useful Commands
-
 
 View how much zram swap cardano-node is using.
 
