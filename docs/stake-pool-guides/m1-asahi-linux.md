@@ -1,5 +1,17 @@
 # Apple M1 Asahi Linux
 
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '2px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+    {children}
+  </span>
+);
+
 ## Prerequisites 
 
 Asahi Arch Linux, minimal or desktop installed on your M1 or M2.
@@ -411,7 +423,7 @@ echo -e NODE_CONFIG=testnet >> ${HOME}/.adaenv; source ${HOME}/.adaenv
 [Environment Variables in Linux/Unix](https://askubuntu.com/questions/247738/why-is-etc-profile-not-invoked-for-non-login-shells/247769#247769).
 :::
 
-:::info
+:::caution
 You must reload environment files after updating them. Same goes for cardano-node, changes to the topology or config files require a cardano-service restart.
 :::
 
@@ -494,22 +506,13 @@ sudo ldconfig; ldconfig -p | grep libsodium
 
 ```
 git clone https://github.com/bitcoin-core/secp256k1.git
-
 cd secp256k1
-
 git reset --hard $SECP256K1_REF
-
 ./autogen.sh
-
 ./configure  --enable-module-schnorrsig --enable-experimental
-
 make
-
 sudo make install
 ```
-
-For those who run cardano-node as a systemd service, run the following:
-
 
 Update link cache for shared libraries and confirm.
 
