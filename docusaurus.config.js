@@ -15,7 +15,7 @@ module.exports = {
     locales: ["en"], // Add locales, run locales and translate https://docusaurus.io/docs/i18n/tutorial
   },
   themeConfig: {
-    image: "img/armada-alliance-logo.png",
+    image: "https://docs.armada-alliance.com/img/armada-alliance-logo.png",
     prism: {
       theme: require("prism-react-renderer/themes/nightOwl"),
     },
