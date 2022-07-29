@@ -72,6 +72,7 @@ module.exports = {
           id: 'stake-pool-guides/Raspberry-pi-os'
         },
         'stake-pool-guides/alpine-linux-os',
+        'stake-pool-guides/m1-asahi-linux',
         {
           type: 'category',
           label: 'Apple M1 macOS 🍏',

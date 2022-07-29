@@ -7,11 +7,11 @@ keywords: [guides, cardano node, cardano stake pool, rasbperry pi, armada allian
 
 :::info
 
-After booting the image it will take about 30 minutes to download the chain and another couple hours or so to sync to the tip. You will not be able to do much until your node has synced with the tip of the block chain.
+After booting the image you can edit the ~/.adaenv file to switch to mainnet. Image defaults to testnet. Source .bashrc to load changes to .adaenv. You can then choose to start the node and sync the whole chain which will take days or you can download the snapshot for mainnet or testnet which will reduce sync time to a couple hours.
 
-It can take anywhere from 2 to 60 minutes to sync after a reboot depending how the node was shut down or restarted. Check if process is running with htop. If it is, use gLiveView.sh or go for walk. It will sync and the socket will be created.
+Check if process is running with htop. If it is, use gLiveView.sh or go for walk.
 
-It is best to just leave it running. 🏃♀
+It is best to just leave it running. 🏃
 
 :::
 
@@ -32,16 +32,17 @@ Check which version of cardano-node is on the image. Follow the static build upg
 
 :::
 
-
 ```bash title=">_ Terminal"
 cardano-node version
 ```
 
-## Choose testnet or mainnet. **Defaults to testnet**.
+## Choose testnet or mainnet. 
+
+### **Defaults to testnet**.
 
 Switch between testnet & mainnet, for mainnet issue..
 
-Config file path /home/ada/.adaenv
+Config file path /home/ada/.adaenv edit manually or run
 
 ```bash title=">_ Terminal"
 sed -i .adaenv -e "s/NODE_CONFIG=testnet/NODE_CONFIG=mainnet/g"; source .adaenv
@@ -125,6 +126,6 @@ Default credentials = **admin:admin**
 
 [https://github.com/armada-alliance/dashboards](https://github.com/armada-alliance/dashboards)
 
-[https://api.pooldata.live/](https://github.com/armada-alliance/dashboards)
+[https://api.pooldata.live/](https://api.pooldata.live/)
 
 :::
