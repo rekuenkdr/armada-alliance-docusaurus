@@ -388,10 +388,15 @@ Confirm it was added to the bottom.
 ```bash title=">_ Terminal"
 cat /etc/security/limits.conf
 ```
-## Choose testnet or mainnet.
+## Environment setup
 
 :::danger
 There is a 500 ₳ Registration deposit and another 5 ₳ in registration costs to start a pool on mainnet. First time users are strongly reccomended to use testnet. You can get tada (test ada) from the testnet faucet. [tada faucet link](https://testnets.cardano.org/en/testnets/cardano/tools/faucet/)
+:::
+
+:::tip
+It is fairly easy to jump to mainnet when you are ready with the same machine. Only need to update files and folders to mainnet and redo pool creation.
+
 :::
 
 Create the directories for our project.
@@ -407,8 +412,13 @@ mkdir ${HOME}/tmp
 
 Create an .adaenv file, choose which network you want to be on and source the file. This file will hold the variables/settings for operating a Pi-Node. /home/ada/.adaenv
 
-```shell
+```bash title=">_ Terminal"
 echo -e NODE_CONFIG=testnet >> ${HOME}/.adaenv; source ${HOME}/.adaenv
+```
+Confirm you are on the desired network.
+
+```bash title=">_ Terminal"
+cat ${HOME}/.adaenv
 ```
 
 ### Create bash variables & add \~/.local/bin to our $PATH 🏃
