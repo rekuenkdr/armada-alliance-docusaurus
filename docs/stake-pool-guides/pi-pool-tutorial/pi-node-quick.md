@@ -7,9 +7,13 @@ keywords: [guides, cardano node, cardano stake pool, rasbperry pi, armada allian
 
 :::info
 
-After booting the image you can edit the ~/.adaenv file to switch to mainnet. Image defaults to testnet. Source .bashrc to load changes to .adaenv. You can then choose to start the node and sync the whole chain which will take days or you can download the snapshot for mainnet or testnet which will reduce sync time to a couple hours.
+After booting the image you can edit the ~/.adaenv file to switch to mainnet. Image defaults to testnet. Source .bashrc to load changes to .adaenv. You can then choose to start the node and sync the whole chain which will take days or you can download the snapshot for mainnet or testnet which should reduce sync time to a couple hours.
 
-Check if process is running with htop. If it is, use gLiveView.sh or go for walk.
+Check if process is running with htop, use gLiveView.sh or follow the systemd sservice with
+
+```bash title=">_ Terminal"
+journalctl -f --output=cat -u cardano-node
+```
 
 It is best to just leave it running. 🏃
 
@@ -74,7 +78,7 @@ sed -i ${NODE_CONFIG}-config.json \
 cd /home/ada/pi-pool
 ```
 
-### 4. Download database snapshot.
+### 4. Download ledger snapshot.
 
 ```bash title=">_ Terminal"
 wget -r -np -nH -R "index.html*" -e robots=off https://$NODE_CONFIG.adamantium.online/db/
@@ -104,7 +108,7 @@ cardano-monitor status
 Follow journal output or syslog
 
 ```bash title=">_ Terminal"
-sudo journalctl --unit=cardano-node --follow
+sudo journalctl -f --output=cat -u cardano-node
 sudo tail -f /var/log/syslog
 ```
 
@@ -122,7 +126,7 @@ Enter your Node's IPv4 address in your browser.
 
 Default credentials = **admin:admin**
 
-:::tip Dashboards can be found here
+:::tip Dashboards and pooldata api info can be found here.
 
 [https://github.com/armada-alliance/dashboards](https://github.com/armada-alliance/dashboards)
 

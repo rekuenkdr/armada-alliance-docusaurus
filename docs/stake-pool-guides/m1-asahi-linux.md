@@ -1,17 +1,5 @@
 # Apple M1 Asahi Linux
 
-export const Highlight = ({children, color}) => (
-  <span
-    style={{
-      backgroundColor: color,
-      borderRadius: '2px',
-      color: '#fff',
-      padding: '0.2rem',
-    }}>
-    {children}
-  </span>
-);
-
 ## Prerequisites 
 
 Asahi Arch Linux, minimal or desktop installed on your M1 or M2.
@@ -253,9 +241,13 @@ sudo pacman -S wireguard-tools
 
 ## Static ip
 
+:::info
+You can also set a static IP on your router if you wish and skip this section.
+:::
+
 [systemd](https://wiki.archlinux.org/title/Systemd-networkd#Wired_adapter_using_a_static_IP)
 
-Create a network service file, make sure edit it to your needs.
+Create a network service file, make sure you edit it to your network.
 
 ```bash title=">_ Terminal"
 sudo nano /etc/systemd/network/20-wired.network
@@ -319,11 +311,13 @@ Tweak/Harden system to our needs.
 ## sysctl
 [sysctl](https://wiki.archlinux.org/title/sysctl)
 
+Create a file in the sysctl.d directory
+
 ```bash title=">_ Terminal"
 sudo nano /etc/sysctl.d/98-cardano-node.conf
 ```
 
-Add the following to the bottom.
+Add the following.
 
 ```bash title="/etc/sysctl.d/98-cardano-node.conf"
 ## Asahi Node ##
