@@ -15,35 +15,34 @@ module.exports = {
     locales: ["en"], // Add locales, run locales and translate https://docusaurus.io/docs/i18n/tutorial
   },
   themeConfig: {
+    colorMode: {
+      defaultMode: "dark",
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
     image: "https://docs.armada-alliance.com/img/armada-alliance-logo.png",
     prism: {
       theme: require("prism-react-renderer/themes/nightOwl"),
     },
     navbar: {
-      title: "Armada Alliance",
+      title: "Armada Alliance Docs",
       logo: {
-        alt: "Armada Alliance",
+        alt: "Armada Alliance ship logo",
         src: "img/armada-alliance-logo.png",
       },
       items: [
         {
-          type: "localeDropdown", // Locale Dropdown
-          position: "left",
-        },
-        {
-          type: "doc",
-          docId: "README",
-          position: "left",
-          label: "Documentation",
-        },
-        {
           href: "https://armada-alliance.com",
           label: "Armada Alliance Website",
-          position: "left",
+          className: "center-nav-item",
           target: "_blank",
         },
         {
-          href: "https://github.com/armada-alliance/armada-alliance-docusaurus",
+          type: "localeDropdown", // Locale Dropdown
+          position: "right",
+        },
+        {
+          href: "https://github.com/armada-alliance/",
           label: "GitHub",
           position: "right",
         },

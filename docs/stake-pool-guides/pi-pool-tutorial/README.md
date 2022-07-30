@@ -62,8 +62,7 @@ I have found a simple low plrofile usb3 stick works great. For example
 
 ## Credit & community
 
-* Moritz Angermann | [zw3rk](https://adapools.org/pool/e2c17915148f698723cb234f3cd89e9325f40b89af9fd6e1f9d1701a) (@zw3rk)
-guide-how-to-build-a-haskell-stakepool-node)
+* Moritz Angermann | [zw3rk](https://adapools.org/pool/e2c17915148f698723cb234f3cd89e9325f40b89af9fd6e1f9d1701a)
 * [Alessandro konrad](https://github.com/alessandrokonrad) |[ Berry](https://adapools.org/pool/2a748e3885f6f73320ad16a8331247b81fe01b8d39f57eec9caa5091) (@berry_ales)
 * [Chris-Graffagnino](https://github.com/Chris-Graffagnino)/[Setup Cardano Shelley staking node](https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs/blob/master/docs/jormungandr_node_setup_guide.md)
 * [Arming Cardano](https://t.me/joinchat/wvTcCSpdjGllMmFk) Telegram Group
