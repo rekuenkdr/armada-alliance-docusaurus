@@ -31,6 +31,7 @@ html[data-theme='dark'] {
   --ifm-background-color: #111827;
   --ifm-navbar-background-color: #1f2937;
   --ifm-footer-background-color: #1f2937;
+  --ifm-color-success: #10b981;
 }
 .hero--primary{
   background-color: var(--armada-hero-background-color);
@@ -51,5 +52,8 @@ html[data-theme='dark'] {
   --ifm-pre-background: #1f2937;
 }
 [data-theme='dark'] .language-bash.codeBlockContainer_node_modules-\@docusaurus-theme-classic-lib-next-theme-CodeBlock-Container-styles-module.theme-code-block {
+  background-color: #1f2937;
+}
+[data-theme='dark'] .card {
   background-color: #1f2937;
 }
