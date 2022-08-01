@@ -19,7 +19,7 @@ export default function FooterWrapper(props) {
                   </a>
                 </li>
                 <li class="footer__item">
-                  <a class="footer__link-item" href="#url">
+                  <a class="footer__link-item" href="https://armada-alliance.com/docs/">
                     Docs
                   </a>
                 </li>
@@ -37,7 +37,7 @@ export default function FooterWrapper(props) {
               <h4 class="footer__title">Community</h4>
               <ul class="footer__items">
                 <li class="footer__item">
-                  <a class="footer__link-item" href="#url">
+                  <a class="footer__link-item" href="https://armada-alliance.com/identities">
                     Users
                   </a>
                 </li>
