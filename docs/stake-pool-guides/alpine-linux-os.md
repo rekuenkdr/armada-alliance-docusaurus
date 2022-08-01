@@ -1,4 +1,4 @@
-# Alpine Linux OS 🗻
+# Alpine Linux OS
 
 ![](</img/alpine-linux.png>)
 

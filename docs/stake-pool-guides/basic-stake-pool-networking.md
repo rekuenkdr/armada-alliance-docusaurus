@@ -7,7 +7,7 @@ description: >-
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-# Basic Stake Pool Networking 💫
+# Basic Stake Pool Networking
 
 ## Assumptions
 

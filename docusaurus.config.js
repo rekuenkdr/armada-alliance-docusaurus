@@ -48,58 +48,6 @@ module.exports = {
         },
       ],
     },
-    footer: {
-      style: "dark",
-      links: [
-        {
-          title: "Community",
-          items: [
-            {
-              label: "Website",
-              href: "https://armada-alliance.com/",
-            },
-            {
-              label: "Telegram",
-              href: "https://t.me/joinchat/FeKTCBu-pn5OUZUz4joF2w",
-            },
-            {
-              label: "Youtube",
-              href: "https://www.youtube.com/channel/UCligunhcmbMYaBUMvONsKwg",
-            },
-            {
-              label: "Discord",
-              href: "https://discord.com/invite/Sqc398qk5a",
-            },
-            {
-              label: "Twitter",
-              href: "https://twitter.com/alliance_armada",
-            },
-            {
-              label: "GitHub",
-              href: "https://github.com/armada-alliance/",
-            },
-          ],
-        },
-        {
-          title: "More",
-          items: [
-            {
-              label: "Contribute",
-              to: "/docs/how-to-contribute/",
-            },
-            {
-              label: "Donate",
-              href: "https://cointr.ee/armada-alliance",
-            },
-            {
-              label: "Project Catalyst",
-              to: "https://cardano.ideascale.com/c/idea/397744",
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} Armada Alliance, Built with Docusaurus.`,
-    },
   },
   presets: [
     [
