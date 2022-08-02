@@ -4,16 +4,14 @@ This website is a port from Gitbook of the [Armada Alliance Docs](https://github
 
 The website is deployed at Github Pages https://armada-alliance.com/docs/
 
-## Installation
-
-```console
-nvm use 
-npm install
-```
-
 ## Local Development
 
+Clone the repository locally enter the new project folder.
+
 ```console
+https://github.com/armada-alliance/docs.git
+cd docs/
+npm install
 npm start
 ```
 
@@ -89,7 +87,6 @@ For convenience you can use the following command to upload and download:
 ```console
 npm run crowdin:sync
 ```
-
 
 ### Adding a new language
 
