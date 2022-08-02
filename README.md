@@ -9,7 +9,7 @@ The website is deployed at Github Pages https://armada-alliance.com/docs/
 Clone the repository locally enter the new project folder.
 
 ```console
-https://github.com/armada-alliance/docs.git
+git clone https://github.com/armada-alliance/docs.git
 cd docs/
 npm install
 npm start
