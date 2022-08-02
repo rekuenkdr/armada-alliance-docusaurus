@@ -119,7 +119,7 @@ module.exports = {
         keywords: ["guides"],
       },
       items: [
-        // need guides here
+        "stake-pool-guides/oracle-ampere"
       ],
     },
     {
