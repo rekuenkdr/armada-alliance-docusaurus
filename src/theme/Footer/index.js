@@ -1,5 +1,5 @@
 import React from "react";
-
+//import AllianceLogo from "../../../src/theme/Footer/armada-alliance-logo.png";
 //import Footer from '@theme-original/Footer';
 
 export default function FooterWrapper(props) {
@@ -20,7 +20,10 @@ export default function FooterWrapper(props) {
                   </a>
                 </li>
                 <li className="footer__item">
-                  <a className="footer__link-item" href="https://armada-alliance.com/docs/">
+                  <a
+                    className="footer__link-item"
+                    href="https://armada-alliance.com/docs/"
+                  >
                     Docs
                   </a>
                 </li>
@@ -38,7 +41,10 @@ export default function FooterWrapper(props) {
               <h4 className="footer__title">Community</h4>
               <ul className="footer__items">
                 <li className="footer__item">
-                  <a className="footer__link-item" href="https://armada-alliance.com/identities">
+                  <a
+                    className="footer__link-item"
+                    href="https://armada-alliance.com/identities"
+                  >
                     Users
                   </a>
                 </li>
@@ -125,7 +131,6 @@ export default function FooterWrapper(props) {
                 className="footer__logo"
                 alt="Armada Alliance Logo"
                 src="./img/armada-alliance-logo.png"
-             
               />
             </div>
             Copyright © {new Date().getFullYear()} Armada Alliance.
