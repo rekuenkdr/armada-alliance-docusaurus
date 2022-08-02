@@ -127,11 +127,7 @@ export default function FooterWrapper(props) {
           </div>
           <div className="text--center">
             <div className="margin-bottom--sm">
-              <img
-                className="footer__logo"
-                alt="Armada Alliance Logo"
-                src="./img/armada-alliance-logo.png"
-              />
+            <img style={{ height: 'px', width:'150px'}} src={require('@site/static/img/armada-alliance-logo.png').default} />
             </div>
             Copyright © {new Date().getFullYear()} Armada Alliance.
           </div>
