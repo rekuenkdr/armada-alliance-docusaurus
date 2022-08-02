@@ -1,4 +1,4 @@
-# Cardano Submit Transaction API Tutorial 📦
+# Cardano Submit Transaction API Tutorial
 
 ## Why this Guide?
 

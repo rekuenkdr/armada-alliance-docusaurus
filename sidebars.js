@@ -44,20 +44,16 @@ module.exports = {
               label: "Introduction & Hardware",
               id: "stake-pool-guides/pi-pool-tutorial/README",
             },
-
             "stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/download-and-flash",
             "stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/logging-in-securely",
             "stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/user-setup",
             "stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/server-setup",
             "stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/environment-setup",
-            "stake-pool-guides/pi-pool-tutorial/pi-relay",
-            "stake-pool-guides/pi-pool-tutorial/core-online",
-            "stake-pool-guides/pi-pool-tutorial/cold-offline",
-            {
-              type: "doc",
-              label: "Stakepool Operator Scripts Guide",
-              id: "stake-pool-guides/pi-pool-tutorial/stakepoolscripts",
-            },
+            "stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/pi-relay",
+            "stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/core-online",
+            "stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/cold-offline",
+            "stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/stakepoolscripts"
+
           ],
         },
         {
@@ -207,10 +203,10 @@ module.exports = {
         "delegate",
         {
           type: "category",
-          label: "Contribute 🐱‍🚀",
+          label: "Contribute",
           link: {
             type: "generated-index",
-            title: "Contribute 🐱‍🚀",
+            title: "Contribute",
             slug: "how-to-contribute",
             keywords: ["contribute"],
           },
