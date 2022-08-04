@@ -1,0 +1,43 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# CNVM Static Build
+
+:::info
+This guide follows the same setup as our [Pi-Node guide and image](../pi-pool-tutorial/) so you may need to adjust sections based on your node's environment and setup.
+:::
+
+:::success
+
+#### Current Official Cardano Node Version: 1.34.1
+
+:::
+
+## Using cnvm to upgrade a node
+
+<Tabs>
+  <TabItem value="Default" label="Default" default>
+
+```bash title=">_ Terminal"
+cnvm upgrade --restart --snapshot
+```
+
+  </TabItem>
+  <TabItem value="-p2pP2P" label="-p2pP2P">
+
+```bash title=">_ Terminal"
+cnvm upgrade --restart --p2p --snapshot
+```
+
+  </TabItem>
+</Tabs>
+
+The underlying algorithm:
+
+1. Stop the cardano-node (Optional via `--restart` flag).
+2. Download the latest binaries (defaults to `1.34.1`).
+3. Fetch the latest build number and save it to your `.adaenv`.
+4. Download the latest node files (with the exception of the topology file).
+5. Patches the configuration for P2P. (Optional via `--p2p` flag).
+6. Download the latest database snapshot from [csnapshots.io](https://csnapshots.io). (Optional via `--snapshot` flag).
+7. Start the cardano-node (Optional via `--restart` flag).

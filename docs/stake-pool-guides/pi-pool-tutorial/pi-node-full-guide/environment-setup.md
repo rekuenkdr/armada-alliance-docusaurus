@@ -118,7 +118,27 @@ which jq
 # /usr/local/bin/jq
 ```
 
+## Install CNVM (optional)
+
+Optionally you can install `cnvm`, which will help you to automate some steps of the install process.
+
+```bash title=">_ Terminal"
+bash <(curl -Ls https://github.com/HofmannZ/cnvm/raw/master/scripts/install.sh)
+```
+
 ### Retrieve node files
+
+<Tabs groupId="RETRIEVE_NODE_FILES">
+  <TabItem value="cnvm" label="The cnvm command" default>
+
+```bash title=">_ Terminal"
+cnvm download-config-files --topology
+```
+
+This command also modifies ${NODE_CONFIG}-config.json and update TraceBlockFetchDecisions to "true" & listen on all interfaces with Prometheus Node Exporter.
+
+  </TabItem>
+  <TabItem value="manual" label="The manual commands">
 
 ```bash title=">_ Terminal"
 cd $NODE_FILES
@@ -138,6 +158,9 @@ sed -i ${NODE_CONFIG}-config.json \
     -e "s/127.0.0.1/0.0.0.0/g"
 ```
 
+  </TabItem>
+</Tabs>
+
 ### Retrieve aarch64 1.33.1 and cardano-submit-api binaries
 
 :::info
@@ -154,7 +177,28 @@ All previous aarch64 binaries can be found in the [Binary repository](https://gi
 
 :::
 
-<Tabs groupId="NODE_CONFIG">
+### The cnvm command
+
+<Tabs groupId="BINARIES_CNVM">
+  <TabItem value="mainnet" label="Recommended Mainnet Binaries" default>
+
+```bash title=">_ Terminal"
+cnvm install-binaries 1.34.1
+```
+
+  </TabItem>
+  <TabItem value="testnet" label="Recommended Testnet Binaries">
+
+```bash title=">_ Terminal"
+cnvm install-binaries 1.35.2
+```
+
+  </TabItem>
+</Tabs>
+
+### The manual commands
+
+<Tabs groupId="BINARIES">
   <TabItem value="mainnet" label="Recommended Mainnet Binaries" default>
 
 ```bash title=">_ Terminal"
@@ -179,7 +223,6 @@ cd ${HOME}
 ```
 
   </TabItem>
-  
 </Tabs>
 
 :::caution
@@ -390,15 +433,41 @@ cardano-service start
 cardano-service status
 ```
 
-Otherwise, be sure your node is **not** running & delete the db folder if it exists and download db/.
+Otherwise download the latest snapshot:
+
+<Tabs groupId="RETRIEVE_NODE_FILES">
+  <TabItem value="cnvm" label="The cnvm command" default>
+
+Be sure your node is **not** running.
+
+```bash title=">_ Terminal"
+cardano-service stop
+```
+
+Then run:
+
+```bash title=">_ Terminal"
+cnvm download-snapshot
+```
+
+Once done, enable & start cardano-node.
+
+```bash title=">_ Terminal"
+cardano-service enable
+cardano-service start
+cardano-service status
+```
+
+  </TabItem>
+  <TabItem value="manual" label="The manual commands">
+
+Be sure your node is **not** running & delete the db folder if it exists and download db/.
 
 ```bash title=">_ Terminal"
 cardano-service stop
 cd $NODE_HOME
 rm -r db/
 ```
-
-#### Download Database
 
 ```bash title=">_ Terminal"
 wget -r -np -nH -R "index.html*" -e robots=off https://$NODE_CONFIG.adamantium.online/db/
@@ -411,6 +480,9 @@ cardano-service enable
 cardano-service start
 cardano-service status
 ```
+
+  </TabItem>
+</Tabs>
 
 ## gLiveView.sh
 
