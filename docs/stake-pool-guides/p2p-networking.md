@@ -11,7 +11,7 @@ You will have to upgrade the whole pool to P2P at the same time. I could not get
 
 Edit your mainnet-config.json or testnet-config.json
 
-```bash title="config.json"
+```bash title="${NODE_CONFIG}-config.json"
 "TestEnableDevelopmentNetworkProtocols": true,
 "EnableP2P": true,
 "MaxConcurrencyBulkSync": 2,
@@ -114,6 +114,7 @@ Edit your mainnet-config.json or testnet-config.json
   <TabItem value="Mainnet" label="Mainnet P2P Core">
 
 ```json title="mainnet-topology.json"
+{
   "LocalRoots": {
     "groups": [
       {
