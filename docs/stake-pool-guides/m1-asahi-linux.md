@@ -51,17 +51,17 @@ Add a new user to the wheel group, give it a password.
 
 ```bash title=">_ Terminal"
 useradd -m -G wheel -s /bin/bash ada
-passwd ada
 ```
 
-Log out and back in as your new user with SSH. Test sudo by upgrading the system again.
+Log out and back in as your new user(ada) with SSH. Test sudo by upgrading the system again.
 
 ```bash title=">_ Terminal"
+ssh ada@<M1 private IP addr>
 sudo pacman -Syu
 ```
 
 :::caution
-Remember to copy your ssh key with ssh-copy-id and disable password aurthentication in sshd_config.
+Remember to copy your ssh key with ssh-copy-id and disable password authentication in sshd_config.
 :::
 
 ## Bash completion
@@ -94,7 +94,7 @@ sudo timedatectl set-timezone America/New_York
 ```
 
 :::caution
-No more daylight savings, possible to set RTC to local? testing, might not want to do this.
+No more daylight savings, possible to set RTC to local? Testing, might not want to do this.
 
 ```bash title=">_ Terminal"
 sudo timedatectl set-local-rtc 1
@@ -191,7 +191,7 @@ You may want to read up on zram. I always set 1.5 times the amount of system ram
 [zram0]
 zram-size = min(24 * 1024)
 ```
-This will give you 24gb of zram swap and will absorb the brunt of running the built in leaderlogs. Reboot and check htop to confirm.
+This will give you 24gb of zram swap and will absorb the brunt of running the built-in leaderlogs. Reboot and check htop to confirm.
 
 
 ## Prometheus
@@ -204,7 +204,7 @@ sudo pacman -S prometheus prometheus-node-exporter
 
 ## Grafana
 
-Two ways to install Grafana. From AUR or with snap. Pros and cons. Cannot install additional plugins with AUR version (looking into it). I need additional plugins so I built snap and installed Grafana with it.
+Two ways to install Grafana. From AUR or with snap. Pros and cons. Cannot install additional plugins with AUR version (looking into it). I need additional plugins, so I built snap and installed Grafana with it.
 
 ### With Snap
 
@@ -274,7 +274,7 @@ sudo systemctl enable systemd-networkd.service
 sudo systemctl start systemd-networkd.service
 ```
 
-Disable/stop dhcp.
+Disable/stop DHCP.
 
 ```bash title=">_ Terminal"
 
@@ -391,7 +391,7 @@ cat /etc/security/limits.conf
 ## Environment setup
 
 :::danger
-There is a 500 ₳ Registration deposit and another 5 ₳ in registration costs to start a pool on mainnet. First time users are strongly reccomended to use testnet. You can get tada (test ada) from the testnet faucet. [tada faucet link](https://testnets.cardano.org/en/testnets/cardano/tools/faucet/)
+There is a 500 ₳ Registration deposit and another 5 ₳ in registration costs to start a pool on mainnet. First time users are strongly recommended to use testnet. You can get tada (test ada) from the testnet faucet. [tada faucet link](https://testnets.cardano.org/en/testnets/cardano/tools/faucet/)
 :::
 
 :::tip
@@ -428,7 +428,7 @@ cat ${HOME}/.adaenv
 :::
 
 :::caution
-You must reload environment files after updating them. Same goes for cardano-node, changes to the topology or config files require a cardano-service restart.
+You must reload environment files after updating them. The same goes for cardano-node, changes to the topology or config files require a cardano-service restart.
 :::
 
 ```bash title=">_ Terminal"
@@ -551,7 +551,7 @@ Change target architecture to aarch64 in the build file.
 nano PKGBUILD
 arch=(aarch64)
 ```
-and build it.
+And build it.
 
 ```bash title=">_ Terminal"
 makepkg -si
@@ -781,7 +781,7 @@ cardano-monitor() {
 }
 ```
 
-What we just did there was add a couple functions to control our cardano-service and cardano-submit without having to type out
+What we just did there was added a couple functions to control our cardano-service and cardano-submit without having to type out
 
 > > sudo systemctl enable cardano-node.service
 > >
@@ -963,7 +963,7 @@ sudo EDITOR=nano crontab -e
 SHELL=/bin/bash
 * * * * * /home/ada/custom-metrics/peers_in.sh
 ```
-Restart prometheus-node-xporter.
+Restart prometheus-node-exporter.
 
 ```bash title=">_ Terminal"
 sudo systemctl restart prometheus-node-exporter
@@ -1003,7 +1003,7 @@ sudo EDITOR=nano crontab -e
 0 1 * * * /home/ada/custom-metrics/pacman_upgrades.sh
 ```
 
-Restart prometheus-node-xporter.
+Restart prometheus-node-exporter.
 
 ```bash title=">_ Terminal"
 sudo systemctl restart prometheus-node-exporter

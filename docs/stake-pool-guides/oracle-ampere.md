@@ -323,7 +323,7 @@ cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "bech32") $HO
 
 :::info
 
-Oracle Cloud images are incompatable with UFW, so we're going to go with firewalld instead, which is a firewall management solution available for many Linux distributions which acts as a frontend for the iptables packet filtering system provided by the Linux kernel (see https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7).
+Oracle Cloud images are incompatible with UFW, so we're going to go with firewalld instead, which is a firewall management solution available for many Linux distributions which acts as a frontend for the iptables packet filtering system provided by the Linux kernel (see https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7).
 
 :::
 

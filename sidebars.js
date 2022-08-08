@@ -171,6 +171,7 @@ module.exports = {
       items: [
         "stake-pool-guides/basic-stake-pool-networking",
         "stake-pool-guides/wireguard-guide",
+        "stake-pool-guides/p2p-networking",
       ],
     },
     {
