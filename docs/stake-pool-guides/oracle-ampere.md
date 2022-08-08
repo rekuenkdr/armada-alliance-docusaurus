@@ -396,7 +396,7 @@ You will be presented with the default ingress rules. Click 'Add Ingress Rules'.
 
  ![create Oracle instance](/img/oracle-add-ingress.png)
 
- It should like like this.
+ It should look like this.
 
  ![create Oracle instance](/img/oracle-completed-ingress.png)
 
