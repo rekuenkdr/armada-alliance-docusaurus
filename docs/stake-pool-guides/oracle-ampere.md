@@ -399,3 +399,5 @@ You will be presented with the default ingress rules. Click 'Add Ingress Rules'.
  It should like like this.
 
  ![create Oracle instance](/img/oracle-completed-ingress.png)
+
+Your Oracle instance should now have everything you need to set up a relay or block producer with CNTools or Stake Pool Operator scripts. If using CNTools just be aware that the prebuilt binaries the prerequisites script downloads are x86 binaries. CNTools will not overwrite any existing aarch64 binaries. If you have any questions you can ask the in our Telegram group.
