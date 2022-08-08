@@ -22,7 +22,7 @@ Open a terminal on the machine you want to remote in **from**(local machine), yo
 Create a new password protected ED25519 key pair on your local machine. Give the key a unique name and password protect it when prompted.
 
 ```bash title=">_ Terminal"
-ssh-keygen -a 64 -t ed25519 -f unique_keyname
+ssh-keygen -a 64 -t ed25519 -f ~/.ssh/<unique_keyname>
 ```
 
 :::info

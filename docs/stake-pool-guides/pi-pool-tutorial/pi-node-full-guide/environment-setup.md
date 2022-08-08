@@ -73,7 +73,7 @@ make
 sudo make install
 ```
 
-Echo library paths .bashrc file and source it.
+Echo library paths into .bashrc file and source it.
 
 ```bash title=">_ Terminal"
 echo "export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"" >> ~/.bashrc
@@ -87,35 +87,22 @@ Update link cache for shared libraries and confirm.
 sudo ldconfig; ldconfig -p | grep libsodium
 ```
 
-Confirm linked secp256k1 library
+## Build secp256k1
 
-```bash title=">_ Terminal"
-ldconfig -p | grep secp256k1
 ```
-
-## Build a static binary of jq
-
-We need a static binary we can move to the offline machine later in the guide.
-
-```bash title=">_ Terminal"
-cd; cd git
-git clone https://github.com/stedolan/jq.git
-cd jq/
-git submodule update --init
-autoreconf -fi
-./configure --with-oniguruma=builtin
-make LDFLAGS=-all-static
-make check
+git clone https://github.com/bitcoin-core/secp256k1.git
+cd secp256k1
+git reset --hard $SECP256K1_REF
+./autogen.sh
+./configure  --enable-module-schnorrsig --enable-experimental
+make
 sudo make install
 ```
 
-Confirm.
+Update link cache for shared libraries and confirm.
 
 ```bash title=">_ Terminal"
-jq -V
-# jq-1.6-145-ga9f97e9-dirty
-which jq
-# /usr/local/bin/jq
+sudo ldconfig; ldconfig -p | grep secp256k1
 ```
 
 ## Install CNVM (optional)
