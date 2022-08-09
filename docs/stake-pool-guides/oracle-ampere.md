@@ -7,7 +7,7 @@ import Link from '@docusaurus/Link';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Oracle Cloud free tier guide
+# Oracle Cloud Ampere
 
 :::note
 

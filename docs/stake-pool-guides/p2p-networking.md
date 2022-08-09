@@ -9,6 +9,15 @@ import TabItem from '@theme/TabItem';
 You will have to upgrade the whole pool to P2P at the same time. I could not get tx's into my core node till P2P was enabled on it.
 :::
 
+:::warning
+There is a bug in 1.34.1 that causes issues with cardano-cli query command. CNCLI relies on this command and does not work correctly. If you really want to use 1.34.1 with P2P enabled and CNCLI you will need to build cardano-node with the following tagged version of ouroboros-network.
+
+```bash title=">_ Terminal"
+sed -i 's/tag: 4fac197b6f0d2ff60dc3486c593b68dc00969fbf/tag: 48ff9f3a9876713e87dc302e567f5747f21ad720/g' cabal.project
+
+```
+:::
+
 Edit your mainnet-config.json or testnet-config.json. I add them just above ***"defaultBackends": [***.
 
 ```bash title="${NODE_CONFIG}-config.json"
@@ -22,7 +31,7 @@ Edit your mainnet-config.json or testnet-config.json. I add them just above ***"
 "TargetNumberOfActivePeers": 10,
 ```
 
-Edit the topology file
+Edit the topology file.
 
 <Tabs groupId="CONFIG_NET">
   <TabItem value="Testnet" label="Testnet P2P Relay" default>
@@ -148,7 +157,10 @@ You can reload the networking stack without having restart the service with this
 ```bash title=">_ Terminal"
 nano ~/.bashrc
 ```
-Add this to the bottom and source the changes into Bash.
+Add this to the bottom and source the changes into Bash. Change pidof to match the name of your cardano-node systemd service.
+
+<Tabs groupId="CONFIG_NET">
+  <TabItem value="SPOS" label="SPOS" default>
 
 ```bash title="~/.bashrc"
 cardano-reload() {
@@ -157,6 +169,18 @@ cardano-reload() {
    echo ${CPID}
 }
 ```
+  </TabItem>
+  <TabItem value="CNTools" label="CNTools">
+
+```bash title="~/.bashrc"
+cardano-reload() {
+   CPID=$(pidof cnode)
+   kill -SIGHUP ${CPID}
+   echo ${CPID}
+}
+```
+  </TabItem>
+</Tabs>
 
 ```bash title=">_ Terminal"
 source ~/.bashrc
