@@ -105,6 +105,35 @@ Update link cache for shared libraries and confirm.
 sudo ldconfig; ldconfig -p | grep secp256k1
 ```
 
+## Build a static binary of jq
+
+:::tip
+It's handy to have a statically linked aarch64 jq binary that you can move to an ARM cold machine.
+
+A Raspberry Pi 400 makes a great cold machine for signing pool transactions or rotating KES. This allows you to have a truly never online cold machine, and it's fairly portable and compact.
+:::
+
+```bash title=">_ Terminal"
+cd $HOME/git
+git clone https://github.com/stedolan/jq.git
+cd jq/
+git submodule update --init
+autoreconf -fi
+./configure --with-oniguruma=builtin
+make LDFLAGS=-all-static
+make check
+sudo make install
+```
+
+Confirm.
+
+```bash title=">_ Terminal"
+jq -V
+# jq-1.6-145-ga9f97e9-dirty
+which jq
+# /usr/local/bin/jq
+```
+
 ## Install CNVM (optional)
 
 Optionally you can install `cnvm`, which will help you to automate some steps of the install process.
