@@ -260,6 +260,13 @@ ghcup install ghc 8.10.7
 ghcup set ghc 8.10.7
 ```
 
+Confirm.
+
+```bash title=">_ Terminal"
+cabal --version
+ghc --version
+```
+
 ## Build cardano-node
 
 ```bash title=">_ Terminal"
@@ -280,14 +287,20 @@ sed -i $HOME/.cabal/config -e "s/overwrite-policy:/overwrite-policy: always/g"
 rm -rf dist-newstyle/build/aarch64-linux/ghc-8.10.7
 ```
 
-Confirm.
+Build cardano-cli, cardano-node, cardano-submit-api and bech32.
+
+:::info
+
+If Ubuntu complains about LLVM try the below commands. This happened to me once. The library paths should be linked automatically though.
 
 ```bash title=">_ Terminal"
-cabal --version
-ghc --version
+export PATH=/usr/lib/llvm-12/bin:$PATH
+export CPLUS_INCLUDE_PATH=$(llvm-config --includedir):$CPLUS_INCLUDE_PATH
+export LD_LIBRARY_PATH=$(llvm-config --libdir):$LD_LIBRARY_PATH
 ```
 
-Build cardano-cli, cardano-node, cardano-submit-api and bech32.
+:::
+
 
 ```bash title=">_ Terminal"
 cabal build cardano-cli cardano-node cardano-submit-api bech32
