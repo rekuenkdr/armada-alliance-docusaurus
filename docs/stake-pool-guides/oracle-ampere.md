@@ -161,7 +161,7 @@ mem=$((totalmem / 2 * 1024 * 3))
 # initialize the devices
 echo $mem > /sys/block/zram0/disksize
 mkswap /dev/zram0
-swapon -p 5 /dev/zram0
+swapon -p 150 /dev/zram0
 ```
 
 ## Build a static binary of jq
