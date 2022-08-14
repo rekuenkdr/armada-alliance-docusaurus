@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
 
 :::note
 
-Guide brought to us by [ENVY](https://cardanoscan.io/pool/14eae9da8ab6d322176ea88f40e9d32d843996bf2de88240e35594ea) stakepool. Altered slightly to work with Armada Alliance docs, cntools and Stake pool operator scripts. This guide focuses on instance setup, building Cardano binaries for ARM and opening ports to your Oracle Ampere instance.
+Guide brought to us by [ENVY](https://cardanoscan.io/pool/14eae9da8ab6d322176ea88f40e9d32d843996bf2de88240e35594ea) stake pool. Altered slightly to work with Armada Alliance docs, cntools and Stake pool operator scripts. This guide focuses on instance setup, building Cardano binaries for ARM and opening ports to your Oracle Ampere instance.
 
 :::
 
@@ -61,7 +61,7 @@ Leave the network section as is.
 
 Under 'Add SSH Keys' choose 'Paste public keys' then paste your **public** ssh key into the 'SSH keys' input. If you need/want to create a new password protected ed25519 key pair you can. Give it a unique name.
 
-### Optionally create a new SSH keypair if needed
+### Optionally create a new SSH key pair if needed
 
 If you want to create a new SSH password protected ED25519 key pair.
 
@@ -169,7 +169,7 @@ swapon -p 5 /dev/zram0
 :::tip
 It's handy to have a statically linked aarch64 jq binary that you can move to an ARM cold machine.
 
-A Raspberrry Pi 400 makes a great cold machine for signing pool transactions or rotating KES. This allows you to have a truly never online cold machine and it's fairly portable and compact.
+A Raspberry Pi 400 makes a great cold machine for signing pool transactions or rotating KES. This allows you to have a truly never online cold machine, and it's fairly portable and compact.
 :::
 
 ```bash title=">_ Terminal"
