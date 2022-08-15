@@ -146,7 +146,7 @@ Open /usr/bin/init-zram-swapping.
 sudo nano /usr/bin/init-zram-swapping
 ```
 
-Switch compression algorithm to lz4. Multiply the default mem variable by 3 like below. This will give the instance 35gb of compressed virtual swap in RAM.
+Switch compression algorithm to lz4. Multiply the default mem variable by 3 like below. This will give the instance 35gb of compressed virtual swap in RAM. Increase vm.swappiness to 150.
 
 ```bash title="/usr/bin/init-zram-swapping"
 #!/bin/sh

@@ -235,7 +235,7 @@ sudo apt install zram-config linux-modules-extra-raspi
 sudo nano /usr/bin/init-zram-swapping
 ```
 
-Multiply default config by 3. This will give you 11.5GB of virtual compressed swap in ram.
+Switch compression algorithm to lz4. Multiply the default mem variable by 3 like below. This will give the instance 35gb of compressed virtual swap in RAM. Increase vm.swappiness to 150.
 
 ```bash title="/usr/bin/init-zram-swapping"
 mem=$((totalmem / 2 * 1024 * 3))
@@ -248,13 +248,13 @@ modprobe zram
 
 # Calculate memory to use for zram (1/2 of ram)
 totalmem=`LC_ALL=C free | grep -e "^Mem:" | sed -e 's/^Mem: *//' -e 's/  *.*//'`
+echo lz4 > /sys/block/zram0/comp_algorithm
 mem=$((totalmem / 2 * 1024 * 3))
 
 # initialize the devices
 echo $mem > /sys/block/zram0/disksize
 mkswap /dev/zram0
-swapon -p 5 /dev/zram0
-
+swapon -p 150 /dev/zram0
 ```
 
 ### Raspberry Pi & entropy
