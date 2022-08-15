@@ -9,9 +9,9 @@ The docker image can run on any arm64 device (such as a RaspberryPi, Mac Mini M1
 
 ## Why using docker image to run a Cardano node?
 
-The advantage of deploying a Cardano node as a Docker image is that it can be installed seamlessly and launched out of the box. 
+The advantage of deploying a Cardano node as a Docker image is, that it can be installed seamlessly and launched right out of the box. 
 If you ever decide to remove it, you only have to delete one file - the image. Another advantage is that the created image can run on any 
-operating system where Docker is installed. Using Docker reduces the complexity and effort of setting up a Cardano node compared to the traditional way 
+operating system where Docker is installed. Using our Docker image reduces the complexity and effort of setting up a Cardano node compared to the traditional way 
 (for example, you don't have to deal with systemd settings).
 
 ## System requirements
@@ -97,9 +97,9 @@ sudo wget -O tx-submit-mainnet-config.yaml https://raw.githubusercontent.com/inp
 
 :::tip
 
-The directory /files contains the downloaded Cardano node configuration files.
+- /files contains the Cardano node configuration files.
 
-The /db directory will host the Cardano blockchain once the Docker node is started. It is important that the blockchain data 
+- /db directory will host the Cardano blockchain once the Docker node is started. It is important that the blockchain data 
 are stored on the host system and not inside the Docker container, otherwise the entire blockchain would be deleted every time 
 the Docker container is removed.
 
@@ -109,8 +109,9 @@ the Docker container is removed.
 
 Now it's time to create the docker image. There are two ways to do this. 
 
-1) Pull the pre-built docker image from our Armada Docker Hub repository (easiest and fastest option)
-2) Build the docker image by yourself.
+1) Pull the pre-built docker image from our Armada Docker Hub repository (easiest and fastest option) (go to chapter 3.1)
+
+2) Build the docker image by yourself (go to chapter 3.2) 
 
 Either way, the docker image includes:
 
@@ -124,7 +125,7 @@ Either way, the docker image includes:
 Pull the image with:
 
 ```bash
-docker pull armadaalliance/armada-cn:1.35.0
+docker pull armadaalliance/armada-cn:1.35.3
 ```
 
 You should see your Cardano node docker image in the list:
@@ -135,7 +136,7 @@ docker images
 
 ```bash
 REPOSITORY              TAG            IMAGE ID       CREATED          SIZE
-armadaalliance/armada-cn        1.35.0         da4414775ce6   37 seconds ago   619MB
+armadaalliance/armada-cn        1.35.3         da4414775ce6   37 seconds ago   700MB
 ```
 
 You can now proceed with chapter 4, in order to start the node.
@@ -158,7 +159,7 @@ You should see your Cardano node docker image in the list, e.g.
 
 ```bash title=">_ Terminal"
 REPOSITORY              TAG            IMAGE ID       CREATED          SIZE
-armadaalliance/armada-cn        1.35.0         da4414775ce6   37 seconds ago   619MB
+armadaalliance/armada-cn        1.35.3         da4414775ce6   37 seconds ago   700MB
 <none>                  <none>         f3891eef21e4   3 minutes ago    1.09GB
 ```
 
@@ -194,7 +195,7 @@ Important: Change the directory paths CN_CONFIG_PATH and CN_DB_PATH to the corre
 ```bash title=">_ Terminal"
 ##Configuration for relay and block producing node
 CNIMAGENAME="armada/armada-cn"                                   ## Name of the Cardano docker image
-CNVERSION="1.35.0"                                               ## Version of the cardano-node. It must match with the version of the docker i>
+CNVERSION="1.35.3"                                               ## Version of the cardano-node. It must match with the version of the docker i>
 CNNETWORK="testnet"                                              ## Use "mainnet" if connecting node to the mainnet
 CNMODE="relay"                                                   ## Use "bp" if you configure the node as block production node
 CNPORT="3001"                                                    ## Define the port of the node
@@ -231,7 +232,7 @@ If the docker node started successfully, you might see something like this:
 
 ```bash title=">_ Terminal"
 CONTAINER ID   IMAGE                     COMMAND                  CREATED          STATUS                    PORTS                                                                                      NAMES
-fed0cfbf7d86   armadaalliance/armada-cn:1.35.0   "bash title=">_ Terminal" -c /home/carda…"   12 seconds ago   Up 10 seconds (healthy)   0.0.0.0:3001->3001/tcp, :::3001->3001/tcp, 0.0.0.0:12799->12798/tcp, :::12799->12798/tcp   cardano-node-testnet-1.34.1
+fed0cfbf7d86   armadaalliance/armada-cn:1.35.3   "bash title=">_ Terminal" -c /home/carda…"   12 seconds ago   Up 10 seconds (healthy)   0.0.0.0:3001->3001/tcp, :::3001->3001/tcp, 0.0.0.0:12799->12798/tcp, :::12799->12798/tcp   cardano-node-testnet-1.34.1
 ```
 
 You can also check the logs of the running cardano-node:
