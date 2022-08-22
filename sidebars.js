@@ -119,7 +119,8 @@ module.exports = {
         keywords: ["guides"],
       },
       items: [
-        "stake-pool-guides/oracle-ampere"
+        "stake-pool-guides/oracle-ampere",
+ //       "stake-pool-guides/oracle-db-sync"
       ],
     },
     {

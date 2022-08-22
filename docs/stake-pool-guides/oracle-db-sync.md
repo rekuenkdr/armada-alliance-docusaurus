@@ -1,17 +1,17 @@
 ---
-description: This guide is designed to teach Cardano SPOs how to set up cardano-node on Oracle cloud.
-keywords: [guides, cardano relay, cardano node, cardano stake pool, Oracle Cloud Ampere, armada alliance, ubuntu]
+description: This guide is designed to teach Cardano SPOs how to set up cardano-db-sync on Oracle cloud.
+keywords: [guides, cardano relay, cardano node, Oracle Cloud Ampere, armada alliance, ubuntu]
 ---
 
 import Link from '@docusaurus/Link';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Oracle Cloud Ampere
+# Oracle Cloud Ampere db-sync
 
 :::note
 
-Guide brought to us by [ENVY](https://cardanoscan.io/pool/14eae9da8ab6d322176ea88f40e9d32d843996bf2de88240e35594ea) stake pool. Altered slightly to work with Armada Alliance docs, cntools and Stake pool operator scripts. This guide focuses on instance setup, building Cardano binaries for ARM and opening ports to your Oracle Ampere instance.
+
 
 :::
 
@@ -89,9 +89,9 @@ cat <unique_keyname>.pub
 
 Paste your public key into the input field.
 
-Under Boot volume section click on 'Specify a custom boot volume size' and enter 200gb.
+Under Boot volume section click on 'Specify a custom boot volume size' and enter 600gb. I increased IOPs by one notch. 
+Near as I can tell this will be around 30 cents a day.
 
-![create Oracle instance](/img/oracle-boot-volume.png)
 
 That's it go ahead and click 'Create' at the bottom left of the page. Provisioning the new instance will take a minute or two.
 
@@ -122,62 +122,6 @@ sudo apt install build-essential libssl-dev tcptraceroute python3-pip flex \
     make automake unzip net-tools pkg-config g++ bison \
     libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev autoconf \
     zlib1g-dev libncursesw5 llvm-12 numactl libnuma-dev libtool -y
-```
-
-### Chrony
-
-We need to get our time synchronization as accurate as possible. Open /etc/chrony/chrony.conf
-
-```bash title=">_ Terminal"
-sudo apt install chrony
-```
-
-```bash title=">_ Terminal"
-sudo nano /etc/chrony/chrony.conf
-```
-
-Replace the contents of the file with below, Save and exit.
-
-```bash title="/etc/chrony/chrony.conf"
-pool time.google.com       iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
-pool time.euro.apple.com   iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
-pool time.apple.com        iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
-pool ntp.ubuntu.com        iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
-
-# This directive specify the location of the file containing ID/key pairs for
-# NTP authentication.
-keyfile /etc/chrony/chrony.keys
-
-# This directive specify the file into which chronyd will store the rate
-# information.
-driftfile /var/lib/chrony/chrony.drift
-
-# Uncomment the following line to turn logging on.
-#log tracking measurements statistics
-
-# Log files location.
-logdir /var/log/chrony
-
-# Stop bad estimates upsetting machine clock.
-maxupdateskew 5.0
-
-# This directive enables kernel synchronisation (every 11 minutes) of the
-# real-time clock. Note that it can’t be used along with the 'rtcfile' directive.
-rtcsync
-
-# Step the system clock instead of slewing it if the adjustment is larger than
-# one second, but only in the first three clock updates.
-makestep 0.1 -1
-
-# Get TAI-UTC offset and leap seconds from the system tz database
-leapsectz right/UTC
-
-# Serve time even if not synchronized to a time source.
-local stratum 10
-```
-
-```bash title=">_ Terminal"
-sudo service chrony restart
 ```
 
 ## Optionally install ZRAM
@@ -229,6 +173,7 @@ A Raspberry Pi 400 makes a great cold machine for signing pool transactions or r
 :::
 
 ```bash title=">_ Terminal"
+mkdir $HOME/git
 cd $HOME/git
 git clone https://github.com/stedolan/jq.git
 cd jq/
@@ -431,7 +376,7 @@ It is preferable to use a VPN like Wireguard to communicate with your other rela
 :::
 
   ```bash title=">_ Terminal"
-sudo firewall-cmd --permanent --zone=public --add-rich-rule='rule family="ipv4" source address="<your ip address>" port protocol="tcp" port="6002" accept'
+firewall-cmd --permanent --zone=public --add-rich-rule='rule family="ipv4" source address="<your ip address>" port protocol="tcp" port="6002" accept'
 
 #Reload firewalld
 sudo firewall-cmd --reload
