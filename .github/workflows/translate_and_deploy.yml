@@ -41,4 +41,6 @@ jobs:
           GIT_USER=rekuenkdr GIT_PASS=${{ secrets.GITHUB_TOKEN }} npm run deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
 
