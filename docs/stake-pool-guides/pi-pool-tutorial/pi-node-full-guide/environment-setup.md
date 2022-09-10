@@ -90,6 +90,7 @@ sudo ldconfig; ldconfig -p | grep libsodium
 ## Build secp256k1
 
 ```
+cd; cd git/
 git clone https://github.com/bitcoin-core/secp256k1.git
 cd secp256k1
 git reset --hard $SECP256K1_REF
