@@ -67,6 +67,11 @@ module.exports = {
           position: "right",
         },
         {
+          href: "https://shop.armada-alliance.com",
+          label: "Armada Store",
+          position: "right",
+        },
+        {
           href: "https://github.com/armada-alliance/",
           label: "GitHub",
           position: "right",

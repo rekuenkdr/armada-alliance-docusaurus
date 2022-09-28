@@ -117,9 +117,9 @@ export default function FooterWrapper(props) {
                 <li className="footer__item">
                   <a
                     className="footer__link-item"
-                    href="https://cointr.ee/armada-alliance"
+                    href="https://shop.armada-alliance.com"
                   >
-                    Donate
+                    Store
                   </a>
                 </li>
               </ul>
