@@ -176,6 +176,11 @@ module.exports = {
       ],
     },
     {
+      type: "doc",
+      label: "Hardware List",
+      id: "hardware-list/hw-list"
+    },
+    {
       type: "category",
       label: "Other Cardano Guides",
       link: {
