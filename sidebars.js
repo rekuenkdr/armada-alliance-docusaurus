@@ -177,8 +177,8 @@ module.exports = {
     },
     {
       type: "doc",
-      label: "Hardware List",
-      id: "hardware-list/hw-list"
+      label: "Hardware",
+      id: "hardware/hw"
     },
     {
       type: "category",
