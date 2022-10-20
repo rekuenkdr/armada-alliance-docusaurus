@@ -2,15 +2,15 @@
 
 ## Prerequisites 
 
-Asahi Arch Linux, minimal or desktop installed on your M1 or M2.
+Asahi Arch Linux, minimal or desktop installed on your M1 or M2. You can also use the Asahi installer to create a UEFI boot partition that will allow you to install any operating system. That does not mean it will run. A list of alternative distros can be found here.
+https://github.com/AsahiLinux/docs/wiki/SW%3AAlternative-Distros
+
+
+** This guide is for Asahi Arch Linux. **
 
 :::tip
-Allow the installer to use as much space as it can for Asahi
+Be sure to log in and fully update MacOS before starting. Open this guide in the M1 MacOS. 
 :::
-
-[Release Notes](https://asahilinux.org/2022/03/asahi-linux-alpha-release/)
-
-log in to both alarm and root. Change the passwords.
 
 :::info
 
@@ -18,8 +18,33 @@ Desktop version does not have the default alarm user, the user of your choice is
 
 :::
 
+### Start by installing Asahi Linux by following the link below
+[Asahi Alpha Release Notes](https://asahilinux.org/2022/03/asahi-linux-alpha-release/)
 
-Update the system as root.
+:::info
+
+There is a handy script that can delete the partitions that the Asahi installer creates. Use this if you wish to start over. 
+https://github.com/AsahiLinux/asahi-installer/issues/76#issuecomment-1094359888
+
+You can invoke it from MacOS or from within 1TR but not from Linux OS.
+
+
+```bash title=">_ Terminal"
+curl -L https://alx.sh/wipe-linux | sh
+```
+
+:::
+
+Log in to both alarm and root. Change the passwords. 
+
+#### Defaults: alarm/alarm & root/root.
+
+
+### Update the system
+
+
+### Log in and change default passwords
+Log in as root and update the system.
 
 ```bash title=">_ Terminal"
 pacman -Syu
@@ -51,6 +76,7 @@ Add a new user to the wheel group, give it a password.
 
 ```bash title=">_ Terminal"
 useradd -m -G wheel -s /bin/bash ada
+passwd ada
 ```
 
 Log out and back in as your new user(ada) with SSH. Test sudo by upgrading the system again.
@@ -214,11 +240,14 @@ cd ~/git
 git clone https://aur.archlinux.org/snapd.git
 cd snapd/
 makepkg -si
-reboot
+sudo reboot
+sudo systemctl restart apparmor.service
+sudo systemctl restart snapd.service
+sudo systemctl enable --now snapd.apparmor.service
 sudo snap install grafana --channel=rock/edge
 ```
 
-### Grafan-bin AUR
+### Grafana-bin AUR
 
 ```bash title=">_ Terminal"
 mkdir ~/git
@@ -524,14 +553,13 @@ Update link cache for shared libraries and confirm.
 sudo ldconfig; ldconfig -p | grep secp256k1
 ```
 
-
-## LLVM 9.0.1
+## LLVM 12.0.1
 
 ```bash title=">_ Terminal"
 cd ~/git
-wget https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/clang+llvm-9.0.1-aarch64-linux-gnu.tar.xz
-tar -xf clang+llvm-9.0.1-aarch64-linux-gnu.tar.xz
-export PATH=~/git/clang+llvm-9.0.1-aarch64-linux-gnu/bin/:$PATH
+wget https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/clang+llvm-12.0.1-aarch64-linux-gnu.tar.xz
+tar -xf clang+llvm-12.0.1-aarch64-linux-gnu.tar.xz
+export PATH=~/git/clang+llvm-12.0.1-aarch64-linux-gnu/bin/:$PATH
 ```
 
 ## ncurses5 compat libs
@@ -549,6 +577,9 @@ Change target architecture to aarch64 in the build file.
 
 ```bash title=">_ Terminal"
 nano PKGBUILD
+
+```
+```bash title=">PKGBUILD"
 arch=(aarch64)
 ```
 And build it.
@@ -581,6 +612,13 @@ ghcup install ghc 8.10.7
 ghcup set ghc 8.10.7
 ```
 
+Confirm.
+
+```bash title=">_ Terminal"
+cabal --version
+ghc --version
+```
+
 ### Obtain cardano-node
 
 ```bash title=">_ Terminal"
@@ -601,17 +639,10 @@ sed -i $HOME/.cabal/config -e "s/overwrite-policy:/overwrite-policy: always/g"
 rm -rf dist-newstyle/build/aarch64-linux/ghc-8.10.7
 ```
 
-Confirm.
+Build cardano-cli cardano-node.
 
 ```bash title=">_ Terminal"
-cabal --version
-ghc --version
-```
-
-Build cardano-cli cardano-node cardano-submit-api.
-
-```bash title=">_ Terminal"
-cabal build cardano-cli cardano-node cardano-submit-api
+cabal build cardano-cli cardano-node
 ```
 
 Add them to your PATH.
@@ -619,7 +650,6 @@ Add them to your PATH.
 ```bash title=">_ Terminal"
 cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-cli") $HOME/.local/bin/
 cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-node") $HOME/.local/bin/
-cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-submit-api") $HOME/.local/bin/
 ```
 
 Check
@@ -652,7 +682,7 @@ cardano-node run +RTS -N6 -RTS \
   --config ${CONFIG}
 ```
 
-Allow execution of our new cardano-node service file.
+Allow execution of our new cardano-node startup script.
 
 ```bash title=">_ Terminal"
 chmod +x ${HOME}/.local/bin/cardano-service
@@ -692,64 +722,6 @@ EnvironmentFile=-/home/ada/.adaenv
 WantedBy= multi-user.target
 ```
 
-Create the systemd unit file and startup script so systemd can manage cardano-submit-api.
-
-```bash title=">_ Terminal"
-nano ${HOME}/.local/bin/cardano-submit-service
-```
-
-```bash title="${HOME}/.local/bin/cardano-submit-service"
-#!/bin/bash
-. /home/ada/.adaenv
-
-cardano-submit-api \
-  --socket-path ${CARDANO_NODE_SOCKET_PATH} \
-  --port 8090 \
-  --config /home/ada/pi-pool/files/tx-submit-mainnet-config.yaml \
-  --listen-address 0.0.0.0 \
-  --mainnet
-```
-
-Allow execution of our new cardano-submit-api service script.
-
-```bash title=">_ Terminal"
-chmod +x ${HOME}/.local/bin/cardano-submit-service
-```
-
-Create /etc/systemd/system/cardano-submit.service.
-
-```bash title=">_ Terminal"
-sudo nano /etc/systemd/system/cardano-submit.service
-```
-
-Paste the following, You will need to edit the username here if you chose to not use ada. save & exit.
-
-```bash title="/etc/systemd/system/cardano-submit.service"
-# The Cardano Submit Service (part of systemd)
-# file: /etc/systemd/system/cardano-submit.service
-
-[Unit]
-Description     = Cardano submit service
-Wants           = network-online.target
-After           = network-online.target
-
-[Service]
-User            = ada
-Type            = simple
-WorkingDirectory= /home/ada/pi-pool
-ExecStart       = /bin/bash -c "PATH=/home/ada/.local/bin:$PATH exec /home/ada/.local/bin/cardano-submit-service"
-KillSignal=SIGINT
-RestartKillSignal=SIGINT
-TimeoutStopSec=10
-LimitNOFILE=32768
-Restart=always
-RestartSec=10
-EnvironmentFile=-/home/ada/.adaenv
-
-[Install]
-WantedBy= multi-user.target
-```
-
 Reload systemd so it picks up our new service files.
 
 ```bash title=">_ Terminal"
@@ -768,17 +740,17 @@ cardano-service() {
     sudo systemctl "$1" cardano-node.service
 }
 
-cardano-submit() {
-    #do things with parameters like $1 such as
-    sudo systemctl "$1" cardano-submit.service
-}
-
 cardano-monitor() {
     #do things with parameters like $1 such as
     sudo systemctl "$1" prometheus.service
     sudo systemctl "$1" prometheus-node-exporter.service
-    sudo systemctl "$1" grafana-server
 }
+```
+
+ Source these changes into your surrent shell.
+ 
+```bash title=">_ Terminal"
+source ${HOME}/.adaenv
 ```
 
 What we just did there was added a couple functions to control our cardano-service and cardano-submit without having to type out
@@ -798,18 +770,6 @@ Now we just have to:
 * cardano-service stop (stops cardano-node.service)
 * cardano-service status (shows the status of cardano-node.service)
 
-Or
-
-* cardano-submit enable (enables cardano-submit.service auto start at boot)
-* cardano-submit start (starts cardano-submit.service)
-* cardano-submit stop (stops cardano-submit.service)
-* cardano-submit status (shows the status of cardano-submit.service)
-
-The submit service listens on port 8090. You can connect your dapp wallet like below to submit tx's yourself in the wallets settings.
-
-```bash title="wallet submit url"
-http://<node lan ip>:8090/api/submit/tx
-```
 
 ## gLiveView.sh
 
