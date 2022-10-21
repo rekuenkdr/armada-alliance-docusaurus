@@ -987,7 +987,6 @@ Install UFW
 
 ```bash title=">_ Terminal"
 sudo pacman -S ufw
-sudo wifi-menu -o
 ```
 
 ## Wireless
