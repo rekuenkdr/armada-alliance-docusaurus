@@ -981,6 +981,24 @@ sudo systemctl restart prometheus-node-exporter
 
 In Grafana find the 'pacman_upgrades_pending' metric. It will not be available until you fire off the script or cron runs it.
 
+## Firewall
+
+Install UFW
+
+```bash title=">_ Terminal"
+sudo pacman -S ufw
+sudo wifi-menu -o
+```
+
+## Wireless
+
+Connect with wireless
+
+```bash title=">_ Terminal"
+sudo pacman -S dialog wpa_supplicant
+sudo wifi-menu -o
+```
+
 
 ## Usefull links
 
