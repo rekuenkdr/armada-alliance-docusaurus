@@ -244,7 +244,17 @@ sudo reboot
 sudo systemctl restart apparmor.service
 sudo systemctl restart snapd.service
 sudo systemctl enable --now snapd.apparmor.service
+```
+
+Install Grafana, enable and start.
+
+```bash title=">_ Terminal"
 sudo snap install grafana --channel=rock/edge
+sudo snap enable grafana
+sudo snap start grafana
+
+# check it's active and enabled
+snap services | grep active
 ```
 
 ### Grafana-bin AUR
@@ -933,7 +943,7 @@ After a minute you should be able to find a metric in Grafana called 'peers_in'.
 
 ## System updates
 
-Track available system upgrades(pacman)
+View available system upgrades(pacman) on Grafana
 
 ```bash title=">_ Terminal"
 nano $HOME/custom-metrics/pacman_upgrades.sh
