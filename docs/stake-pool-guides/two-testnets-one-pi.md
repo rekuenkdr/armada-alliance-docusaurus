@@ -281,7 +281,7 @@ cardano-node run +RTS -N4 -RTS \
   --socket-path ${CARDANO_NODE_SOCKET_PATH} \
   --host-addr 0.0.0.0 \
   --port ${NODE_PORT} \
-  --config ${CONFIG} \
+  --config ${CONFIG}
 #  --shelley-kes-key ${KES} \
 #  --shelley-vrf-key ${VRF} \
 #  --shelley-operational-certificate ${CERT}
@@ -309,7 +309,7 @@ cardano-node run +RTS -N4 -RTS \
   --socket-path ${CARDANO_NODE_SOCKET_PATH} \
   --host-addr 0.0.0.0 \
   --port ${NODE_PORT} \
-  --config ${CONFIG} \
+  --config ${CONFIG}
 #  --shelley-kes-key ${KES} \
 #  --shelley-vrf-key ${VRF} \
 #  --shelley-operational-certificate ${CERT}
