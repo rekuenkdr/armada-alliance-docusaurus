@@ -287,7 +287,7 @@ Install the packages we will need.
 
 ```bash title=">_ Terminal"
 sudo apt install build-essential libssl-dev tcptraceroute python3-pip flex \
-         make automake unzip net-tools nginx ssl-cert pkg-config  g++ bison \
+         make automake unzip net-tools ssl-cert pkg-config  g++ bison \
          libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev autoconf \
          zlib1g-dev libncursesw5 llvm-12 numactl libnuma-dev libtool libsecp256k1-dev -y
 ```
