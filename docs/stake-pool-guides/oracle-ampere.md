@@ -368,7 +368,8 @@ Add them to your PATH.
   <TabItem value="~/.local/bin/" label="Stake Pool Scripts" default>
 
 ```bash title=">_ Terminal"
-mkdir ~/.local/bin
+mkdir -p ~/.local/bin
+export PATH="$HOME/.local/bin:$PATH"
 cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-cli") $HOME/.local/bin/
 cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-node") $HOME/.local/bin/
 cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-submit-api") $HOME/.local/bin/
@@ -379,7 +380,8 @@ cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "bech32") $HO
   <TabItem value="~/.cabal/bin" label="CNTools">
 
 ```bash title=">_ Terminal"
-mkdir ~/.cabal/bin
+mkdir -p ~/.cabal/bin
+export PATH="$HOME/.cabal/bin:$PATH"
 cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-cli") $HOME/.cabal/bin/
 cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-node") $HOME/.cabal/bin/
 cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-submit-api") $HOME/.cabal/bin/
