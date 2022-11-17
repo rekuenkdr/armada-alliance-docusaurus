@@ -22,6 +22,11 @@ module.exports = {
       disableSwitch: false,
       respectPrefersColorScheme: true,
     },
+    docs: {
+      sidebar: {
+        hideable: true,
+      },
+    },
     image: "https://docs.armada-alliance.com/img/armada-alliance-logo.png",
     prism: {
       theme: require("prism-react-renderer/themes/nightOwl"),
