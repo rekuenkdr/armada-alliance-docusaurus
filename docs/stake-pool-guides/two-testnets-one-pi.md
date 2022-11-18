@@ -288,7 +288,7 @@ cardano-node run +RTS -N4 -RTS \
 ```
 
 ```bash title=">_ Terminal"
-chmod +x ${HOME}.local/bin/preprod-service
+chmod +x ${HOME}/.local/bin/preprod-service
 ```
 
 </TabItem>
@@ -316,7 +316,7 @@ cardano-node run +RTS -N4 -RTS \
 ```
 
 ```bash title=">_ Terminal"
-chmod +x ${HOME}.local/bin/preprod-service
+chmod +x ${HOME}/.local/bin/preprod-service
 ```
 
 </TabItem>
@@ -331,7 +331,7 @@ or just download a set of statically linked binaries built by the Armada allianc
 cd ${HOME}/tmp
 wget https://ci.zw3rk.com/build/711137/download/1/aarch64-unknown-linux-musl-cardano-node-1.35.3.zip
 unzip aarch64-unknown-linux-musl-cardano-node-1.35.3.zip
-mv cardano-node/* ${HOME}.local/bin
+mv cardano-node/* ${HOME}/.local/bin
 ```
 Confirm Binaries are in $PATH.
 
