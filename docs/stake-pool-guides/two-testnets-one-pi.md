@@ -39,7 +39,7 @@ mkdir ${HOME}/tmp
 Add .local/bin to $PATH.
 
 ```bash title=">_ Terminal"
-cd ${HOME}.local/bin
+cd ${HOME}/.local/bin
 echo "export PATH=\"$PWD:\$PATH\"" >> $HOME/.bashrc
 export PATH="$PWD:$PATH"
 ```
@@ -124,7 +124,7 @@ export PATH="/home/ubuntu/stakepoolscripts/bin:$PATH"
 Change directory into the files folder for each network and download them. The file links can be found on the [Cardano Operations Book](https://book.world.dev.cardano.org/environments.html#preview-testnet).
 
 ```bash title=">_ Terminal"
-cd /home/ubuntu/preview-pool/files
+cd ${HOME}/preview-pool/files
 wget https://book.world.dev.cardano.org/environments/preview/config.json
 wget https://book.world.dev.cardano.org/environments/preview/topology.json
 wget https://book.world.dev.cardano.org/environments/preview/byron-genesis.json
@@ -148,7 +148,7 @@ sed -i config.json \
 Change directory into the files folder for each network and download them. The file links can be found on the [Cardano Operations Book](https://book.world.dev.cardano.org/environments.html#preprod-testnet).
 
 ```bash title=">_ Terminal"
-cd /home/ubuntu/preprod-pool/files
+cd ${HOME}/preprod-pool/files
 wget https://book.world.dev.cardano.org/environments/preprod/config.json
 wget https://book.world.dev.cardano.org/environments/preprod/topology.json
 wget https://book.world.dev.cardano.org/environments/preprod/byron-genesis.json
@@ -163,7 +163,7 @@ sed -i config.json \
     -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g" \
     -e "s/127.0.0.1/0.0.0.0/g" \
     -e "s/12788/12789/g" \
-    -e "s/12798/12799/g
+    -e "s/12798/12799/g"
 ```
 
 </TabItem>
