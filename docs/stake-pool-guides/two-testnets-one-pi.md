@@ -288,7 +288,7 @@ cardano-node run +RTS -N4 -RTS \
 ```
 
 ```bash title=">_ Terminal"
-chmod +x ${HOME}/.local/bin/preprod-service
+chmod +x ${HOME}/.local/bin/preview-service
 ```
 
 </TabItem>
@@ -316,7 +316,7 @@ cardano-node run +RTS -N4 -RTS \
 ```
 
 ```bash title=">_ Terminal"
-chmod +x ${HOME}/.local/bin/preview-service
+chmod +x ${HOME}/.local/bin/preprod-service
 ```
 
 </TabItem>
