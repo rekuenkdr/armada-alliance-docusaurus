@@ -476,9 +476,11 @@ rm ~/stakepoolscripts/bin/cardano-address bech32 token-metadata-creator catalyst
 cd $HOME/stakepoolscripts
 git fetch origin && git reset --hard origin/master
 cp cardano/testnet/* bin/
+# Remove the x86 binaries. To continue using the ones in ~/.local/bin.
+rm ~/stakepoolscripts/bin/cardano-address bech32 token-metadata-creator catalyst-toolbox cardano-signer
 ```
 
-Add them to PATH.
+Add the bin directory to your PATH.
 
 ```bash title=">_ Terminal"
 cd ~/stakepoolscripts/bin
@@ -501,6 +503,7 @@ node_modules/.bin/pkg cardano-signer.js
 mv cardano-signer-linux ~/.local/bin/cardano-signer
 chmod +x ~/.local/bin/cardano-signer
 . ~/.bashrc
+# test
 cardano-signer
 ```
 
