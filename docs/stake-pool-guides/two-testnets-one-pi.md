@@ -721,30 +721,18 @@ scrape_configs:
   - job_name: "Prometheus" # To scrape data from Prometheus Node Exporter
     scrape_interval: 5s
     static_configs:
-      #      - targets: ['<CORE PRIVATE IP>:12798']
-      #        labels:
-      #          alias: 'C1'
-      #          type:  'cardano-node'
-      #      - targets: ['<RELAY PRIVATE IP>:12798']
-      #        labels:
-      #          alias: 'R1'
-      #          type:  'cardano-node'
-      - targets: ["localhost:12798"]
+      - targets: ['localhost:12798']
         labels:
-          alias: "N1"
-          type: "cardano-node"
+          alias: 'Preview'
+          type:  'cardano-node'
+      - targets: ['localhost:12799']
+        labels:
+          alias: 'Preprod'
+          type:  'cardano-node'
 
-      #      - targets: ['<CORE PRIVATE IP>:9100']
-      #        labels:
-      #          alias: 'C1'
-      #          type:  'node'
-      #      - targets: ['<RELAY PRIVATE IP>:9100']
-      #        labels:
-      #          alias: 'R1'
-      #          type:  'node'
       - targets: ["localhost:9100"]
         labels:
-          alias: "N1"
+          alias: "Ubuntu"
           type: "node"
 ```
 
