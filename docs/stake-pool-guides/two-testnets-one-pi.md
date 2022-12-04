@@ -779,11 +779,53 @@ sudo sed -i /etc/grafana/grafana.ini \
          -e "s#3000#5000#"
 ```
 
-Start Grafana
+Add a few bash functions to the bottom of .bashrc
 
 ```bash title=">_ Terminal"
-sudo systemctl start grafana-server.service
+nano ~/.bashrc
 ```
+
+Ad these to the bottom.
+
+```bash title=">_ Terminal"
+cardano-service() {
+  #do things with parameters like $1 such as
+  sudo systemctl "$1" cardano-preprod.service
+  sudo systemctl "$1" cardano-preview.service
+}
+
+cardano-monitor() {
+  #do things with parameters like $1 such as
+  sudo systemctl "$1" prometheus.service
+  sudo systemctl "$1" prometheus-node-exporter.service
+  sudo systemctl "$1" grafana-server.service
+}
+
+cardano-reload() {
+  # Reload P2P networking without restarting node...hot load peers
+  CPID=$(pidof cardano-node)
+  kill -SIGHUP ${CPID}
+  echo ${CPID}
+}
+
+```
+
+source those changes into your current shell environment.
+
+```bash title=">_ Terminal"
+source ~/.bashrc
+```
+
+Enable cardano and monitoring services to start at boot.
+
+```bash title=">_ Terminal"
+cardano-service enable
+cardano-monitor enable
+```
+
+# This is where I created an img file
+
+
 
 # work in progress stay tuned
 
