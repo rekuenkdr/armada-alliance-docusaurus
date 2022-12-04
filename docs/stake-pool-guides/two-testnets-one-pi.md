@@ -5,6 +5,11 @@ import TabItem from '@theme/TabItem';
 
 ### Operate both preview and preprod testnets on one Raspberry Pi 8gb
 
+## Flashable image of completed guide. Username is ubuntu password is lovelace/
+[two testnets image](https://testnet.armada-alliance.com/two-testnets.img.xz).
+Both testnets will start syncing at boot. Pi works very hard for about an hour till synced up.
+Grafana on port 5000.
+
 :::info
 If any of these concepts are unknown, if you are confused or you see errors about anything please let us know in our [Telegram](https://t.me/armada_alli) group.
 
