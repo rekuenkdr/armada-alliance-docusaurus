@@ -25,6 +25,12 @@ Follow the [server setup](./pi-pool-tutorial/pi-node-full-guide/server-setup) in
 
 ### OK you are back, lets get started
 
+Install jq.
+
+```bash title=">_ Terminal"
+sudo apt install jq
+```
+
 Create the directories for our project. You will then have two folders in ubuntu's home directory, one for each pool/network.
 
 ```bash title=">_ Terminal"
@@ -267,7 +273,7 @@ cardano node will run as a relay here. Starting this script with KES, VRF and OP
 <TabItem value="Preview" label="Preview" default>
 
 ```bash title=">_ Terminal"
-nano .local/bin/preview-service
+nano ~/.local/bin/preview-service
 ```
 
 ```bash title="/home/ubuntu/.local/bin/preview-service"
@@ -295,7 +301,7 @@ chmod +x ${HOME}/.local/bin/preview-service
 <TabItem value="Preprod" label="Preprod" default>
 
 ```bash title=">_ Terminal"
-nano .local/bin/preprod-service
+nano ~/.local/bin/preprod-service
 ```
 
 ```bash title="/home/ubuntu/.local/bin/preprod-service"
@@ -329,8 +335,8 @@ or just download a set of statically linked binaries built by the Armada allianc
 
 ```bash title=">_ Terminal"
 cd ${HOME}/tmp
-wget https://ci.zw3rk.com/build/711137/download/1/aarch64-unknown-linux-musl-cardano-node-1.35.3.zip
-unzip aarch64-unknown-linux-musl-cardano-node-1.35.3.zip
+wget https://ci.zw3rk.com/build/946062/download/1/aarch64-unknown-linux-musl-cardano-node-1.35.4.zip
+unzip aarch64-unknown-linux-musl-cardano-node-1.35.4.zip
 mv cardano-node/* ${HOME}/.local/bin
 ```
 Confirm Binaries are in $PATH.
@@ -395,8 +401,7 @@ sed -i env \
     -e "s/\#SOCKET=\"\${CNODE_HOME}\/sockets\/node0.socket\"/SOCKET=\"\${CNODE_HOME}\/db\/socket\"/g" \
     -e "s/\#TOPOLOGY=\"\${CNODE_HOME}\/files\/topology.json\"/TOPOLOGY=\"\${NODE_FILES}\/topology.json\"/g" \
     -e "s/\#LOG_DIR=\"\${CNODE_HOME}\/logs\"/LOG_DIR=\"\${CNODE_HOME}\/logs\"/g" \
-    -e "s/\#EKG_PORT"/EKG_PORT"/g" \
-    -e "s/\#PROM_PORT"/PROM_PORT="/g" 
+    -e "s/\#EKG_PORT"/EKG_PORT"/g"
 ```
 
 Allow execution of gLiveView.sh.
@@ -415,7 +420,7 @@ Run the script. You do not have any inbound connections. Just confirm it's runni
 <TabItem value="Preprod" label="Preprod" default>
 
 ```bash title=">_ Terminal"
-cd ${HOME}/preview-pool/scripts
+cd ${HOME}/preprod-pool/scripts
 wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/env
 wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/gLiveView.sh
 . ~/preprod-pool/.adaenv
@@ -453,8 +458,16 @@ Run the script. You do not have any inbound connections. Just confirm it's runni
 ### Install/Configure SPO Scripts
 
 ```bash title=">_ Terminal"
+mkdir -p ~/stakepoolscripts/bin
 cd $HOME/stakepoolscripts
 git init && git remote add origin https://github.com/gitmachtl/scripts.git
+git fetch origin && git reset --hard origin/master
+cp cardano/testnet/* bin/
+```
+
+### To Upgrade Stakepool Scripts
+
+```bash title=">_ Terminal"
 cd $HOME/stakepoolscripts
 git fetch origin && git reset --hard origin/master
 cp cardano/testnet/* bin/

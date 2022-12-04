@@ -9,7 +9,7 @@ keywords: [guides, cardano node, cardano stake pool, rasbperry pi, armada allian
 
 After booting the image you can edit the ~/.adaenv file to switch to mainnet. Image defaults to testnet. Source .bashrc to load changes to .adaenv. You can then choose to start the node and sync the whole chain which will take days or you can download the snapshot for mainnet or testnet which should reduce sync time to a couple hours.
 
-Check if process is running with htop, use gLiveView.sh or follow the systemd sservice with
+Check if process is running with htop, use gLiveView.sh or follow the systemd service with
 
 ```bash title=">_ Terminal"
 journalctl -f --output=cat -u cardano-node
@@ -18,7 +18,6 @@ journalctl -f --output=cat -u cardano-node
 It is best to just leave it running. 🏃
 
 :::
-
 
 ### **1. Download and flash the** [**Pi-Node.img.gz**](https://mainnet.adamantium.online/Pi-Node.img.gz)**.**
 
