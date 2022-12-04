@@ -207,7 +207,7 @@ RestartKillSignal=SIGINT
 TimeoutStopSec=60
 LimitNOFILE=32768
 Restart=always
-RestartSec=10
+RestartSec=60
 EnvironmentFile=-/home/ubuntu/preview-pool/.adaenv
 
 [Install]
@@ -249,7 +249,7 @@ RestartKillSignal=SIGINT
 TimeoutStopSec=60
 LimitNOFILE=32768
 Restart=always
-RestartSec=10
+RestartSec=60
 EnvironmentFile=-/home/ubuntu/preprod-pool/.adaenv
 
 [Install]
@@ -401,7 +401,10 @@ sed -i env \
     -e "s/\#SOCKET=\"\${CNODE_HOME}\/sockets\/node0.socket\"/SOCKET=\"\${CNODE_HOME}\/db\/socket\"/g" \
     -e "s/\#TOPOLOGY=\"\${CNODE_HOME}\/files\/topology.json\"/TOPOLOGY=\"\${NODE_FILES}\/topology.json\"/g" \
     -e "s/\#LOG_DIR=\"\${CNODE_HOME}\/logs\"/LOG_DIR=\"\${CNODE_HOME}\/logs\"/g" \
-    -e "s/\#EKG_PORT"/EKG_PORT"/g"
+    -e "s/\#EKG_HOST"/EKG_HOST"/g" \
+    -e "s/\#EKG_PORT"/EKG_PORT"/g" \
+    -e "s/\#PROM_HOST"/PROM_HOST"/g" \
+    -e "s/\#PROM_PORT"/PROM_PORT"/g"
 ```
 
 Allow execution of gLiveView.sh.
@@ -666,6 +669,130 @@ Should see Version-Info:, Scripts-Mode: and the network that was queried. If the
 
 Now would be a good time to forward ports to your Raspberry Pi. 3000, 3001, 443, 80. If you own a domain setup your DNS records.
 
+### Install Prometheus & Node Exporter.
+
+:::info
+Prometheus can scrape the http endpoints of other servers running node exporter. Meaning Grafana and Prometheus does not have to be installed on your core and relays. Only the package prometheus-node-exporter is required if you would like to build a central Grafana dashboard for the pool, freeing up resources and having a single dashboard to monitor everything.
+:::
+
+```bash title=">_ Terminal"
+sudo apt install prometheus prometheus-node-exporter -y
+```
+
+Disable them in systemd for now.
+
+```bash title=">_ Terminal"
+sudo systemctl disable prometheus.service
+sudo systemctl disable prometheus-node-exporter.service
+```
+
+### Configure Prometheus
+
+Open prometheus.yml.
+
+```bash title=">_ Terminal"
+sudo nano /etc/prometheus/prometheus.yml
+```
+
+Replace the contents of the file with.
+
+:::caution
+
+Indentation must be correct YAML format or Prometheus will fail to start.
+
+:::
+
+```yaml title="/etc/prometheus/prometheus.yml"
+global:
+  scrape_interval: 15s # By default, scrape targets every 15 seconds.
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: "codelab-monitor"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label job=<job_name> to any timeseries scraped from this config.
+  - job_name: "Prometheus" # To scrape data from Prometheus Node Exporter
+    scrape_interval: 5s
+    static_configs:
+      #      - targets: ['<CORE PRIVATE IP>:12798']
+      #        labels:
+      #          alias: 'C1'
+      #          type:  'cardano-node'
+      #      - targets: ['<RELAY PRIVATE IP>:12798']
+      #        labels:
+      #          alias: 'R1'
+      #          type:  'cardano-node'
+      - targets: ["localhost:12798"]
+        labels:
+          alias: "N1"
+          type: "cardano-node"
+
+      #      - targets: ['<CORE PRIVATE IP>:9100']
+      #        labels:
+      #          alias: 'C1'
+      #          type:  'node'
+      #      - targets: ['<RELAY PRIVATE IP>:9100']
+      #        labels:
+      #          alias: 'R1'
+      #          type:  'node'
+      - targets: ["localhost:9100"]
+        labels:
+          alias: "N1"
+          type: "node"
+```
+
+Save & exit.
+
+Start Prometheus.
+
+```bash title=">_ Terminal"
+sudo systemctl start prometheus.service
+```
+
+### Install Grafana
+
+:::tip GRAFANA REPOSITORY
+
+[https://github.com/grafana/grafana](https://github.com/grafana/grafana)
+
+:::
+
+Add Grafana's gpg key to Ubuntu.
+
+```bash title=">_ Terminal"
+sudo su
+wget -O- https://packages.grafana.com/gpg.key | gpg --dearmor | sudo tee /usr/share/keyrings/grafana-archive-keyring.gpg
+```
+
+Add latest stable repo to apt sources.
+
+```bash title=">_ Terminal"
+echo "deb [arch=arm64 signed-by=/usr/share/keyrings/grafana-archive-keyring.gpg] https://apt.grafana.com stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+```
+
+Update your package lists & install Grafana.
+
+```bash title=">_ Terminal"
+sudo apt update; sudo apt install grafana
+```
+
+Change the port Grafana listens on so it does not clash with cardano-node.
+
+```bash title=">_ Terminal"
+sudo sed -i /etc/grafana/grafana.ini \
+         -e "s#;http_port#http_port#" \
+         -e "s#3000#5000#"
+```
+
+Start Grafana
+
+```bash title=">_ Terminal"
+sudo systemctl start grafana-server.service
+```
 
 # work in progress stay tuned
 

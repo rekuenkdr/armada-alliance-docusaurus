@@ -756,7 +756,7 @@ wget -O- https://packages.grafana.com/gpg.key | gpg --dearmor | sudo tee /usr/sh
 Add latest stable repo to apt sources.
 
 ```bash title=">_ Terminal"
-echo "deb [arch=arm64 signed-by=/usr/share/keyrings/grafana-archive-keyring.gpg] https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+echo "deb [arch=arm64 signed-by=/usr/share/keyrings/grafana-archive-keyring.gpg] https://apt.grafana.com stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
 ```
 
 Update your package lists & install Grafana.
