@@ -599,13 +599,14 @@ unset magicparam network addrformat
 socket="/home/ubuntu/preprod-pool/db/socket" #Path to your cardano-node socket for machines in online-mode. Another example would be "$HOME/cnode/sockets/node.socket"
 genesisfile="/home/ubuntu/preprod-pool/files/shelley-genesis.json"           #Shelley-Genesis path, you can also use the placeholder $HOME to specify your home directory
 genesisfile_byron="/home/ubuntu/preprod-pool/files/byron-genesis.json"       #Byron-Genesis path, you can also use the placeholder $HOME to specify your home directory
-cardanosigner="cardano-signer"
+
 
 
 #--------- Set the Path to your main binaries here ---------
 cardanocli="cardano-cli"	#Path to your cardano-cli binary you wanna use. If your binary is present in the Path just set it to "cardano-cli" without the "./" infront
 cardanonode="cardano-node"	#Path to your cardano-node binary you wanna use. If your binary is present in the Path just set it to "cardano-node" without the "./" infront
 bech32_bin="bech32"		#Path to your bech32 binary you wanna use. If your binary is present in the Path just set it to "bech32" without the "./" infront
+cardanosigner="cardano-signer"
 
 
 #--------- You can work in offline mode too, please read the instructions on the github repo README :-)
@@ -652,6 +653,7 @@ cropTxOutput="yes"		#yes/no to crop the unsigned/signed txfile outputs on transa
 Test the scripts are configured correctly by issuing..
 
 ```bash title=">_ Terminal"
+cd ~/preprod-pool
 00_common.sh
 ```
 
