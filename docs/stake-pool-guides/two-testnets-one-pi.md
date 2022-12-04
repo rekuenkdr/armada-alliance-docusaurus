@@ -475,6 +475,14 @@ git fetch origin && git reset --hard origin/master
 cp cardano/testnet/* bin/
 ```
 
+Add them to PATH.
+
+```bash title=">_ Terminal"
+cd ~/stakepoolscripts/bin
+echo "export PATH=\"$PWD:\$PATH\"" >> $HOME/.bashrc
+export PATH="$PWD:$PATH"
+```
+
 ### Build ARM cardano-signer
 
 This is a javascript project and we need npm to build.
@@ -499,8 +507,7 @@ Create a file named common.inc in each pool folder.
 <TabItem value="Preview" label="Preview" default>
 
 ```bash title=">_ Terminal"
-nano /home/ubuntu/preview-pool/common.inc
-cd /home/ubuntu/preview-pool
+nano ~/preview-pool/common.inc
 ```
 
 This common.inc environment file will be read by SPO scripts if it is present in the calling directory. Inspect the top of the file for more information. Basically a copy of this file for the intended network can be put in your project folder and the correct network will be used. Here we have a copy in each pool folder where we will be creating pool and wallets. If you want a subdirectory of the pool folder to hold wallet or asset files put a copy of the common.inc file in the subdirectory as well.
@@ -519,7 +526,7 @@ unset magicparam network addrformat
 #
 ##############################################################################################################################
 
-ENV_SKIP_PROMPT="YES"
+
 #--------- Set the Path to your node socket file and to your genesis files here ---------
 socket="/home/ubuntu/preview-pool/db/socket" #Path to your cardano-node socket for machines in online-mode. Another example would be "$HOME/cnode/sockets/node.socket"
 genesisfile="/home/ubuntu/preview-pool/files/shelley-genesis.json"           #Shelley-Genesis path, you can also use the placeholder $HOME to specify your home directory
@@ -530,31 +537,13 @@ genesisfile_byron="/home/ubuntu/preview-pool/files/byron-genesis.json"       #By
 cardanocli="cardano-cli"	#Path to your cardano-cli binary you wanna use. If your binary is present in the Path just set it to "cardano-cli" without the "./" infront
 cardanonode="cardano-node"	#Path to your cardano-node binary you wanna use. If your binary is present in the Path just set it to "cardano-node" without the "./" infront
 bech32_bin="bech32"		#Path to your bech32 binary you wanna use. If your binary is present in the Path just set it to "bech32" without the "./" infront
+cardanosigner="cardano-signer"
 
 
 #--------- You can work in offline mode too, please read the instructions on the github repo README :-)
 offlineMode="no" 			#change this to "yes" if you run these scripts on a cold machine, it need a counterpart with set to "no" on a hot machine
 offlineFile="./offlineTransfer.json" 	#path to the filename (JSON) that will be used to transfer the data between a hot and a cold machine
 
-
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-#--------- Only needed if you wanna do catalyst voting or if you wanna include your itn witness for your pool-ticker
-jcli_bin="./jcli"               #Path to your jcli binary you wanna use. If your binary is present in the Path just set it to "jcli" without the "./" infront
-catalyst_toolbox_bin="./catalyst-toolbox"	#Path to your catalyst-toolbox binary you wanna use. If your binary is present in the Path just set it to "catalyst-toolbox" without the "./" infront
-voter_registration_bin="./voter-registration"	#Path to your voter-registration binary you wanna use. If your binary is present in the Path just set it to "voter-registration" without the "./" infront
-
-
-#--------- Only needed if you wanna use a hardware key (Ledger/Trezor) too, please read the instructions on the github repo README :-)
-cardanohwcli="cardano-hw-cli"      #Path to your cardano-hw-cli binary you wanna use. If your binary is present in the Path just set it to "cardano-hw-cli" without the "./" infront
-
-
-#--------- Only needed if you wanna generate the right format for the NativeAsset Metadata Registry
-cardanometa="token-metadata-creator" #Path to your token-metadata-creator binary you wanna use. If present in the Path just set it to "token-metadata-creator" without the "./" infront
-
-#--------- Only needed if you wanna change the BlockChain from the Mainnet to a Testnet Chain Setup, uncomment the network you wanna use by removing the leading #
-#          Using a preconfigured network name automatically loads and sets the magicparam, addrformat and byronToShelleyEpochs parameters, also API-URLs, etc.
 
 #network="Mainnet" 	#Mainnet (Default)
 #network="PreProd" 	#PreProd (new default Testnet)
@@ -566,7 +555,6 @@ network="Preview"	#Preview (new fast Testnet)
 #network="new-devchain"; magicparam="--testnet-magic 11111"; addrformat="--testnet-magic 11111"; byronToShelleyEpochs=6 #Custom Chain settings
 
 
-
 #--------- some other stuff -----
 showVersionInfo="yes"		#yes/no to show the version info and script mode on every script call
 queryTokenRegistry="yes"	#yes/no to query each native asset/token on the token registry server live
@@ -576,6 +564,7 @@ cropTxOutput="yes"		#yes/no to crop the unsigned/signed txfile outputs on transa
 Test the scripts are configured correctly by issuing..
 
 ```bash title=">_ Terminal"
+cd ~/preview-pool
 00_common.sh
 ```
 
@@ -585,8 +574,7 @@ Should see Version-Info:, Scripts-Mode: and the network that was queried. If the
 <TabItem value="Preprod" label="Preprod" default>
 
 ```bash title=">_ Terminal"
-nano /home/ubuntu/preprod-pool/common.inc
-cd /home/ubuntu/preprod-pool
+nano ~/preprod-pool/common.inc
 ```
 
 This common.inc environment file will be read by SPO scripts if it is present in the calling directory. Inspect the top of the file for more information. Basically a copy of this file for the intended network can be put in your project folder and the correct network will be used. Here we have a copy in each pool folder where we will be creating pool and wallets. If you want a subdirectory of the pool folder to hold wallet or asset files put a copy of the common.inc file in the subdirectory as well.
@@ -606,11 +594,12 @@ unset magicparam network addrformat
 #
 ##############################################################################################################################
 
-ENV_SKIP_PROMPT="YES"
+
 #--------- Set the Path to your node socket file and to your genesis files here ---------
 socket="/home/ubuntu/preprod-pool/db/socket" #Path to your cardano-node socket for machines in online-mode. Another example would be "$HOME/cnode/sockets/node.socket"
 genesisfile="/home/ubuntu/preprod-pool/files/shelley-genesis.json"           #Shelley-Genesis path, you can also use the placeholder $HOME to specify your home directory
 genesisfile_byron="/home/ubuntu/preprod-pool/files/byron-genesis.json"       #Byron-Genesis path, you can also use the placeholder $HOME to specify your home directory
+cardanosigner="cardano-signer"
 
 
 #--------- Set the Path to your main binaries here ---------
