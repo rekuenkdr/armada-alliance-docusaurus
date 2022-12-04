@@ -463,6 +463,8 @@ cd $HOME/stakepoolscripts
 git init && git remote add origin https://github.com/gitmachtl/scripts.git
 git fetch origin && git reset --hard origin/master
 cp cardano/testnet/* bin/
+# Remove the x86 binaries. We need arm builds.
+rm ~/stakepoolscripts/bin/cardano-address bech32 token-metadata-creator catalyst-toolbox cardano-signer
 ```
 
 ### To Upgrade Stakepool Scripts
@@ -471,6 +473,24 @@ cp cardano/testnet/* bin/
 cd $HOME/stakepoolscripts
 git fetch origin && git reset --hard origin/master
 cp cardano/testnet/* bin/
+```
+
+### Build ARM cardano-signer
+
+This is a javascript project and we need npm to build.
+
+```bash title=">_ Terminal"
+sudo snap install node --classic
+cd $HOME/git
+git clone https://github.com/gitmachtl/cardano-signer.git
+cd cardano-signer/src
+npm i pkg -D -S
+npm install
+node_modules/.bin/pkg cardano-signer.js
+mv cardano-signer-linux ~/.local/bin/cardano-signer
+chmod +x ~/.local/bin/cardano-signer
+. ~/.bashrc
+cardano-signer
 ```
 
 Create a file named common.inc in each pool folder.
