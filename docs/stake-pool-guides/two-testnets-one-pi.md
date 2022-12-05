@@ -26,7 +26,7 @@ Faucet urls: You will get 10k tada per network every 24 hours.
 
 ## Start by setting up your Raspberry Pi
 
-Follow the [server setup](./pi-pool-tutorial/pi-node-full-guide/server-setup) instructions. Then return here.
+Follow the [server setup](https://armada-alliance.com/docs/stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/server-setup) instructions. Then return here.
 
 ### OK you are back, lets get started
 
