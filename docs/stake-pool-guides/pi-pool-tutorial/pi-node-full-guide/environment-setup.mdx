@@ -29,7 +29,7 @@ mkdir ${HOME}/tmp
 Create an .adaenv file, choose which network you want to be on and source the file. This file will hold the variables/settings for operating a Pi-Node. /home/ada/.adaenv
 
 ```bash title=">_ Terminal"
-echo -e NODE_CONFIG=testnet >> ${HOME}/.adaenv; source ${HOME}/.adaenv
+echo -e NODE_CONFIG=mainnet >> ${HOME}/.adaenv; source ${HOME}/.adaenv
 ```
 
 ### Create bash variables & add \~/.local/bin to our $PATH 🏃
@@ -220,7 +220,7 @@ cnvm install-binaries 1.35.2
 
 ```bash title=">_ Terminal"
 cd ${HOME}/tmp
-wget https://github.com/armada-alliance/cardano-node-binaries/raw/main/static-binaries/1_34_1.zip
+wget -O 1_35_4.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/1_35_4.zip?raw=true
 unzip *.zip
 mv cardano-*/cardano-* ${HOME}/.local/bin
 rm -r cardano*
@@ -232,7 +232,7 @@ cd ${HOME}
 
 ```bash title=">_ Terminal"
 cd ${HOME}/tmp
-wget https://github.com/armada-alliance/cardano-node-binaries/raw/main/dynamic-binaries/1.35.2/cardano-1_35_2-aarch64-ubuntu_2004.zip
+wget -O 1_35_4.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/1_35_4.zip?raw=true
 unzip *.zip
 mv cardano-*/cardano-* ${HOME}/.local/bin
 rm -r cardano*
@@ -486,9 +486,9 @@ cd $NODE_HOME
 rm -r db/
 ```
 
-```bash title=">_ Terminal"
-wget -r -np -nH -R "index.html*" -e robots=off https://$NODE_CONFIG.adamantium.online/db/
-```
+You can get a good snapshot for mainnet here.
+
+https://csnapshots.io/
 
 Once wget completes enable & start cardano-node.
 
