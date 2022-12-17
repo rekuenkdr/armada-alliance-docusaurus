@@ -25,7 +25,7 @@ operating system where Docker is installed. Using our Docker image reduces the c
 
 :::tip
 
-If you intend to use a Raspberry Pi 8GB RAM for the deployment of this docker image, please follow our [Server Setup guide](https://docs.armada-alliance.com/learn/stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/server-setup) first. 
+If you intend to use a Raspberry Pi 8GB RAM for the deployment of this docker image, please follow our [Server Setup guide](https://armada-alliance.com/docs/stake-pool-guides/pi-pool-tutorial/pi-node-full-guide/server-setup) first. 
 This guide describes how to optimize the Hardware to satisfy the above listed system requirements. 
 
 :::
@@ -97,9 +97,9 @@ sudo wget -O tx-submit-mainnet-config.yaml https://raw.githubusercontent.com/inp
 
 :::tip
 
-- /files contains the Cardano node configuration files.
+- The directory /files contains the Cardano node configuration files.
 
-- /db directory will host the Cardano blockchain once the Docker node is started. It is important that the blockchain data 
+- The directory /db will host the Cardano blockchain once the Docker node is started. It is important that the blockchain data 
 are stored on the host system and not inside the Docker container, otherwise the entire blockchain would be deleted every time 
 the Docker container is removed.
 
@@ -125,7 +125,7 @@ Either way, the docker image includes:
 Pull the image with:
 
 ```bash
-docker pull armadaalliance/armada-cn:1.35.3
+docker pull armadaalliance/armada-cn:1.35.4
 ```
 
 You should see your Cardano node docker image in the list:
@@ -136,7 +136,7 @@ docker images
 
 ```bash
 REPOSITORY              TAG            IMAGE ID       CREATED          SIZE
-armadaalliance/armada-cn        1.35.3         da4414775ce6   37 seconds ago   700MB
+armadaalliance/armada-cn        1.35.4         da4414775ce6   37 seconds ago   700MB
 ```
 
 You can now proceed with chapter 4, in order to start the node.
@@ -159,7 +159,7 @@ You should see your Cardano node docker image in the list, e.g.
 
 ```bash title=">_ Terminal"
 REPOSITORY              TAG            IMAGE ID       CREATED          SIZE
-armadaalliance/armada-cn        1.35.3         da4414775ce6   37 seconds ago   700MB
+armadaalliance/armada-cn        1.35.4         da4414775ce6   37 seconds ago   700MB
 <none>                  <none>         f3891eef21e4   3 minutes ago    1.09GB
 ```
 
@@ -195,7 +195,7 @@ Important: Change the directory paths CN_CONFIG_PATH and CN_DB_PATH to the corre
 ```bash title=">_ Terminal"
 ##Configuration for relay and block producing node
 CNIMAGENAME="armada/armada-cn"                                   ## Name of the Cardano docker image
-CNVERSION="1.35.3"                                               ## Version of the cardano-node. It must match with the version of the docker i>
+CNVERSION="1.35.4"                                               ## Version of the cardano-node. It must match with the version of the docker i>
 CNNETWORK="testnet"                                              ## Use "mainnet" if connecting node to the mainnet
 CNMODE="relay"                                                   ## Use "bp" if you configure the node as block production node
 CNPORT="3001"                                                    ## Define the port of the node
@@ -232,7 +232,7 @@ If the docker node started successfully, you might see something like this:
 
 ```bash title=">_ Terminal"
 CONTAINER ID   IMAGE                     COMMAND                  CREATED          STATUS                    PORTS                                                                                      NAMES
-fed0cfbf7d86   armadaalliance/armada-cn:1.35.3   "bash title=">_ Terminal" -c /home/carda…"   12 seconds ago   Up 10 seconds (healthy)   0.0.0.0:3001->3001/tcp, :::3001->3001/tcp, 0.0.0.0:12799->12798/tcp, :::12799->12798/tcp   cardano-node-testnet-1.34.1
+fed0cfbf7d86   armadaalliance/armada-cn:1.35.4   "bash title=">_ Terminal" -c /home/carda…"   12 seconds ago   Up 10 seconds (healthy)   0.0.0.0:3001->3001/tcp, :::3001->3001/tcp, 0.0.0.0:12799->12798/tcp, :::12799->12798/tcp   cardano-node-testnet-1.34.1
 ```
 
 You can also check the logs of the running cardano-node:
