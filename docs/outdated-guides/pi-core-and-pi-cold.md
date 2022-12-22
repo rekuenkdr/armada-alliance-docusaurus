@@ -2,7 +2,7 @@
 description: Create operational keys & certificates. Create wallet & register stake pool
 ---
 
-# OLD GUIDE TO BE DELETED
+# OLD GUIDE
 
 
 # Pi-Core/Cold
