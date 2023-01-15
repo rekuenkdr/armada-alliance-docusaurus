@@ -9,13 +9,15 @@ import TabItem from '@theme/TabItem';
 You will have to upgrade the whole pool to P2P at the same time. I could not get tx's into my core node till P2P was enabled on it.
 :::
 
-:::warning
-There is a bug in 1.34.1 that causes issues with cardano-cli query command. CNCLI relies on this command and does not work correctly. If you really want to use 1.34.1 with P2P enabled and CNCLI you will need to build cardano-node with the following tagged version of ouroboros-network.
+:::info
+Continue pushing your relay to topology updater without pulling in a list from them. This allows you to get incoming while keeping the p2p file as is.
 
-```bash title=">_ Terminal"
-sed -i 's/tag: 4fac197b6f0d2ff60dc3486c593b68dc00969fbf/tag: 48ff9f3a9876713e87dc302e567f5747f21ad720/g' cabal.project
+just add the -f flag to your command.
 
+```bash title="${NODE_CONFIG}-config.json"
+33 * * * * . $HOME/.adaenv; $HOME/pi-pool/scripts/topologyUpdater.sh -f
 ```
+
 :::
 
 https://github.com/cardano-foundation/docs-cardano-org/blob/main/explore-cardano/p2p-networking.md
