@@ -60,6 +60,7 @@ Edit the topology file on the core, raise valency to match the number of hot rel
 Edit the topology file on the relays. The nodes only share block headers in P2P. If it does not have the block it will download it. This allows for more sensible interconnections, saving bandwidth while allowing interconnections between relays.
 
 ```json title="mainnet-topology.json"
+{
   "LocalRoots": {
     "groups": [
       {
