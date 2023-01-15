@@ -14,7 +14,7 @@ Continue pushing your relay to topology updater without pulling in a list from t
 
 just add the -f flag to your command.
 
-```bash title="${NODE_CONFIG}-config.json"
+```bash"
 33 * * * * . $HOME/.adaenv; $HOME/pi-pool/scripts/topologyUpdater.sh -f
 ```
 
@@ -24,7 +24,7 @@ https://github.com/cardano-foundation/docs-cardano-org/blob/main/explore-cardano
 
 Edit your mainnet-config.json. I add them just above ***"defaultBackends": [***. Testnets are already on P2P and you can find the configuration files here https://book.world.dev.cardano.org/environments.html
 
-```bash title="${NODE_CONFIG}-config.json"
+```bash title="mainnet-config.json"
   "TestEnableDevelopmentNetworkProtocols": true,
   "EnableP2P": true,
   "MaxConcurrencyBulkSync": 2,
