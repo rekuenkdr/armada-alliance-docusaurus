@@ -79,7 +79,7 @@ Edit the topology file on the relays. The nodes only share block headers in P2P.
           ],
           "advertise": true
         },
-        "valency": 8
+        "valency": 11
       }
     ]
   },
