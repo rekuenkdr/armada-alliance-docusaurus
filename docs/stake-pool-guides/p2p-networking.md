@@ -66,17 +66,17 @@ Edit the topology file on the relays. The nodes only share block headers in P2P.
       {
         "localRoots": {
           "accessPoints": [
-             { "address": "<core ip or hostname>", "port": 6000, "valency": 1, "name": "C2"},
+             { "address": "<core ip or hostname>", "port": 6000, "valency": 1, "name": "<core>"},
              { "address": "otg-relay-1.adamantium.online", "port": 6001, "valency": 1, "name": "OTG-1"},
              { "address": "otg-relay-2.adamantium.online", "port": 6002, "valency": 1, "name": "OTG-2"},
              { "address": "relay.armada-alliance.com", "port": 6002, "valency": 1, "name": "armada-alliance"},
-             { "address": "130.61.103.246", "port": 6000, "valency": 1, "name": "OYSTR"},
-             { "address": "129.213.154.111", "port": 3002, "valency": 1, "name": "ANTRIX"},
-             { "address": "150.230.20.186", "port": 3003, "valency": 1, "name": "ANTRIX"},
-             { "address": "relay.adaseal.eu", "port": 6000, "valency": 1, "name": "SEAL"},
-             { "address": "nuc11v5.ddns.net", "port": 3001, "valency": 1, "name": "joost"},
-             { "address": "59.28.90.17", "port": 3003, "valency": 1, "name": "merde"},
-             { "address": "193.123.107.52", "port": 6000, "valency": 1, "name": "Vinhedo Brazil"}
+             { "address": "130.61.103.246", "port": 6000, "valency": 1, "name": "DE, Germany"},
+             { "address": "129.213.154.111", "port": 3002, "valency": 1, "name": "US, United States"},
+             { "address": "150.230.20.186", "port": 3003, "valency": 1, "name": "US, United States"},
+             { "address": "83.167.247.37", "port": 6000, "valency": 1, "name": "CZ, Czech Republic"},
+             { "address": "nuc11v5.ddns.net", "port": 3001, "valency": 1, "name": "NL, Netherlands"},
+             { "address": "59.28.90.17", "port": 3003, "valency": 1, "name": "KR, Korea, Republic of"},
+             { "address": "193.123.107.52", "port": 6000, "valency": 1, "name": "US, United States"}
           ],
           "advertise": true
         },
