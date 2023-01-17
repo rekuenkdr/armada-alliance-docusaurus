@@ -1,34 +1,72 @@
-# cardano-node on Asahi Arch Linux, Apple Silicon
+# Apple M1 Asahi Linux
 
 ## Prerequisites 
 
-Asahi Arch, minimal or desktop installed.
+Asahi Arch Linux, minimal or desktop installed on your M1 or M2. You can also use the Asahi installer to create a UEFI boot partition that will allow you to install any operating system. That does not mean it will run. A list of alternative distros can be found here.
+https://github.com/AsahiLinux/docs/wiki/SW%3AAlternative-Distros
 
-log in to both alarm and root. Change the passwords.
 
-Update the system as root.
+** This guide is for Asahi Arch Linux. **
 
-```bash
+:::tip
+Be sure to log in and fully update MacOS before starting. Open this guide in the M1 MacOS. 
+:::
+
+:::info
+
+Desktop version does not have the default alarm user, the user of your choice is setup on first boot. For ease with this guide choose ada as the username. Else pay attention to username when setting up systemd services.
+
+:::
+
+### Start by installing Asahi Linux by following the link below
+[Asahi Alpha Release Notes](https://asahilinux.org/2022/03/asahi-linux-alpha-release/)
+
+:::info
+
+There is a handy script that can delete the partitions that the Asahi installer creates. Use this if you wish to start over. 
+https://github.com/AsahiLinux/asahi-installer/issues/76#issuecomment-1094359888
+
+You can invoke it from MacOS or from within 1TR but not from Linux OS.
+
+
+```bash title=">_ Terminal"
+curl -L https://alx.sh/wipe-linux | sh
+```
+
+:::
+
+Log in to both alarm and root. Change the passwords. 
+
+#### Defaults: alarm/alarm & root/root.
+
+
+### Update the system
+
+
+### Log in and change default passwords
+Log in as root and update the system.
+
+```bash title=">_ Terminal"
 pacman -Syu
 ```
 
 Start and enable sshd. pw auth is disabled for root, login with alarm user.
 
-```bash
+```bash title=">_ Terminal"
 systemctl start sshd.service
 systemctl enable sshd.service
 ```
 
-Install pacman-contrib which includes sudo and some other useful packages and open the sudoers file with visudo and enable the wheel group.
+Install pacman-contrib which includes some useful packages and open the sudoers file with visudo and enable the wheel group.
 
-```bash
+```bash title=">_ Terminal"
 pacman -S pacman-contrib sudo git curl wget htop rsync numactl
 sudo EDITOR=nano visudo
 ```
 
-Like below.
+Remove the # like below.
 
-```bash
+```bash title=">_ visudo"
 ## Uncomment to allow members of group wheel to execute any command
 %wheel ALL=(ALL:ALL) ALL
 
@@ -36,29 +74,30 @@ Like below.
 
 Add a new user to the wheel group, give it a password.
 
-```bash
+```bash title=">_ Terminal"
 useradd -m -G wheel -s /bin/bash ada
 passwd ada
 ```
 
-Log out and back in as your new user with SSH. Test sudo by upgrading the system again.
+Log out and back in as your new user(ada) with SSH. Test sudo by upgrading the system again.
 
-```bash
+```bash title=">_ Terminal"
+ssh ada@<M1 private IP addr>
 sudo pacman -Syu
 ```
 
-{% hint style="info" %}
-The Arch Bash shell is boring. Optionally install [Bash-it](https://bash-it.readthedocs.io/en/latest/installation/) for a fancy shell.
-{% endhint %}
-
-{% hint style="warning" %}
-Remember to copy your ssh key and disable password aurthentication in sshd_config.
-{% endhint %}
+:::caution
+Remember to copy your ssh key with ssh-copy-id and disable password authentication in sshd_config.
+:::
 
 ## Bash completion
+:::tip
+The Arch Bash shell is boring. Optionally install [Bash-it](https://bash-it.readthedocs.io/en/latest/installation/) for a fancy shell.
+:::
+
 Add 'complete -cf sudo' to the bottom of .bash_profile and source.
 
-```bash
+```bash title=">_ Terminal"
 echo complete -cf sudo >> ${HOME}/.bash_profile; . $HOME/.bash_profile
 ```
 
@@ -66,7 +105,7 @@ echo complete -cf sudo >> ${HOME}/.bash_profile; . $HOME/.bash_profile
 
 Generate the [locales](https://wiki.archlinux.org/title/locale) by uncommenting (en_US.UTF-8 UTF-8 for example) and generating.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/locale.gen
 sudo locale-gen
 sudo localectl set-locale LANG=en_US.UTF-8
@@ -76,28 +115,32 @@ sudo localectl set-locale LANG=en_US.UTF-8
 
 Set your timezone
 
-```bash
+```bash title=">_ Terminal"
 sudo timedatectl set-timezone America/New_York
 ```
 
-No more daylight savings, possible to set RTC to local? testing, might not want to do this.
+:::caution
+No more daylight savings, possible to set RTC to local? Testing, might not want to do this.
 
-```bash
+```bash title=">_ Terminal"
 sudo timedatectl set-local-rtc 1
 # set to 0 for UTC
 ```
+:::
 
 ## Chrony
 
-While we are messing with time.. Install and open chrony.conf and replace contents with below (use ctrl+k to cut whole lines).
+While we are messing with time.. Install Chrony and open chrony.conf and replace contents with below (use ctrl+k to cut whole lines).
 
 
-```bash
+```bash title=">_ Terminal"
 sudo pacman -S chrony
 sudo nano /etc/chrony.conf
 ```
 
-```bash
+Replace contents of the file with below.
+
+```bash title="/etc/chrony.conf"
 pool time.google.com       iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
 pool time.euro.apple.com   iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
 pool time.apple.com        iburst minpoll 2 maxpoll 2 maxsources 3 maxdelay 0.3
@@ -135,12 +178,13 @@ leapsectz right/UTC
 local stratum 10
 ```
 
-{% hint style="warning" %}
+:::caution
 Note: systemd-timesyncd.service is in conflict with chronyd, so you need to disable it first if you want to enable chronyd properly.
-{% endhint %}
+:::
 
+Disable systemd-timesyncd and enable Chrony
 
-```bash
+```bash title=">_ Terminal"
 sudo systemctl stop systemd-timesyncd.service
 sudo systemctl disable systemd-timesyncd.service
 # enable and start chrony
@@ -152,7 +196,7 @@ sudo systemctl enable chronyd.service
 
 Add the following packages to build and run cardano-node.
 
-```bash
+```bash title=">_ Terminal"
 sudo pacman -S --needed base-devel
 sudo pacman -S openssl libtool unzip jq bc xz numactl
 ```
@@ -161,7 +205,7 @@ sudo pacman -S openssl libtool unzip jq bc xz numactl
 
 Install and create a conf file with following.
 
-```bash
+```bash title=">_ Terminal"
 sudo pacman -S zram-generator
 sudo nano /usr/lib/systemd/zram-generator.conf
 ```
@@ -169,40 +213,53 @@ sudo nano /usr/lib/systemd/zram-generator.conf
 You may want to read up on zram. I always set 1.5 times the amount of system ram. [github](https://github.com/systemd/zram-generator/blob/main/man/zram-generator.conf.md) | [Hayden James](https://haydenjames.io/raspberry-pi-performance-add-zram-kernel-parameters/) |
 [lubuntu mailing list](https://lists.ubuntu.com/archives/lubuntu-users/2013-October/005831.html)
 
-```bash
+```bash title="/usr/lib/systemd/zram-generator.conf"
 [zram0]
 zram-size = min(24 * 1024)
 ```
-This will give you 24gb of zram swap and will absorb the brunt of running the built in leaderlogs. Reboot and check htop to confirm.
+This will give you 24gb of zram swap and will absorb the brunt of running the built-in leaderlogs. Reboot and check htop to confirm.
 
 
 ## Prometheus
 
 Install Prometheus and Prometheus-node-exporter
 
-```bash
+```bash title=">_ Terminal"
 sudo pacman -S prometheus prometheus-node-exporter
 ```
 
 ## Grafana
 
-Two ways to install Grafana. From AUR or with snap. Pros and cons. Cannot install additional plugins with AUR version (looking into it). Snap is controversial security wise. I need additional plugins so built snap and installed grafana with it.
+Two ways to install Grafana. From AUR or with snap. Pros and cons. Cannot install additional plugins with AUR version (looking into it). I need additional plugins, so I built snap and installed Grafana with it.
 
 ### With Snap
 
-```bash
+```bash title=">_ Terminal"
 mkdir ~/git
 cd ~/git
 git clone https://aur.archlinux.org/snapd.git
 cd snapd/
 makepkg -si
-reboot
-sudo snap install grafana --channel=rock/edge
+sudo reboot
+sudo systemctl restart apparmor.service
+sudo systemctl restart snapd.service
+sudo systemctl enable --now snapd.apparmor.service
 ```
 
-### Grafan-bin AUR
+Install Grafana, enable and start.
 
-```bash
+```bash title=">_ Terminal"
+sudo snap install grafana --channel=rock/edge
+sudo snap enable grafana
+sudo snap start grafana
+
+# check it's active and enabled
+snap services | grep active
+```
+
+### Grafana-bin AUR
+
+```bash title=">_ Terminal"
 mkdir ~/git
 cd ~/git
 
@@ -216,22 +273,26 @@ sudo systemctl enable grafana.service
 
 ## Wireguard
 
-```bash
+```bash title=">_ Terminal"
 sudo pacman -S wireguard-tools
 
 ```
 
 ## Static ip
 
+:::info
+You can also set a static IP on your router if you wish and skip this section.
+:::
+
 [systemd](https://wiki.archlinux.org/title/Systemd-networkd#Wired_adapter_using_a_static_IP)
 
-Create a network service file, make sure edit it to your needs.
+Create a network service file, make sure you edit it to your network.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/systemd/network/20-wired.network
 ```
 
-```bash
+```bash title="/etc/systemd/network/20-wired.network"
 [Match]
 Name=enp3s0
 
@@ -243,18 +304,18 @@ DNS=192.168.1.1
 
 Make sure no other network service is running like netctl, then enable and start the service. If there is a network service running stop and disable it.
 
-```bash
+```bash title=">_ Terminal"
 sudo systemctl --type=service
 ```
 
-```bash
+```bash title=">_ Terminal"
 sudo systemctl enable systemd-networkd.service
 sudo systemctl start systemd-networkd.service
 ```
 
-Disable/stop dhcp.
+Disable/stop DHCP.
 
-```bash
+```bash title=">_ Terminal"
 
 sudo systemctl stop dhcpcd
 sudo systemctl disable dhcpcd
@@ -267,16 +328,16 @@ sudo reboot
 
 Edit /etc/hostname
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/hostname
 ```
 and /etc/hosts
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/hosts
 ```
 
-```bash
+```bash title="/etc/hosts"
 127.0.0.1        localhost
 ::1              localhost
 127.0.1.1        myhostname
@@ -289,26 +350,19 @@ Tweak/Harden system to our needs.
 ## sysctl
 [sysctl](https://wiki.archlinux.org/title/sysctl)
 
-```bash
+Create a file in the sysctl.d directory
+
+```bash title=">_ Terminal"
 sudo nano /etc/sysctl.d/98-cardano-node.conf
 ```
 
 Add the following.
 
-```bash
+```bash title="/etc/sysctl.d/98-cardano-node.conf"
 ## Asahi Node ##
-
-# swap more to zram
-vm.vfs_cache_pressure = 500
-vm.swappiness = 100
-vm.dirty_background_ratio = 1
-vm.dirty_ratio = 50
 
 fs.file-max = 10000000
 fs.nr_open = 10000000
-
-# enable forwarding if using wireguard
-net.ipv4.ip_forward = 0
 
 # ignore ICMP redirects
 net.ipv4.conf.all.send_redirects = 0
@@ -340,8 +394,9 @@ kernel.panic = 10
 
 ### Disable the root user
 
-Use sudo to become root..
-```
+Use sudo to become root.
+
+```bash title=">_ Terminal"
 sudo passwd -l root
 ```
 
@@ -349,13 +404,13 @@ sudo passwd -l root
 
 Mount shared memory as read only. Open /etc/fstab.
 
-```
+```bash title=">_ Terminal"
 sudo nano /etc/fstab
 ```
 
 Add this line at the bottom, save & exit.
 
-```
+```bash title="/etc/fstab"
 tmpfs    /run/shm    tmpfs    ro,noexec,nosuid    0 0
 ```
 
@@ -363,24 +418,29 @@ tmpfs    /run/shm    tmpfs    ro,noexec,nosuid    0 0
 
 Add a couple lines to the bottom of /etc/security/limits.conf
 
-```bash
+```bash title=">_ Terminal"
 sudo bash -c "echo -e '${USER} soft nofile 800000\n${USER} hard nofile 1048576\n' >> /etc/security/limits.conf"
 ```
 
 Confirm it was added to the bottom.
 
-```bash
+```bash title=">_ Terminal"
 cat /etc/security/limits.conf
 ```
-## Choose testnet or mainnet.
+## Environment setup
 
-{% hint style="danger" %}
-There is a 500 ₳ Registration deposit and another 5 ₳ in registration costs to start a pool on mainnet. First time users are strongly reccomended to use testnet. You can get tada (test ada) from the testnet faucet. [tada faucet link](https://testnets.cardano.org/en/testnets/cardano/tools/faucet/)
-{% endhint %}
+:::danger
+There is a 500 ₳ Registration deposit and another 5 ₳ in registration costs to start a pool on mainnet. First time users are strongly recommended to use testnet. You can get tada (test ada) from the testnet faucet. [tada faucet link](https://testnets.cardano.org/en/testnets/cardano/tools/faucet/)
+:::
+
+:::tip
+It is fairly easy to jump to mainnet when you are ready with the same machine. Only need to update files and folders to mainnet and redo pool creation.
+
+:::
 
 Create the directories for our project.
 
-```bash
+```bash title=">_ Terminal"
 mkdir -p ${HOME}/.local/bin
 mkdir -p ${HOME}/pi-pool/files
 mkdir -p ${HOME}/pi-pool/scripts
@@ -391,21 +451,26 @@ mkdir ${HOME}/tmp
 
 Create an .adaenv file, choose which network you want to be on and source the file. This file will hold the variables/settings for operating a Pi-Node. /home/ada/.adaenv
 
-```shell
+```bash title=">_ Terminal"
 echo -e NODE_CONFIG=testnet >> ${HOME}/.adaenv; source ${HOME}/.adaenv
+```
+Confirm you are on the desired network.
+
+```bash title=">_ Terminal"
+cat ${HOME}/.adaenv
 ```
 
 ### Create bash variables & add \~/.local/bin to our $PATH 🏃
 
-{% hint style="info" %}
+:::info
 [Environment Variables in Linux/Unix](https://askubuntu.com/questions/247738/why-is-etc-profile-not-invoked-for-non-login-shells/247769#247769).
-{% endhint %}
+:::
 
-{% hint style="warning" %}
-You must reload environment files after updating them. Same goes for cardano-node, changes to the topology or config files require a cardano-service restart.
-{% endhint %}
+:::caution
+You must reload environment files after updating them. The same goes for cardano-node, changes to the topology or config files require a cardano-service restart.
+:::
 
-```bash
+```bash title=">_ Terminal"
 echo . ~/.adaenv >> ${HOME}/.bashrc
 cd .local/bin; echo "export PATH=\"$PWD:\$PATH\"" >> $HOME/.adaenv
 echo export NODE_HOME=${HOME}/pi-pool >> ${HOME}/.adaenv
@@ -421,7 +486,7 @@ source ${HOME}/.bashrc; source ${HOME}/.adaenv
 
 ### Retrieve node files
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_FILES
 wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-config.json
 wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-byron-genesis.json
@@ -433,7 +498,7 @@ wget -N https://raw.githubusercontent.com/input-output-hk/cardano-node/master/ca
 
 Run the following to modify ${NODE\_CONFIG}-config.json and update TraceBlockFetchDecisions to "true" & listen on all interfaces with Prometheus Node Exporter.
 
-```bash
+```bash title=">_ Terminal"
 sed -i ${NODE_CONFIG}-config.json \
     -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g" \
     -e "s/127.0.0.1/0.0.0.0/g"
@@ -441,7 +506,7 @@ sed -i ${NODE_CONFIG}-config.json \
 
 Save & exit.
 
-```bash
+```bash title=">_ Terminal"
 source ${HOME}/.adaenv
 ```
 
@@ -449,7 +514,7 @@ source ${HOME}/.adaenv
 
 This is IOHK's fork of Libsodium. It is needed for the dynamic build binary of cardano-node.
 
-```bash
+```bash title=">_ Terminal"
 cd; cd git/
 git clone https://github.com/input-output-hk/libsodium
 cd libsodium
@@ -462,13 +527,13 @@ sudo make install
 
 Add library path to ldconfig.
 
-```bash
+```bash title=">_ Terminal"
 sudo touch /etc/ld.so.conf.d/local.conf 
 echo "/usr/local/lib" | sudo tee -a /etc/ld.so.conf.d/local.conf 
 ```
 Echo library paths into .bashrc file and source it.
 
-```bash
+```bash title=">_ Terminal"
 echo "export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"" >> ~/.bashrc
 echo "export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"" >> ~/.bashrc
 . ~/.bashrc
@@ -476,7 +541,7 @@ echo "export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"" >> ~/.
 
 Update link cache for shared libraries and confirm.
 
-```bash
+```bash title=">_ Terminal"
 sudo ldconfig; ldconfig -p | grep libsodium
 ```
 
@@ -492,28 +557,24 @@ make
 sudo make install
 ```
 
-For those who run cardano-node as a systemd service, run the following:
-
-
 Update link cache for shared libraries and confirm.
 
-```bash
+```bash title=">_ Terminal"
 sudo ldconfig; ldconfig -p | grep secp256k1
 ```
 
+## LLVM 12.0.1
 
-## LLVM 9.0.1
-
-```bash
+```bash title=">_ Terminal"
 cd ~/git
-wget https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/clang+llvm-9.0.1-aarch64-linux-gnu.tar.xz
-tar -xf clang+llvm-9.0.1-aarch64-linux-gnu.tar.xz
-export PATH=~/git/clang+llvm-9.0.1-aarch64-linux-gnu/bin/:$PATH
+wget https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/clang+llvm-12.0.1-aarch64-linux-gnu.tar.xz
+tar -xf clang+llvm-12.0.1-aarch64-linux-gnu.tar.xz
+export PATH=~/git/clang+llvm-12.0.1-aarch64-linux-gnu/bin/:$PATH
 ```
 
 ## ncurses5 compat libs
 
-```bash
+```bash title=">_ Terminal"
 cd ~/git
 git clone https://aur.archlinux.org/ncurses5-compat-libs.git
 cd ncurses5-compat-libs/
@@ -524,19 +585,22 @@ gpg --recv-key CC2AF4472167BE03
 
 Change target architecture to aarch64 in the build file.
 
-```bash
+```bash title=">_ Terminal"
 nano PKGBUILD
+
+```
+```bash title=">PKGBUILD"
 arch=(aarch64)
 ```
-and build it.
+And build it.
 
-```bash
+```bash title=">_ Terminal"
 makepkg -si
 ```
 
 Confirm.
 
-```bash
+```bash title=">_ Terminal"
 clang --version
 ```
 
@@ -544,23 +608,30 @@ clang --version
 
 Install ghcup use defaults when asked.
 
-```bash
+```bash title=">_ Terminal"
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 ```
 
-```bash
+```bash title=">_ Terminal"
 . ~/.bashrc
 ghcup upgrade
-ghcup install cabal 3.4.0.0
-ghcup set cabal 3.4.0.0
+ghcup install cabal 3.6.2.0
+ghcup set cabal 3.6.2.0
 
-ghcup install ghc 8.10.4
-ghcup set ghc 8.10.4
+ghcup install ghc 8.10.7
+ghcup set ghc 8.10.7
+```
+
+Confirm.
+
+```bash title=">_ Terminal"
+cabal --version
+ghc --version
 ```
 
 ### Obtain cardano-node
 
-```bash
+```bash title=">_ Terminal"
 cd $HOME/git
 git clone https://github.com/input-output-hk/cardano-node.git
 cd cardano-node
@@ -570,32 +641,30 @@ git checkout $(curl -s https://api.github.com/repos/input-output-hk/cardano-node
 
 Configure with 8.10.4 set libsodium
 
-```bash
-cabal configure -O0 -w ghc-8.10.4
+```bash title=">_ Terminal"
+cabal configure -O0 -w ghc-8.10.7
 
 echo -e "package cardano-crypto-praos\n flags: -external-libsodium-vrf" > cabal.project.local
 sed -i $HOME/.cabal/config -e "s/overwrite-policy:/overwrite-policy: always/g"
-rm -rf dist-newstyle/build/aarch64-linux/ghc-8.10.4
-
+rm -rf dist-newstyle/build/aarch64-linux/ghc-8.10.7
 ```
 
-Build them.
+Build cardano-cli cardano-node.
 
-```bash
-cabal build cardano-cli cardano-node cardano-submit-api
+```bash title=">_ Terminal"
+cabal build cardano-cli cardano-node
 ```
 
 Add them to your PATH.
 
-```bash
+```bash title=">_ Terminal"
 cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-cli") $HOME/.local/bin/
 cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-node") $HOME/.local/bin/
-cp $(find $HOME/git/cardano-node/dist-newstyle/build -type f -name "cardano-submit-api") $HOME/.local/bin/
 ```
 
 Check
 
-```bash
+```bash title=">_ Terminal"
 cardano-node version
 cardano-cli version
 ```
@@ -604,13 +673,13 @@ cardano-cli version
 
 Create the systemd unit file and startup script so systemd can manage cardano-node.
 
-```bash
+```bash title=">_ Terminal"
 nano ${HOME}/.local/bin/cardano-service
 ```
 
 Paste the following, save & exit.
 
-```bash
+```bash title="${HOME}/.local/bin/cardano-service"
 #!/bin/bash
 . /home/ada/.adaenv
 
@@ -623,21 +692,21 @@ cardano-node run +RTS -N6 -RTS \
   --config ${CONFIG}
 ```
 
-Allow execution of our new cardano-node service file.
+Allow execution of our new cardano-node startup script.
 
-```bash
+```bash title=">_ Terminal"
 chmod +x ${HOME}/.local/bin/cardano-service
 ```
 
 Open /etc/systemd/system/cardano-node.service.
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/systemd/system/cardano-node.service
 ```
 
 Paste the following, You will need to edit the username here if you chose to not use ada. Save & exit.
 
-```bash
+```bash title="/etc/systemd/system/cardano-node.service"
 # The Cardano Node Service (part of systemd)
 # file: /etc/systemd/system/cardano-node.service
 
@@ -663,96 +732,38 @@ EnvironmentFile=-/home/ada/.adaenv
 WantedBy= multi-user.target
 ```
 
-Create the systemd unit file and startup script so systemd can manage cardano-submit-api.
-
-```bash
-nano ${HOME}/.local/bin/cardano-submit-service
-```
-
-```bash
-#!/bin/bash
-. /home/ada/.adaenv
-
-cardano-submit-api \
-  --socket-path ${CARDANO_NODE_SOCKET_PATH} \
-  --port 8090 \
-  --config /home/ada/pi-pool/files/tx-submit-mainnet-config.yaml \
-  --listen-address 0.0.0.0 \
-  --mainnet
-```
-
-Allow execution of our new cardano-submit-api service script.
-
-```bash
-chmod +x ${HOME}/.local/bin/cardano-submit-service
-```
-
-Create /etc/systemd/system/cardano-submit.service.
-
-```bash
-sudo nano /etc/systemd/system/cardano-submit.service
-```
-
-Paste the following, You will need to edit the username here if you chose to not use ada. save & exit.
-
-```bash
-# The Cardano Submit Service (part of systemd)
-# file: /etc/systemd/system/cardano-submit.service
-
-[Unit]
-Description     = Cardano submit service
-Wants           = network-online.target
-After           = network-online.target
-
-[Service]
-User            = ada
-Type            = simple
-WorkingDirectory= /home/ada/pi-pool
-ExecStart       = /bin/bash -c "PATH=/home/ada/.local/bin:$PATH exec /home/ada/.local/bin/cardano-submit-service"
-KillSignal=SIGINT
-RestartKillSignal=SIGINT
-TimeoutStopSec=10
-LimitNOFILE=32768
-Restart=always
-RestartSec=10
-EnvironmentFile=-/home/ada/.adaenv
-
-[Install]
-WantedBy= multi-user.target
-```
-
 Reload systemd so it picks up our new service files.
 
-```bash
+```bash title=">_ Terminal"
 sudo systemctl daemon-reload
 ```
 
 Let's add a couple functions to the bottom of our .adaenv file to make life a little easier.
 
-```bash
+```bash title=">_ Terminal"
 nano ${HOME}/.adaenv
 ```
 
-```bash
+```bash title="${HOME}/.adaenv"
 cardano-service() {
     #do things with parameters like $1 such as
     sudo systemctl "$1" cardano-node.service
-}
-
-cardano-submit() {
-    #do things with parameters like $1 such as
-    sudo systemctl "$1" cardano-submit.service
 }
 
 cardano-monitor() {
     #do things with parameters like $1 such as
     sudo systemctl "$1" prometheus.service
     sudo systemctl "$1" prometheus-node-exporter.service
-    sudo systemctl "$1" grafana-server
 }
 ```
 
-What we just did there was add a couple functions to control our cardano-service and cardano-submit without having to type out
+ Source these changes into your surrent shell.
+ 
+```bash title=">_ Terminal"
+source ${HOME}/.adaenv
+```
+
+What we just did there was added a couple functions to control our cardano-service and cardano-submit without having to type out
 
 > > sudo systemctl enable cardano-node.service
 > >
@@ -769,18 +780,6 @@ Now we just have to:
 * cardano-service stop (stops cardano-node.service)
 * cardano-service status (shows the status of cardano-node.service)
 
-Or
-
-* cardano-submit enable (enables cardano-submit.service auto start at boot)
-* cardano-submit start (starts cardano-submit.service)
-* cardano-submit stop (stops cardano-submit.service)
-* cardano-submit status (shows the status of cardano-submit.service)
-
-The submit service listens on port 8090. You can connect your Nami wallet like below to submit tx's yourself in Nami's settings.
-
-```bash
-http://<node lan ip>:8090/api/submit/tx
-```
 
 ## gLiveView.sh
 
@@ -788,25 +787,26 @@ Guild operators scripts has a couple useful tools for operating a pool. We do no
 
 {% embed url="https://github.com/cardano-community/guild-operators/tree/master/scripts/cnode-helper-scripts" %}
 
-```bash
+```bash title=">_ Terminal"
 cd $NODE_HOME/scripts
 wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/env
 wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/gLiveView.sh
 ```
 
-{% hint style="info" %}
+:::info
+
 You can change the port cardano-node runs on in the .adaenv file in your home directory. Open the file edit the port number. Load the change into your shell & restart the cardano-node service.
 
-```bash
+```bash title=">_ Terminal"
 nano /home/ada/.adaenv
 source /home/ada/.adaenv
 cardano-service restart
 ```
-{% endhint %}
+:::
 
 Add a line sourcing our .adaenv file to the top of the env file and adjust some paths.
 
-```bash
+```bash title=">_ Terminal"
 sed -i env \
     -e "/#CNODEBIN/i. ${HOME}/.adaenv" \
     -e "s/\#CNODE_HOME=\"\/opt\/cardano\/cnode\"/CNODE_HOME=\"\${HOME}\/pi-pool\"/g" \
@@ -818,7 +818,7 @@ sed -i env \
 
 Allow execution of gLiveView.sh.
 
-```bash
+```bash title=">_ Terminal"
 chmod +x gLiveView.sh
 ```
 
@@ -833,7 +833,7 @@ sudo pacman -S cronie
 
 Enable & start.
 
-```bash
+```bash title=">_ Terminal"
 sudo systemctl enable cronie.service
 sudo systemctl start cronie.service
 ```
@@ -842,100 +842,100 @@ sudo systemctl start cronie.service
 
 Until peer to peer is enabled on the network operators need a way to get a list of relays/peers to connect to. The topology updater service runs in the background with cron. Every hour the script will run and tell the service you are a relay and want to be a part of the network. It will add your relay to it's directory after four hours you should see in connections in gLiveView.
 
-{% hint style="info" %}
+:::info
 The list generated will show you the distance & a clue as to where the relay is located.
-{% endhint %}
+:::
 
 Download the topologyUpdater script and have a look at it. Here is where you will enter your block producer or any other custom peers you would like to always be connected to.
 
-```bash
+```bash title=">_ Terminal"
 wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/topologyUpdater.sh
 ```
 
-```bash
+```bash title=">_ Terminal"
 nano topologyUpdater.sh
 ```
 
 Save, exit and make it executable.
 
-```bash
+```bash title=">_ Terminal"
 chmod +x topologyUpdater.sh
 ```
 
-{% hint style="warning" %}
+:::info
 You will not be able to successfully execute ./topologyUpdater.sh until you are fully synced up to the tip of the chain.
-{% endhint %}
+:::
 
 Create a cron job that will run once an hour.
 
-```bash
+```bash title=">_ Terminal"
 EDITOR=nano crontab -e
 ```
 
 ### Add save and exit
 
-```bash
+```bash title=">_ Terminal"
 SHELL=/bin/bash
 33 * * * * . $HOME/.adaenv; $HOME/pi-pool/scripts/topologyUpdater.sh
 ```
 
-```bash
+```bash title=">_ Terminal"
 nano $NODE_FILES/${NODE_CONFIG}-topology.json
 ```
 
-{% hint style="info" %}
+:::info
 You can use gLiveView.sh to view ping times in relation to the peers in your {NODE\_CONFIG}-topology file. Use Ping to resolve hostnames to IP's.
-{% endhint %}
+:::
 
 Changes to this file will take affect upon restarting the cardano-service.
 
 ## Display inbound connections in Grafana
 
-```bash
+```bash title=">_ Terminal"
 mkdir -p $HOME/custom-metrics/tmp
 nano $HOME/custom-metrics/peers_in.sh
 ```
 Add following, update port # to match cardano-node port.
 
-```bash
+```bash title=">_ Terminal"
 INCOMING_PEERS="$(ss -tnp state established | grep "cardano-node" | awk -v port=":3003" '$3 ~ port {print}' | wc -l)"
 echo "peers_in ${INCOMING_PEERS}" > /home/ada/custom-metrics/tmp/peers_in.prom.tmp
 mv /home/ada/custom-metrics/tmp/peers_in.prom.tmp /var/lib/node_exporter/peers_in.prom
 ```
 Make it executable.
 
-```bash
+```bash title=">_ Terminal"
 chmod +x $HOME/custom-metrics/peers_in.sh
 ```
 Open node-exporter configuration file and add..
 
-```bash
+```bash title=">_ Terminal"
 sudo nano /etc/conf.d/prometheus-node-exporter
 ```
 Make it look like this.
 
-```bash
+```bash title=">_ Terminal"
 NODE_EXPORTER_ARGS='--collector.textfile.directory=/var/lib/node_exporter'
 ```
 
 Create that directory.
 
-```bash
+```bash title=">_ Terminal"
 sudo mkdir /var/lib/node_exporter
 ```
 Create a cron job as root to run our script every minute.
 
-```bash
+```bash title=">_ Terminal"
 sudo EDITOR=nano crontab -e
 ```
 
-```bash
+```bash title=">_ Terminal"
 SHELL=/bin/bash
 * * * * * /home/ada/custom-metrics/peers_in.sh
 ```
-Restart prometheus-node-xporter.
+Restart prometheus-node-exporter.
 
-```bash
+```bash title=">_ Terminal"
 sudo systemctl restart prometheus-node-exporter
 ```
 
@@ -943,15 +943,15 @@ After a minute you should be able to find a metric in Grafana called 'peers_in'.
 
 ## System updates
 
-Track available system upgrades(pacman)
+View available system upgrades(pacman) on Grafana
 
-```bash
+```bash title=">_ Terminal"
 nano $HOME/custom-metrics/pacman_upgrades.sh
 ```
 
 Add following.
 
-```bash
+```bash title=">_ Terminal"
 UPDATES="$(/usr/bin/checkupdates | wc -l)"
 echo "pacman_upgrades_pending ${UPDATES}" > /home/ada/custom-metrics/tmp/pacman_upgrades_pending.prom.tmp
 mv /home/ada/custom-metrics/tmp/pacman_upgrades_pending.prom.tmp /var/lib/node_exporter/pacman_upgrades_pending.prom
@@ -959,27 +959,44 @@ mv /home/ada/custom-metrics/tmp/pacman_upgrades_pending.prom.tmp /var/lib/node_e
 
 Make it executable.
 
-```bash
+```bash title=">_ Terminal"
 chmod +x $HOME/custom-metrics/pacman_upgrades.sh
 ```
 
 Create a cron job as root to run our script once a day at 1 am.
 
-```bash
+```bash title=">_ Terminal"
 sudo EDITOR=nano crontab -e
 ```
 
-```bash
+```bash title=">_ Terminal"
 0 1 * * * /home/ada/custom-metrics/pacman_upgrades.sh
 ```
 
-Restart prometheus-node-xporter.
+Restart prometheus-node-exporter.
 
-```bash
+```bash title=">_ Terminal"
 sudo systemctl restart prometheus-node-exporter
 ```
 
 In Grafana find the 'pacman_upgrades_pending' metric. It will not be available until you fire off the script or cron runs it.
+
+## Firewall
+
+Install UFW
+
+```bash title=">_ Terminal"
+sudo pacman -S ufw
+```
+
+## Wireless
+
+Connect with wireless
+
+```bash title=">_ Terminal"
+sudo pacman -S dialog wpa_supplicant
+sudo wifi-menu -o
+```
 
 
 ## Usefull links

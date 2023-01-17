@@ -10,10 +10,10 @@ _**We at the Armada Alliance actively build the required software packages neede
 :::
 
 :::success
-#### Current Official Cardano Node Version: 1.34.1
+#### Current Official Cardano Node Version: 1.35.3
 :::
 
-### Overview :notepad\_spiral:
+### Overview 🗒
 
 * [ ] Check if libsodium is installed on the local machine
   * Build libsodium if not installed already
@@ -93,13 +93,13 @@ This ensures the system is aware of libsodium (not just at the user level).
 Dynamic binaries and Cardano node configuration files provided by [SRN pool ](https://armada-alliance.com/stake-pools/cc1b1c03798884c636703443a23b8d9e827d6c0417921600394198a0):pray: at our [Github repository](https://github.com/armada-alliance/cardano-node-binaries).
 
 ```bash title=">_ Terminal"
-wget -O cardano-1_34_1-aarch64-ubuntu_2004.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/dynamic-binaries/1.34.1/cardano-1_34_1-aarch64-ubuntu_2004.zip?raw=true
+wget -O cardano-1_35_3-aarch64-ubuntu_2004.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/dynamic-binaries/1.35.3/cardano-1_35_3-aarch64-ubuntu_2004.zip?raw=true
 ```
 
 Extract the content from the zip file.
 
 ```bash title=">_ Terminal"
-unzip cardano-1_34_1-aarch64-ubuntu_2004.zip?raw=true
+unzip cardano-1_35_3-aarch64-ubuntu_2004.zip?raw=true
 ```
 
 ### Check if cardano-node is running already
@@ -126,7 +126,7 @@ If you use Linux's `htop` service just check for a processing running starting w
 If you are using the [Pi-Node guide](../pi-pool-tutorial/) and your cardano-node & cli in `~/.local/bin`
 
 ```bash title=">_ Terminal"
-mv cardano-1_34_1-aarch64-ubuntu_2004/cardano-node cardano-1_34_1-aarch64-ubuntu_2004/cardano-cli ~/.local/bin
+mv cardano-1_35_3-aarch64-ubuntu_2004/cardano-node cardano-1_35_3-aarch64-ubuntu_2004/cardano-cli ~/.local/bin
 ```
 
 ### Check your cardano-node version
@@ -138,7 +138,7 @@ cardano-node --version
 #### Output:
 
 ```bash title=">_ Terminal"
-cardano-node 1.34.1 - linux-aarch64 - ghc-8.10
+cardano-node 1.35.3 - linux-aarch64 - ghc-8.10
 git rev 2cbe363874d0261bc62f52185cf23ed492cf4859
 ```
 
@@ -151,7 +151,7 @@ cardano-cli --version
 #### Output:
 
 ```bash title=">_ Terminal"
-cardano-cli 1.34.1 - linux-aarch64 - ghc-8.10
+cardano-cli 1.35.3 - linux-aarch64 - ghc-8.10
 git rev 2cbe363874d0261bc62f52185cf23ed492cf4859
 ```
 
@@ -169,14 +169,14 @@ We have already downloaded the configuration files needed for the networks mainn
 <TabItem value="mainnet config" label="MAINNET Config">
 
 ```bash title=">_ Terminal"
-mv cardano-1_34_1-aarch64-ubuntu_2004/files/mainnet/* ~/pi-pool/files
+mv cardano-1_35_3-aarch64-ubuntu_2004/files/mainnet/* ~/pi-pool/files
 ```
 
 </TabItem>
 <TabItem value="testnet config" label="TESTNET Config">
 
 ```bash title=">_ Terminal"
-mv cardano-1_34_1-aarch64-ubuntu_2004/files/testnet/* ~/pi-pool/files
+mv cardano-1_35_3-aarch64-ubuntu_2004/files/testnet/* ~/pi-pool/files
 ```
 
 </TabItem>

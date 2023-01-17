@@ -19,14 +19,19 @@
   --ifm-color-danger:#bc1142; 
   --ifm-color-success:#75a927;
   --armada-hero-background-color:#091a26;
-  --armada-hero-text-color:#fff; 
+  --armada-hero-text-color:#fff;
 }
 /* Dark Theme Variables */
 html[data-theme='dark'] {
   --ifm-color-primary: #03a3d6;
   --ifm-color-primary-dark: #028ab5;
   --armada-hero-background-color:#303846;
+  --background-color:#303846;
   --ifm-heading-color:#fff;
+  --ifm-background-color: #111827;
+  --ifm-navbar-background-color: #1f2937;
+  --ifm-footer-background-color: #1f2937;
+  --ifm-color-success: #10b981;
 }
 .hero--primary{
   background-color: var(--armada-hero-background-color);
@@ -37,4 +42,18 @@ html[data-theme='dark'] {
   display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
+}
+/* WCat center website link in navbar */
+.center-nav-item {
+    margin: auto;
+}
+/* Styling one class specially in dark mode */
+[data-theme='dark'] .codeBlock_node_modules-\@docusaurus-theme-classic-lib-next-theme-CodeBlock-Content-styles-module {
+  --ifm-pre-background: #1f2937 !important;
+}
+[data-theme='dark'] .language-bash.codeBlockContainer_node_modules-\@docusaurus-theme-classic-lib-next-theme-CodeBlock-Container-styles-module.theme-code-block {
+  background-color: #1f2937 !important;
+}
+[data-theme='dark'] .card {
+  background-color: #1f2937 !important;
 }

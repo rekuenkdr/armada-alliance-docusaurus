@@ -2,7 +2,7 @@
 description: Raspberry Pi OS Cardano Stakepool
 ---
 
-# Raspi-Node Guide 🍓
+# Raspi-Node Guide
 
 ![](</img/yoda-patient.jpeg>)
 

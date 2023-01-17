@@ -1,111 +1,102 @@
+require('dotenv').config();
+
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'Armada Alliance Docs',
-  tagline: 'ARM powered Cardano Stake Pool Guides',
-  url: 'https://rekuenkdr.github.io/', // URL for your website. This can also be considered the top-level hostname
-  baseUrl: '/armada-alliance-docusaurus/', // Change this to match your projectName if deploying to Github Pages or / if deploying to a top level domain
-  onBrokenLinks: 'warn', // Change this to 'throw' for production CI pipelines
-  onBrokenMarkdownLinks: 'warn', 
-  favicon: 'img/armada-alliance-logo.png',
-  organizationName: 'rekuenkdr', // Change this to your GitHub org/user name.
-  projectName: 'armada-alliance-docusaurus', // Change this to your repo name.
-  i18n: {  // We are using crowdin to translate the site https://docusaurus.io/docs/i18n/crowdin
-    defaultLocale: 'en',
-    locales: ['en'], // Add locales, run locales and translate https://docusaurus.io/docs/i18n/tutorial
+  title: "Armada Alliance Docs",
+  tagline: "ARM powered Cardano Stake Pool Guides",
+  url: "https://docs.armada-alliance.com", // URL for your website. This can also be considered the top-level hostname
+  baseUrl: "/docs/", // Change this to match your projectName if deploying to Github Pages or / if deploying to a top level domain
+  onBrokenLinks: "throw", // Change this to 'throw' for production CI pipelines
+  onBrokenMarkdownLinks: "throw",
+  favicon: "img/armada-alliance-logo.png",
+  organizationName: "armada-alliance", // Change this to your GitHub org/user name.
+  projectName: "docs", // Change this to your repo name.
+  i18n: {
+    // We are using crowdin to translate the site https://docusaurus.io/docs/i18n/crowdin
+    defaultLocale: "en",
+    locales: ["en"], // Add locales, run locales and translate https://docusaurus.io/docs/i18n/tutorial
   },
   themeConfig: {
+    colorMode: {
+      defaultMode: "dark",
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
+    docs: {
+      sidebar: {
+        hideable: true,
+      },
+    },
+    image: "https://docs.armada-alliance.com/img/armada-alliance-logo.png",
     prism: {
-      theme: require('prism-react-renderer/themes/nightOwl'),
+      theme: require("prism-react-renderer/themes/nightOwl"),
+    },
+    algolia: {
+      // The application ID provided by Algolia
+      appId: process.env.ALGOLIA_APP_ID,
+
+      // Public API key: it is safe to commit it
+      apiKey: process.env.ALGOLIA_API_KEY,
+
+      indexName: 'armada-alliance',
+
+      // Optional: see doc section below
+      contextualSearch: true,
+
+      // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
+      externalUrlRegex: 'external\\.com|domain\\.com',
+
+      // Optional: Algolia search parameters
+      searchParameters: {},
+
+      // Optional: path for search page that enabled by default (`false` to disable it)
+      searchPagePath: 'search',
+
+      //... other Algolia params
     },
     navbar: {
-      title: 'Armada Alliance',
+      title: "Armada Alliance Docs",
       logo: {
-        alt: 'Armada Alliance',
-        src: 'img/armada-alliance-logo.png',
+        alt: "Armada Alliance ship logo",
+        src: "img/armada-alliance-logo.png",
       },
       items: [
         {
-          type: 'localeDropdown', // Locale Dropdown
-          position: 'left',
+          href: "https://armada-alliance.com",
+          label: "Armada Alliance Website",
+          className: "center-nav-item",
+          target: "_blank",
         },
         {
-          type: 'doc',
-          docId: 'README',
-          position: 'left',
-          label: 'Documentation',
+          type: "localeDropdown", // Locale Dropdown
+          position: "right",
         },
         {
-          href: 'https://github.com/armada-alliance/master',
-          label: 'GitHub',
-          position: 'right',
+          href: "https://shop.armada-alliance.com",
+          label: "Armada Store",
+          position: "right",
+        },
+        {
+          href: "https://github.com/armada-alliance/",
+          label: "GitHub",
+          position: "right",
         },
       ],
-    },
-    footer: {
-      style: 'dark',
-      links: [
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Website',
-              href: 'https://armada-alliance.com/',
-            },
-            {
-              label: 'Telegram',
-              href: 'https://t.me/joinchat/FeKTCBu-pn5OUZUz4joF2w',
-            },
-            {
-              label: 'Youtube',
-              href: 'https://www.youtube.com/channel/UCligunhcmbMYaBUMvONsKwg',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discord.com/invite/Sqc398qk5a',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/alliance_armada',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/armada-alliance/',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Contribute',
-              to: '/docs/how-to-contribute/',
-            },
-            {
-              label: 'Donate',
-              href: 'https://cointr.ee/armada-alliance',
-            },
-            {
-              label: 'Project Catalyst',
-              to: 'https://cardano.ideascale.com/a/dtd/ARMing-Cardano/340480-48088#idea-tab-comments',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} Armada Alliance, Built with Docusaurus.`,
     },
   },
   presets: [
     [
-      '@docusaurus/preset-classic',
+      "@docusaurus/preset-classic",
       {
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
+          routeBasePath: "/",
+          sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
-          editUrl:
-            'https://github.com/rekuenkdr/armada-alliance-docusaurus/edit/master/',
+          editUrl: "https://github.com/armada-alliance/docs/edit/master/",
         },
+        blog: false,
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve("./src/css/custom.css"),
         },
       },
     ],

@@ -95,23 +95,13 @@ If you would like to disable ipv6 or turn on forwarding you can below.
 Add the following to the bottom of /etc/sysctl.d/99-sysctl.conf. Save and exit.
 
 ```bash title=">_ Terminal"
-sudo nano /etc/sysctl.conf
+sudo nano /etc/sysctl.d/99-sysctl.conf
 ```
 
-``` bash title="/etc/sysctl.conf"
-## Pi Node ##
-
-# swap more to zram
-vm.vfs_cache_pressure=500
-vm.swappiness=100
-vm.dirty_background_ratio=1
-vm.dirty_ratio=50
+``` bash title="/etc/sysctl.d/99-sysctl.conf"
 
 fs.file-max = 10000000
 fs.nr_open = 10000000
-
-# enable forwarding if using wireguard
-net.ipv4.ip_forward=0
 
 # ignore ICMP redirects
 net.ipv4.conf.all.send_redirects = 0
@@ -143,25 +133,6 @@ kernel.panic = 10
 # Use Google's congestion control algorithm
 net.core.default_qdisc = fq
 net.ipv4.tcp_congestion_control = bbr
-```
-
-#### Load our changes after boot
-
-Create a new file. Paste, save & close.
-
-```bash title=">_ Terminal"
-sudo nano /etc/rc.local
-```
-
-```bash title="/etc/rc.local"
-#!/bin/bash
-
-# Give CPU startup routines time to settle.
-sleep 120
-
-sysctl -p /etc/sysctl.conf
-
-exit 0
 ```
 
 ### Disable IRQ balance
@@ -264,7 +235,7 @@ sudo apt install zram-config linux-modules-extra-raspi
 sudo nano /usr/bin/init-zram-swapping
 ```
 
-Multiply default config by 3. This will give you 11.5GB of virtual compressed swap in ram.
+Switch compression algorithm to lz4. Multiply the default mem variable by 3 like below. This will give the instance 35gb of compressed virtual swap in RAM. Increase vm.swappiness to 150.
 
 ```bash title="/usr/bin/init-zram-swapping"
 mem=$((totalmem / 2 * 1024 * 3))
@@ -277,13 +248,13 @@ modprobe zram
 
 # Calculate memory to use for zram (1/2 of ram)
 totalmem=`LC_ALL=C free | grep -e "^Mem:" | sed -e 's/^Mem: *//' -e 's/  *.*//'`
+echo lz4 > /sys/block/zram0/comp_algorithm
 mem=$((totalmem / 2 * 1024 * 3))
 
 # initialize the devices
 echo $mem > /sys/block/zram0/disksize
 mkswap /dev/zram0
-swapon -p 5 /dev/zram0
-
+swapon -p 150 /dev/zram0
 ```
 
 ### Raspberry Pi & entropy
@@ -315,10 +286,10 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 Install the packages we will need.
 
 ```bash title=">_ Terminal"
-sudo apt install build-essential libssl-dev tcptraceroute python3-pip \
-         make automake unzip net-tools nginx ssl-cert pkg-config \
-         libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev \
-         zlib1g-dev g++ libncursesw5 libtool autoconf flex bison -y
+sudo apt install build-essential libssl-dev tcptraceroute python3-pip flex \
+         make automake unzip net-tools ssl-cert pkg-config  g++ bison \
+         libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev autoconf \
+         zlib1g-dev libncursesw5 llvm-12 numactl libnuma-dev libtool libsecp256k1-dev -y
 ```
 
 ```bash title=">_ Terminal"

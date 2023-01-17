@@ -2,7 +2,7 @@
 description: Put your ADA to work today!
 ---
 
-# Staking Guide 🚀
+# Staking Guide
 
 * **See this link for an explanation on delegation:** [**https://cardano.org/stake-pool-delegation/**](https://cardano.org/stake-pool-delegation/)
 * **You always maintain full control of your ADA in your own wallet when you delegate.**

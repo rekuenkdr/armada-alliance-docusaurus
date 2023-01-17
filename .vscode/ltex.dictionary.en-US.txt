@@ -1,0 +1,8 @@
+Firewalld
+Wireguard
+Cardano
+cardano-node
+cardano-service
+cardano-submit
+mainnet-config
+testnet-config
