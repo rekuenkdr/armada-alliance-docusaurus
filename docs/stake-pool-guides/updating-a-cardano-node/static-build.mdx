@@ -8,7 +8,7 @@ This guide follows the same setup as our [Pi-Node guide and image](../pi-pool-tu
 :::
 
 :::success
-#### Current Official Cardano Node Version: 1.35.3
+#### Current Official Cardano Node Version: 1.35.5
 :::
 
 ### Overview 🗒
@@ -28,19 +28,19 @@ This guide follows the same setup as our [Pi-Node guide and image](../pi-pool-tu
 ### Static binaries and Cardano node configuration files are provided by [\[ZW3RK\]](https://armada-alliance.com/identities/zw3rk) pool🙏 and can be found at our [Github repository](https://github.com/armada-alliance/cardano-node-binaries/tree/main/static-binaries).
 
 ```bash title=">_ Terminal"
-wget -O 1_35_3.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/1_35_3.zip?raw=true
+wget -O 1_35_5.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/1_35_5.zip?raw=true
 ```
 
 Extract the content from the zip file.
 
 ```bash title=">_ Terminal"
-unzip 1_35_3.zip
+unzip 1_35_5.zip
 ```
 
 ### Check if cardano-node is running already
 
 :::caution
-**Now we need to make sure we do not have a cardano-node already running. If we do we must shut it down before proceeding.**
+**We need to make sure we do not have a cardano-node already running. If we do we must shut it down before proceeding.**
 :::
 
 You can check if you have a cardano-node process already running a few ways like using `htop` or by checking your systemd service.
@@ -101,24 +101,36 @@ This step is not needed every time you update your node, typically you only need
 
 ```bash title=">_ Terminal"
 cd $NODE_FILES
-wget https://hydra.iohk.io/build/7654130/download/1/mainnet-config.json
-wget https://hydra.iohk.io/build/7654130/download/1/mainnet-byron-genesis.json
-wget https://hydra.iohk.io/build/7654130/download/1/mainnet-shelley-genesis.json
-wget https://hydra.iohk.io/build/7654130/download/1/mainnet-alonzo-genesis.json
-wget https://hydra.iohk.io/build/7654130/download/1/mainnet-topology.json
+wget https://book.world.dev.cardano.org/environments/mainnet/config.json
+wget https://book.world.dev.cardano.org/environments/mainnet/byron-genesis.json
+wget https://book.world.dev.cardano.org/environments/mainnet/shelley-genesis.json
+wget https://book.world.dev.cardano.org/environments/mainnet/alonzo-genesis.json
+wget https://book.world.dev.cardano.org/environments/mainnet/topology.json
 ```
   </TabItem>
-  <TabItem value="Testnet" label="Testnet">
+  <TabItem value="Pre-Production" label="Pre-Production">
 
 ```bash title=">_ Terminal"
 cd $NODE_FILES
-wget https://hydra.iohk.io/build/7654130/download/1/testnet-config.json
-wget https://hydra.iohk.io/build/7654130/download/1/testnet-byron-genesis.json
-wget https://hydra.iohk.io/build/7654130/download/1/testnet-shelley-genesis.json
-wget https://hydra.iohk.io/build/7654130/download/1/testnet-alonzo-genesis.json
-wget https://hydra.iohk.io/build/7654130/download/1/testnet-topology.json
+wget https://book.world.dev.cardano.org/environments/preprod/config.json
+wget https://book.world.dev.cardano.org/environments/preprod/byron-genesis.json
+wget https://book.world.dev.cardano.org/environments/preprod/shelley-genesis.json
+wget https://book.world.dev.cardano.org/environments/preprod/alonzo-genesis.json
+wget https://book.world.dev.cardano.org/environments/preprod/topology.json
 ```
   </TabItem>
+  <TabItem value="Preview" label="Preview">
+
+```bash title=">_ Terminal"
+cd $NODE_FILES
+wget https://book.world.dev.cardano.org/environments/preview/config.json
+wget https://book.world.dev.cardano.org/environments/preview/byron-genesis.json
+wget https://book.world.dev.cardano.org/environments/preview/shelley-genesis.json
+wget https://book.world.dev.cardano.org/environments/preview/alonzo-genesis.json
+wget https://book.world.dev.cardano.org/environments/preview/topology.json
+```
+  </TabItem>
+
 </Tabs>
 
 ## Download Database snapshot
