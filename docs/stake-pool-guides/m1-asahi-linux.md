@@ -228,35 +228,6 @@ Install Prometheus and Prometheus-node-exporter
 sudo pacman -S prometheus prometheus-node-exporter
 ```
 
-## Grafana
-
-Two ways to install Grafana. From AUR or with snap. Pros and cons. Cannot install additional plugins with AUR version (looking into it). I need additional plugins, so I built snap and installed Grafana with it.
-
-### With Snap
-
-```bash title=">_ Terminal"
-mkdir ~/git
-cd ~/git
-git clone https://aur.archlinux.org/snapd.git
-cd snapd/
-makepkg -si
-sudo reboot
-sudo systemctl restart apparmor.service
-sudo systemctl restart snapd.service
-sudo systemctl enable --now snapd.apparmor.service
-```
-
-Install Grafana, enable and start.
-
-```bash title=">_ Terminal"
-sudo snap install grafana --channel=rock/edge
-sudo snap enable grafana
-sudo snap start grafana
-
-# check it's active and enabled
-snap services | grep active
-```
-
 ### Grafana-bin AUR
 
 ```bash title=">_ Terminal"
@@ -268,13 +239,6 @@ cd grafana-bin
 makepkg -si
 sudo systemctl start grafana.service
 sudo systemctl enable grafana.service
-
-```
-
-## Wireguard
-
-```bash title=">_ Terminal"
-sudo pacman -S wireguard-tools
 
 ```
 
@@ -438,26 +402,16 @@ It is fairly easy to jump to mainnet when you are ready with the same machine. O
 
 :::
 
-Create the directories for our project.
+Create the directories for our project and an environment file to hold our variables.
 
 ```bash title=">_ Terminal"
 mkdir -p ${HOME}/.local/bin
-mkdir -p ${HOME}/pi-pool/files
-mkdir -p ${HOME}/pi-pool/scripts
-mkdir -p ${HOME}/pi-pool/logs
+mkdir -p ${HOME}/pool/files
+mkdir -p ${HOME}/pool/scripts
+mkdir -p ${HOME}/pool/logs
 mkdir ${HOME}/git
 mkdir ${HOME}/tmp
-```
-
-Create an .adaenv file, choose which network you want to be on and source the file. This file will hold the variables/settings for operating a Pi-Node. /home/ada/.adaenv
-
-```bash title=">_ Terminal"
-echo -e NODE_CONFIG=testnet >> ${HOME}/.adaenv; source ${HOME}/.adaenv
-```
-Confirm you are on the desired network.
-
-```bash title=">_ Terminal"
-cat ${HOME}/.adaenv
+touch ${HOME}.adaenv
 ```
 
 ### Create bash variables & add \~/.local/bin to our $PATH 🏃
@@ -473,33 +427,34 @@ You must reload environment files after updating them. The same goes for cardano
 ```bash title=">_ Terminal"
 echo . ~/.adaenv >> ${HOME}/.bashrc
 cd .local/bin; echo "export PATH=\"$PWD:\$PATH\"" >> $HOME/.adaenv
-echo export NODE_HOME=${HOME}/pi-pool >> ${HOME}/.adaenv
+echo export NODE_HOME=${HOME}/pool >> ${HOME}/.adaenv
 echo export NODE_PORT=3003 >> ${HOME}/.adaenv
-echo export NODE_FILES=${HOME}/pi-pool/files >> ${HOME}/.adaenv
-echo export TOPOLOGY='${NODE_FILES}'/'${NODE_CONFIG}'-topology.json >> ${HOME}/.adaenv
+echo export NODE_FILES=${HOME}/pool/files >> ${HOME}/.adaenv
+echo export TOPOLOGY='${NODE_FILES}'/topology.json >> ${HOME}/.adaenv
 echo export DB_PATH='${NODE_HOME}'/db >> ${HOME}/.adaenv
-echo export CONFIG='${NODE_FILES}'/'${NODE_CONFIG}'-config.json >> ${HOME}/.adaenv
-echo export NODE_BUILD_NUM=$(curl https://hydra.iohk.io/job/Cardano/iohk-nix/cardano-deployment/latest-finished/download/1/index.html | grep -e "build" | sed 's/.*build\/\([0-9]*\)\/download.*/\1/g') >> ${HOME}/.adaenv
-echo export CARDANO_NODE_SOCKET_PATH="${HOME}/pi-pool/db/socket" >> ${HOME}/.adaenv
+echo export CONFIG='${NODE_FILES}'/config.json >> ${HOME}/.adaenvf
+echo export CARDANO_NODE_SOCKET_PATH="${HOME}/pool/db/socket" >> ${HOME}/.adaenv
 source ${HOME}/.bashrc; source ${HOME}/.adaenv
 ```
 
 ### Retrieve node files
 
+Configuration files for each chain can be downloaded here.
+[https://book.world.dev.cardano.org/environments.html#production-mainnet](https://book.world.dev.cardano.org/environments.html#production-mainnet)
+
 ```bash title=">_ Terminal"
 cd $NODE_FILES
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-config.json
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-byron-genesis.json
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-shelley-genesis.json
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-alonzo-genesis.json
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-topology.json
-wget -N https://raw.githubusercontent.com/input-output-hk/cardano-node/master/cardano-submit-api/config/tx-submit-mainnet-config.yaml
-```
+wget -N https://book.world.dev.cardano.org/environments/mainnet/config.json
+wget -N https://book.world.dev.cardano.org/environments/mainnet/byron-genesis.json
+wget -N https://book.world.dev.cardano.org/environments/mainnet/shelley-genesis.json
+wget -N https://book.world.dev.cardano.org/environments/mainnet/alonzo-genesis.json
+wget -N https://book.world.dev.cardano.org/environments/mainnet/topology.json
+wget -N https://book.world.dev.cardano.org/environments/mainnet/submit-api-config.json
 
-Run the following to modify ${NODE\_CONFIG}-config.json and update TraceBlockFetchDecisions to "true" & listen on all interfaces with Prometheus Node Exporter.
+Run the following to modify config.json and update TraceBlockFetchDecisions to "true" & listen on all interfaces with Prometheus Node Exporter.
 
 ```bash title=">_ Terminal"
-sed -i ${NODE_CONFIG}-config.json \
+sed -i config.json \
     -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g" \
     -e "s/127.0.0.1/0.0.0.0/g"
 ```
@@ -677,7 +632,7 @@ Create the systemd unit file and startup script so systemd can manage cardano-no
 nano ${HOME}/.local/bin/cardano-service
 ```
 
-Paste the following, save & exit.
+Edit the username here if you chose to not use ada. Paste the following, save & exit.
 
 ```bash title="${HOME}/.local/bin/cardano-service"
 #!/bin/bash
@@ -718,7 +673,7 @@ After           = network-online.target
 [Service]
 User            = ada
 Type            = simple
-WorkingDirectory= /home/ada/pi-pool
+WorkingDirectory= /home/ada/pool
 ExecStart       = /bin/bash -c "PATH=/home/ada/.local/bin:$PATH exec /home/ada/.local/bin/cardano-service"
 KillSignal=SIGINT
 RestartKillSignal=SIGINT
@@ -798,8 +753,8 @@ wget https://raw.githubusercontent.com/cardano-community/guild-operators/master/
 You can change the port cardano-node runs on in the .adaenv file in your home directory. Open the file edit the port number. Load the change into your shell & restart the cardano-node service.
 
 ```bash title=">_ Terminal"
-nano /home/ada/.adaenv
-source /home/ada/.adaenv
+nano ${HOME}/.adaenv
+source ${HOME}/.adaenv
 cardano-service restart
 ```
 :::
@@ -809,10 +764,10 @@ Add a line sourcing our .adaenv file to the top of the env file and adjust some 
 ```bash title=">_ Terminal"
 sed -i env \
     -e "/#CNODEBIN/i. ${HOME}/.adaenv" \
-    -e "s/\#CNODE_HOME=\"\/opt\/cardano\/cnode\"/CNODE_HOME=\"\${HOME}\/pi-pool\"/g" \
+    -e "s/\#CNODE_HOME=\"\/opt\/cardano\/cnode\"/CNODE_HOME=\"\${HOME}\/pool\"/g" \
     -e "s/\#CNODE_PORT=6000"/CNODE_PORT=\"'${NODE_PORT}'\""/g" \
-    -e "s/\#CONFIG=\"\${CNODE_HOME}\/files\/config.json\"/CONFIG=\"\${NODE_FILES}\/"'${NODE_CONFIG}'"-config.json\"/g" \
-    -e "s/\#TOPOLOGY=\"\${CNODE_HOME}\/files\/topology.json\"/TOPOLOGY=\"\${NODE_FILES}\/"'${NODE_CONFIG}'"-topology.json\"/g" \
+    -e "s/\#CONFIG=\"\${CNODE_HOME}\/files\/config.json\"/CONFIG=\"\${NODE_FILES}\/config.json\"/g" \
+    -e "s/\#TOPOLOGY=\"\${CNODE_HOME}\/files\/topology.json\"/TOPOLOGY=\"\${NODE_FILES}\/topology.json\"/g" \
     -e "s/\#LOG_DIR=\"\${CNODE_HOME}\/logs\"/LOG_DIR=\"\${CNODE_HOME}\/logs\"/g"
 ```
 
@@ -876,15 +831,15 @@ EDITOR=nano crontab -e
 
 ```bash title=">_ Terminal"
 SHELL=/bin/bash
-33 * * * * . $HOME/.adaenv; $HOME/pi-pool/scripts/topologyUpdater.sh
+33 * * * * . $HOME/.adaenv; $HOME/pool/scripts/topologyUpdater.sh
 ```
 
 ```bash title=">_ Terminal"
-nano $NODE_FILES/${NODE_CONFIG}-topology.json
+nano $NODE_FILES/topology.json
 ```
 
 :::info
-You can use gLiveView.sh to view ping times in relation to the peers in your {NODE\_CONFIG}-topology file. Use Ping to resolve hostnames to IP's.
+You can use gLiveView.sh to view ping times in relation to the peers in your topology file. Use ping to resolve hostnames to IP's.
 :::
 
 Changes to this file will take affect upon restarting the cardano-service.
@@ -949,7 +904,7 @@ View available system upgrades(pacman) on Grafana
 nano $HOME/custom-metrics/pacman_upgrades.sh
 ```
 
-Add following.
+Add following. Replace ada with your username here if different.
 
 ```bash title=">_ Terminal"
 UPDATES="$(/usr/bin/checkupdates | wc -l)"
@@ -968,6 +923,8 @@ Create a cron job as root to run our script once a day at 1 am.
 ```bash title=">_ Terminal"
 sudo EDITOR=nano crontab -e
 ```
+
+Replace ada with your username here if different.
 
 ```bash title=">_ Terminal"
 0 1 * * * /home/ada/custom-metrics/pacman_upgrades.sh
