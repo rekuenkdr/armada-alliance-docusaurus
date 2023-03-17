@@ -6,7 +6,7 @@ import TabItem from '@theme/TabItem';
 
 
 :::caution
-You will have to upgrade the whole pool to P2P at the same time. I could not get tx's into my core node till P2P was enabled on it.
+You will have to upgrade the whole pool to P2P in my experience. I could not get tx's out of my core until it had p2p enabled.
 :::
 
 :::info
@@ -25,7 +25,6 @@ https://github.com/cardano-foundation/docs-cardano-org/blob/main/explore-cardano
 Edit your mainnet-config.json. I add them just above ***"defaultBackends": [***. Testnets are already on P2P and you can find the configuration files here https://book.world.dev.cardano.org/environments.html
 
 ```bash title="mainnet-config.json"
-  "TestEnableDevelopmentNetworkProtocols": true,
   "EnableP2P": true,
   "MaxConcurrencyBulkSync": 2,
   "MaxConcurrencyDeadline": 4,
@@ -38,22 +37,18 @@ Edit your mainnet-config.json. I add them just above ***"defaultBackends": [***.
 Edit the topology file on the core, raise valency to match the number of hot relays you wish to keep connection with. Lower valency will downgrade any extra nodes to a warm connection. The assumption is the governor will determine the best nodes to keep "hot".
 
 ```json title="mainnet-topology.json"
+
 {
-  "LocalRoots": {
-    "groups": [
-      {
-        "localRoots": {
-          "accessPoints": [
+  "localRoots": [
+    { "accessPoints": [
             { "address": "<Relay 1 IP or DNS hostname>", "port": 3001, "valency": 1, "name": "My relay"},
             { "address": "<Relay 2 IP or DNS hostname>", "port": 3002, "valency": 1, "name": "My other relay"}
-          ],
-          "advertise": false
-        },
-       "valency": 2
-      }
-    ]
-  },
-  "PublicRoots": []
+  ],
+      "advertise": false,
+      "valency": 2
+    }
+  ],
+  "publicRoots": []
 }
 ```
 
@@ -61,40 +56,31 @@ Edit the topology file on the relays. The nodes only share block headers in P2P.
 
 ```json title="mainnet-topology.json"
 {
-  "LocalRoots": {
-    "groups": [
-      {
-        "localRoots": {
-          "accessPoints": [
-             { "address": "<core ip or hostname>", "port": 6000, "valency": 1, "name": "<core>"},
-             { "address": "otg-relay-1.adamantium.online", "port": 6001, "valency": 1, "name": "OTG-1"},
-             { "address": "otg-relay-2.adamantium.online", "port": 6002, "valency": 1, "name": "OTG-2"},
-             { "address": "relay.armada-alliance.com", "port": 6002, "valency": 1, "name": "armada-alliance"},
-             { "address": "130.61.103.246", "port": 6000, "valency": 1, "name": "DE, Germany"},
-             { "address": "129.213.154.111", "port": 3002, "valency": 1, "name": "US, United States"},
-             { "address": "150.230.20.186", "port": 3003, "valency": 1, "name": "US, United States"},
-             { "address": "83.167.247.37", "port": 6000, "valency": 1, "name": "CZ, Czech Republic"},
-             { "address": "nuc11v5.ddns.net", "port": 3001, "valency": 1, "name": "NL, Netherlands"},
-             { "address": "59.28.90.17", "port": 3003, "valency": 1, "name": "KR, Korea, Republic of"},
-             { "address": "193.123.107.52", "port": 6000, "valency": 1, "name": "US, United States"}
-          ],
-          "advertise": true
-        },
-        "valency": 11
-      }
-    ]
-  },
-  "PublicRoots": [
-    {
-      "publicRoots" : {
-        "accessPoints": [
-          { "address": "relays-new.cardano-mainnet.iohk.io", "port": 3001 }
-        ],
-        "advertise": true
-      }
+  "localRoots": [
+    { "accessPoints": [
+      { "address": "<core>", "port": <core port>, "valency": 1, "name": ""},
+      { "address": "100.74.99.36", "port": 6002, "valency": 1, "name": "M2"},
+      { "address": "129.213.154.111", "port": 3002, "valency": 1, "name": "ANTRIX"},
+      { "address": "150.230.20.186", "port": 3003, "valency": 1, "name": "ANTRIX"},
+      { "address": "relay.pasklab.com", "port": 3004, "valency": 1, "name": "BERRY"},
+      { "address": "100.114.28.4", "port": 3001, "valency": 1, "name": "mu gogo"},
+      { "address": "34.68.210.168", "port": 3001, "valency": 1, "name": "mu gogo"},
+      { "address": "59.28.90.17", "port": 3003, "valency": 1, "name": "merde guy"},
+      { "address": "relay3.meritus.work", "port": 6000, "valency": 1, "name": "MERIT"},
+      { "address": "193.123.107.52", "port": 6000, "valency": 1, "name": "Server in Vinhedo Brazil"}
+    ],
+      "advertise": true,
+      "valency": 14
     }
   ],
-  "useLedgerAfterSlot": 0
+  "publicRoots": [
+    { "accessPoints": [
+      { "address": "relays-new.cardano-mainnet.iohk.io", "port": 3001 }
+    ],
+    "advertise": true
+    }
+  ],
+  "useLedgerAfterSlot": 45000000
 }
 ```
 
