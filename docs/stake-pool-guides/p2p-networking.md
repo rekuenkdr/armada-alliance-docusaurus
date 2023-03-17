@@ -77,7 +77,7 @@ Edit the topology file on the relays. The nodes only share block headers in P2P.
     { "accessPoints": [
       { "address": "relays-new.cardano-mainnet.iohk.io", "port": 3001 }
     ],
-    "advertise": true
+      "advertise": true
     }
   ],
   "useLedgerAfterSlot": 79387772
