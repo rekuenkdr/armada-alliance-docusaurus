@@ -41,8 +41,8 @@ Edit the topology file on the core, raise valency to match the number of hot rel
 {
   "localRoots": [
     { "accessPoints": [
-            { "address": "<Relay 1 IP or DNS hostname>", "port": 3001, "valency": 1, "name": "My relay"},
-            { "address": "<Relay 2 IP or DNS hostname>", "port": 3002, "valency": 1, "name": "My other relay"}
+      { "address": "<Relay 1 IP or DNS hostname>", "port": 3001, "valency": 1, "name": "My relay"},
+      { "address": "<Relay 2 IP or DNS hostname>", "port": 3002, "valency": 1, "name": "My other relay"}
   ],
       "advertise": false,
       "valency": 2
@@ -58,19 +58,19 @@ Edit the topology file on the relays. The nodes only share block headers in P2P.
 {
   "localRoots": [
     { "accessPoints": [
-      { "address": "<core>", "port": <core port>, "valency": 1, "name": ""},
-      { "address": "100.74.99.36", "port": 6002, "valency": 1, "name": "M2"},
-      { "address": "129.213.154.111", "port": 3002, "valency": 1, "name": "ANTRIX"},
-      { "address": "150.230.20.186", "port": 3003, "valency": 1, "name": "ANTRIX"},
-      { "address": "relay.pasklab.com", "port": 3004, "valency": 1, "name": "BERRY"},
-      { "address": "100.114.28.4", "port": 3001, "valency": 1, "name": "mu gogo"},
-      { "address": "34.68.210.168", "port": 3001, "valency": 1, "name": "mu gogo"},
-      { "address": "59.28.90.17", "port": 3003, "valency": 1, "name": "merde guy"},
-      { "address": "relay3.meritus.work", "port": 6000, "valency": 1, "name": "MERIT"},
-      { "address": "193.123.107.52", "port": 6000, "valency": 1, "name": "Server in Vinhedo Brazil"}
+      { "address": "<core>", "port": <core port>, "name": ""},
+      { "address": "100.74.99.36", "port": 6002, "name": "M2"},
+      { "address": "129.213.154.111", "port": 3002, "name": "ANTRIX"},
+      { "address": "150.230.20.186", "port": 3003, "name": "ANTRIX"},
+      { "address": "relay.pasklab.com", "port": 3004, "name": "BERRY"},
+      { "address": "100.114.28.4", "port": 3001, "name": "mu gogo"},
+      { "address": "34.68.210.168", "port": 3001, "name": "mu gogo"},
+      { "address": "59.28.90.17", "port": 3003, "name": "merde guy"},
+      { "address": "relay3.meritus.work", "port": 6000, "name": "MERIT"},
+      { "address": "193.123.107.52", "port": 6000, "name": "Server in Vinhedo Brazil"}
     ],
       "advertise": true,
-      "valency": 14
+      "valency": 10
     }
   ],
   "publicRoots": [
