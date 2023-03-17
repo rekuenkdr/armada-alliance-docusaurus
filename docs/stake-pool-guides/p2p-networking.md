@@ -80,7 +80,7 @@ Edit the topology file on the relays. The nodes only share block headers in P2P.
     "advertise": true
     }
   ],
-  "useLedgerAfterSlot": 45000000
+  "useLedgerAfterSlot": 79387772
 }
 ```
 
@@ -96,10 +96,8 @@ You can reload the networking stack without having restart the service with this
 ```bash title=">_ Terminal"
 nano ~/.bashrc
 ```
-Add this to the bottom and source the changes into Bash. Change pidof to match the name of your cardano-node systemd service.
+Add this to the bottom and source the changes into Bash.
 
-<Tabs groupId="CONFIG_NET">
-  <TabItem value="SPOS" label="SPOS" default>
 
 ```bash title="~/.bashrc"
 cardano-reload() {
@@ -108,18 +106,6 @@ cardano-reload() {
    echo ${CPID}
 }
 ```
-  </TabItem>
-  <TabItem value="CNTools" label="CNTools">
-
-```bash title="~/.bashrc"
-cardano-reload() {
-   CPID=$(systemctl show cnode --property=MainPID --value)
-   kill -SIGHUP ${CPID}
-   echo ${CPID}
-}
-```
-  </TabItem>
-</Tabs>
 
 ```bash title=">_ Terminal"
 source ~/.bashrc
