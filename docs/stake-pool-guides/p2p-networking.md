@@ -41,8 +41,8 @@ Edit the topology file on the core, raise valency to match the number of hot rel
 {
   "localRoots": [
     { "accessPoints": [
-      { "address": "<Relay 1 IP or DNS hostname>", "port": 3001, "valency": 1, "name": "My relay"},
-      { "address": "<Relay 2 IP or DNS hostname>", "port": 3002, "valency": 1, "name": "My other relay"}
+      { "address": "<Relay 1 IP or DNS hostname>", "port": 3001, "name": "My relay"},
+      { "address": "<Relay 2 IP or DNS hostname>", "port": 3002, "name": "My other relay"}
   ],
       "advertise": false,
       "valency": 2
