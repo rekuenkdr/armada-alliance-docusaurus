@@ -113,7 +113,7 @@ cardano-reload() {
 
 ```bash title="~/.bashrc"
 cardano-reload() {
-   CPID=$(pidof cnode)
+   CPID=$(systemctl show cnode --property=MainPID --value)
    kill -SIGHUP ${CPID}
    echo ${CPID}
 }
