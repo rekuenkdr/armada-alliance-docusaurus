@@ -26,12 +26,10 @@ Edit your mainnet-config.json. I add them just above ***"defaultBackends": [***.
 
 ```bash title="mainnet-config.json"
   "EnableP2P": true,
-  "MaxConcurrencyBulkSync": 2,
-  "MaxConcurrencyDeadline": 4,
-  "TargetNumberOfRootPeers": 50,
-  "TargetNumberOfKnownPeers": 50,
-  "TargetNumberOfEstablishedPeers": 25,
-  "TargetNumberOfActivePeers": 20,
+  "TargetNumberOfRootPeers": 100,
+  "TargetNumberOfKnownPeers": 100,
+  "TargetNumberOfEstablishedPeers": 50,
+  "TargetNumberOfActivePeers": 25,
 ```
 
 Edit the topology file on the core, raise valency to match the number of hot relays you wish to keep connection with. Lower valency will downgrade any extra nodes to a warm connection. The assumption is the governor will determine the best nodes to keep "hot".
