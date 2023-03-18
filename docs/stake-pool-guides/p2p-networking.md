@@ -36,7 +36,7 @@ Edit your mainnet-config.json. I add them just above ***"defaultBackends": [***.
 
 Edit the topology file on the core, raise valency to match the number of hot relays you wish to keep connection with. Lower valency will downgrade any extra nodes to a warm connection. The assumption is the governor will determine the best nodes to keep "hot".
 
-```json title="mainnet-topology.json"
+```json title="Core mainnet-topology.json"
 
 {
   "localRoots": [
@@ -54,7 +54,7 @@ Edit the topology file on the core, raise valency to match the number of hot rel
 
 Edit the topology file on the relays. The nodes only share block headers in P2P. If it does not have the block it will download it. This allows for more sensible interconnections, saving bandwidth while allowing interconnections between relays.
 
-```json title="mainnet-topology.json"
+```json title="Relay mainnet-topology.json"
 {
   "localRoots": [
     { "accessPoints": [
