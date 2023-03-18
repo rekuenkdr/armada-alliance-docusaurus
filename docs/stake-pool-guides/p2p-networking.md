@@ -41,8 +41,8 @@ Edit the topology file on the core, raise valency to match the number of hot rel
 {
   "localRoots": [
     { "accessPoints": [
-      { "address": "<Relay 1 IP or DNS hostname>", "port": 3001, "name": "My relay"},
-      { "address": "<Relay 2 IP or DNS hostname>", "port": 3002, "name": "My other relay"}
+      { "address": "<Relay 1 IP or DNS hostname>", "port": 3001, "name": "My relay" },
+      { "address": "<Relay 2 IP or DNS hostname>", "port": 3002, "name": "My other relay" }
   ],
       "advertise": false,
       "valency": 2
@@ -58,16 +58,16 @@ Edit the topology file on the relays. The nodes only share block headers in P2P.
 {
   "localRoots": [
     { "accessPoints": [
-      {"address": "<core>", "port": 3001, "valency": 1, "name": "My core"}
+      { "address": "<core>", "port": 3001, "valency": 1, "name": "My core" }
     ],
       "advertise": false,
       "valency": 1
     },
     { "accessPoints": [
-      { "address": "<other-relay-1>", "port": <port>, "name": "relay1"},
-      { "address": "<other-relay-2>", "port": <port>, "name": "relay2"},
-      { "address": "<other-relay-3>", "port": <port>, "name": "relay3"},
-      { "address": "<other-relay-4>", "port": <port>, "name": "relay4"}
+      { "address": "<other-relay-1>", "port": <port>, "name": "relay1" },
+      { "address": "<other-relay-2>", "port": <port>, "name": "relay2" },
+      { "address": "<other-relay-3>", "port": <port>, "name": "relay3" },
+      { "address": "<other-relay-4>", "port": <port>, "name": "relay4" }
     ],
       "advertise": true,
       "valency": 4
@@ -83,7 +83,6 @@ Edit the topology file on the relays. The nodes only share block headers in P2P.
   "useLedgerAfterSlot": 79387772
 }
 ```
-
 
 Restart the node and check they are syncing up. Look for ('***Started opening Ledger DB***').
 
