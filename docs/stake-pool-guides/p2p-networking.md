@@ -58,7 +58,7 @@ Edit the topology file on the relays. The nodes only share block headers in P2P.
 {
   "localRoots": [
     { "accessPoints": [
-      { "address": "<core>", "port": 3001, "valency": 1, "name": "My core" }
+      { "address": "<core>", "port": <port>, "name": "My core" }
     ],
       "advertise": false,
       "valency": 1
