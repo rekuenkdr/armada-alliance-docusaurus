@@ -10,13 +10,9 @@ You will have to upgrade the whole pool to P2P in my experience. I could not get
 :::
 
 :::info
-Continue pushing your relay to topology updater without pulling in a list from them. This allows you to get incoming while keeping the p2p file as is.
+Gossip now renamed to Peer Sharing is still disabled.
 
-just add the -f flag to your command.
-
-```bash"
-33 * * * * . $HOME/.adaenv; $HOME/pi-pool/scripts/topologyUpdater.sh -f
-```
+Relays not registered on chain will not be discovered. The latest topology updater detects if P2P is enabled and will disable fetching a new list. Continue pushing your relay to topology updater without pulling in a list from them. This allows you to get incoming while keeping the p2p topology file as is on unregistered relays.
 
 :::
 
@@ -50,7 +46,7 @@ Edit the topology file on the core, raise valency to match the number of hot rel
 }
 ```
 
-Edit the topology file on the relays. The nodes only share block headers in P2P. If it does not have the block it will download it. This allows for more sensible interconnections, saving bandwidth while allowing interconnections between relays.
+Edit the topology file on the relays. The nodes only share block headers in P2P. If it does not have the block it will download it. This allows for more sensible interconnections, saving bandwidth while allowing interconnections between relays. Local roots remain hot connections(unless valency is lower than the total) if you have trusted peers you can add them to localRoots and remain connected to them always.
 
 ```json title="Relay mainnet-topology.json"
 {
