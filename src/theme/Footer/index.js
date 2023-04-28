@@ -1,8 +1,23 @@
 import React from "react";
 //import AllianceLogo from "../../../src/theme/Footer/armada-alliance-logo.png";
 //import Footer from '@theme-original/Footer';
+import { MendableFloatingButton } from "@mendable/search"
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+
+const style = { darkMode: false, accentColor: "#123456" }
+
+const floatingButtonStyle = {
+    color: "#fff",
+    backgroundColor: "#31373d"
+}
+
+const icon = <img src="img/parrot2.png" width="75"/>
 
 export default function FooterWrapper(props) {
+  const {
+    siteConfig: { customFields },
+  } = useDocusaurusContext();
+
   return (
     <>
       <footer className="footer">
@@ -132,6 +147,8 @@ export default function FooterWrapper(props) {
             Copyright © {new Date().getFullYear()} Armada Alliance.
           </div>
         </div>
+        <MendableFloatingButton icon={icon} cmdShortcutKey="J" dialogPlaceholder="Ask" anon_key={customFields.mendableAnonKey} style={style} floatingButtonStyle={floatingButtonStyle} />
+
       </footer>
     </>
   );

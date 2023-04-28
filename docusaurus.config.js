@@ -4,7 +4,7 @@ require('dotenv').config();
 module.exports = {
   title: "Armada Alliance Docs",
   tagline: "ARM powered Cardano Stake Pool Guides",
-  url: "https://docs.armada-alliance.com", // URL for your website. This can also be considered the top-level hostname
+  url: "https://armada-alliance.com/", // URL for your website. This can also be considered the top-level hostname
   baseUrl: "/docs/", // Change this to match your projectName if deploying to Github Pages or / if deploying to a top level domain
   onBrokenLinks: "throw", // Change this to 'throw' for production CI pipelines
   onBrokenMarkdownLinks: "throw",
@@ -27,7 +27,7 @@ module.exports = {
         hideable: true,
       },
     },
-    image: "https://docs.armada-alliance.com/img/armada-alliance-logo.png",
+    image: "https://armada-alliance.com/img/armada-alliance-logo.png",
     prism: {
       theme: require("prism-react-renderer/themes/nightOwl"),
     },
@@ -84,6 +84,14 @@ module.exports = {
       ],
     },
   },
+  customFields:{
+    mendableAnonKey: process.env.MENDABLE_KEY,
+  },
+  plugins: [
+    [
+        'docusaurus-node-polyfills', { excludeAliases: ['console']}
+    ]
+  ],
   presets: [
     [
       "@docusaurus/preset-classic",
@@ -98,6 +106,10 @@ module.exports = {
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },
+        gtag: {
+          trackingID: 'G-20GWM641V6',
+          anonymizeIP: true,
+        }
       },
     ],
   ],
