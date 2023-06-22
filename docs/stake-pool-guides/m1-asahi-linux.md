@@ -505,7 +505,7 @@ sudo ldconfig; ldconfig -p | grep libsodium
 ```
 git clone https://github.com/bitcoin-core/secp256k1.git
 cd secp256k1
-git reset --hard $SECP256K1_REF
+git checkout ac83be33
 ./autogen.sh
 ./configure  --enable-module-schnorrsig --enable-experimental
 make
