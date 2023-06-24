@@ -439,7 +439,7 @@ echo export NODE_PORT=3003 >> ${HOME}/.adaenv
 echo export NODE_FILES=${HOME}/pool/files >> ${HOME}/.adaenv
 echo export TOPOLOGY='${NODE_FILES}'/topology.json >> ${HOME}/.adaenv
 echo export DB_PATH='${NODE_HOME}'/db >> ${HOME}/.adaenv
-echo export CONFIG='${NODE_FILES}'/config.json >> ${HOME}/.adaenvf
+echo export CONFIG='${NODE_FILES}'/config.json >> ${HOME}/.adaenv
 echo export CARDANO_NODE_SOCKET_PATH="${HOME}/pool/db/socket" >> ${HOME}/.adaenv
 source ${HOME}/.bashrc; source ${HOME}/.adaenv
 ```
@@ -610,7 +610,7 @@ cardano-cli version
 
 ### Systemd unit startup scripts
 
-Create the systemd unit file and startup script so systemd can manage cardano-node.
+Create the startup script and systemd unit file so systemd can manage cardano-node.
 
 ```bash title=">_ Terminal"
 nano ${HOME}/.local/bin/cardano-service
