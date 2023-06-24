@@ -228,15 +228,22 @@ Install Prometheus and Prometheus-node-exporter
 sudo pacman -S prometheus prometheus-node-exporter
 ```
 
-### Grafana-bin AUR
+## Yay AUR package manager
+
+Yay (Yet Another Yogurt) – An AUR Helper Written in Go for Arch Linux distributions. Automate the usage of the Arch User Repository for searching packages published on the AUR, resolving dependencies, downloading, and building AUR packages.
 
 ```bash title=">_ Terminal"
 mkdir ~/git
 cd ~/git
-
-git clone https://aur.archlinux.org/grafana-bin.git
-cd grafana-bin
+git clone https://aur.archlinux.org/yay.git
+cd yay
 makepkg -si
+```
+
+### Grafana-bin AUR
+
+```bash title=">_ Terminal"
+yay -S grafana-bin
 sudo systemctl start grafana.service
 sudo systemctl enable grafana.service
 
@@ -411,7 +418,7 @@ mkdir -p ${HOME}/pool/scripts
 mkdir -p ${HOME}/pool/logs
 mkdir ${HOME}/git
 mkdir ${HOME}/tmp
-touch ${HOME}.adaenv
+touch ${HOME}/.adaenv
 ```
 
 ### Create bash variables & add \~/.local/bin to our $PATH 🏃
@@ -450,6 +457,7 @@ wget -N https://book.world.dev.cardano.org/environments/mainnet/shelley-genesis.
 wget -N https://book.world.dev.cardano.org/environments/mainnet/alonzo-genesis.json
 wget -N https://book.world.dev.cardano.org/environments/mainnet/topology.json
 wget -N https://book.world.dev.cardano.org/environments/mainnet/submit-api-config.json
+wget -N https://book.world.dev.cardano.org/environments/mainnet/conway-genesis.json
 
 Run the following to modify config.json and update TraceBlockFetchDecisions to "true" & listen on all interfaces with Prometheus Node Exporter.
 
@@ -457,12 +465,6 @@ Run the following to modify config.json and update TraceBlockFetchDecisions to "
 sed -i config.json \
     -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g" \
     -e "s/127.0.0.1/0.0.0.0/g"
-```
-
-Save & exit.
-
-```bash title=">_ Terminal"
-source ${HOME}/.adaenv
 ```
 
 ## Build Libsodium
@@ -528,29 +530,10 @@ export PATH=~/git/clang+llvm-12.0.1-aarch64-linux-gnu/bin/:$PATH
 ```
 
 ## ncurses5 compat libs
+Use N option, ignore aarch64 warning and build it anyways.
 
 ```bash title=">_ Terminal"
-cd ~/git
-git clone https://aur.archlinux.org/ncurses5-compat-libs.git
-cd ncurses5-compat-libs/
-gpg --recv-key CC2AF4472167BE03
-## If this fails it is probly due to your DNS service(Google). 
-## Use https://www.quad9.net/
-```
-
-Change target architecture to aarch64 in the build file.
-
-```bash title=">_ Terminal"
-nano PKGBUILD
-
-```
-```bash title=">PKGBUILD"
-arch=(aarch64)
-```
-And build it.
-
-```bash title=">_ Terminal"
-makepkg -si
+yay -S ncurses5-compat-libs
 ```
 
 Confirm.
@@ -573,8 +556,8 @@ ghcup upgrade
 ghcup install cabal 3.6.2.0
 ghcup set cabal 3.6.2.0
 
-ghcup install ghc 8.10.7
-ghcup set ghc 8.10.7
+ghcup install ghc 9.2.7
+ghcup set ghc 9.2.7
 ```
 
 Confirm.
@@ -594,14 +577,15 @@ git fetch --all --recurse-submodules --tags
 git checkout $(curl -s https://api.github.com/repos/input-output-hk/cardano-node/releases/latest | jq -r .tag_name)
 ```
 
-Configure with 8.10.4 set libsodium
+Configure with 9.2.7 & set libsodium
 
 ```bash title=">_ Terminal"
-cabal configure -O0 -w ghc-8.10.7
+cabal update
+cabal configure -O0 -w ghc-9.2.7
 
 echo -e "package cardano-crypto-praos\n flags: -external-libsodium-vrf" > cabal.project.local
 sed -i $HOME/.cabal/config -e "s/overwrite-policy:/overwrite-policy: always/g"
-rm -rf dist-newstyle/build/aarch64-linux/ghc-8.10.7
+rm -rf dist-newstyle/build/aarch64-linux/ghc-9.2.7
 ```
 
 Build cardano-cli cardano-node.
