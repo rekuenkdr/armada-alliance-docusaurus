@@ -50,9 +50,9 @@ cd .local/bin; echo "export PATH=\"$PWD:\$PATH\"" >> $HOME/.adaenv
 echo export NODE_HOME=${HOME}/pi-pool >> ${HOME}/.adaenv
 echo export NODE_PORT=3003 >> ${HOME}/.adaenv
 echo export NODE_FILES=${HOME}/pi-pool/files >> ${HOME}/.adaenv
-echo export TOPOLOGY='${NODE_FILES}'/'${NODE_CONFIG}'-topology.json >> ${HOME}/.adaenv
+echo export TOPOLOGY='${NODE_FILES}'/topology.json >> ${HOME}/.adaenv
 echo export DB_PATH='${NODE_HOME}'/db >> ${HOME}/.adaenv
-echo export CONFIG='${NODE_FILES}'/'${NODE_CONFIG}'-config.json >> ${HOME}/.adaenv
+echo export CONFIG='${NODE_FILES}'/config.json >> ${HOME}/.adaenv
 #echo export NODE_BUILD_NUM=$(curl https://hydra.iohk.io/job/Cardano/iohk-nix/cardano-deployment/latest-finished/download/1/index.html | grep -e "build" | sed 's/.*build\/\([0-9]*\)\/download.*/\1/g') >> ${HOME}/.adaenv
 echo export CARDANO_NODE_SOCKET_PATH="${HOME}/pi-pool/db/socket" >> ${HOME}/.adaenv
 source ${HOME}/.bashrc; source ${HOME}/.adaenv
@@ -135,45 +135,27 @@ which jq
 # /usr/local/bin/jq
 ```
 
-## Install CNVM (optional)
-
-Optionally you can install `cnvm`, which will help you to automate some steps of the install process.
-
-```bash title=">_ Terminal"
-bash <(curl -Ls https://github.com/HofmannZ/cnvm/raw/master/scripts/install.sh)
-```
-
-### Retrieve node files
-
-<Tabs groupId="RETRIEVE_NODE_FILES">
-  <TabItem value="cnvm" label="The cnvm command" default>
-
-```bash title=">_ Terminal"
-cnvm download-config-files --topology
-```
-
-This command also modifies ${NODE_CONFIG}-config.json and update TraceBlockFetchDecisions to "true" & listen on all interfaces with Prometheus Node Exporter.
-
   </TabItem>
   <TabItem value="manual" label="The manual commands">
 
 ```bash title=">_ Terminal"
 cd $NODE_FILES
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-config.json
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-byron-genesis.json
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-shelley-genesis.json
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-alonzo-genesis.json
-wget -N https://hydra.iohk.io/build/${NODE_BUILD_NUM}/download/1/${NODE_CONFIG}-topology.json
-wget -N https://raw.githubusercontent.com/input-output-hk/cardano-node/master/cardano-submit-api/config/tx-submit-mainnet-config.yaml
+wget -N https://book.world.dev.cardano.org/environments/mainnet/config.json
+wget -N https://book.world.dev.cardano.org/environments/mainnet/byron-genesis.json
+wget -N https://book.world.dev.cardano.org/environments/mainnet/shelley-genesis.json
+wget -N https://book.world.dev.cardano.org/environments/mainnet/alonzo-genesis.json
+wget -N https://book.world.dev.cardano.org/environments/mainnet/topology.json
+wget -N https://book.world.dev.cardano.org/environments/mainnet/submit-api-config.json
+wget -N https://book.world.dev.cardano.org/environments/mainnet/conway-genesis.json
 ```
 
-Run the following to modify ${NODE_CONFIG}-config.json and update TraceBlockFetchDecisions to "true" & listen on all interfaces with Prometheus Node Exporter.
+Run the following to modify config.json and update TraceBlockFetchDecisions to "true" & listen on all interfaces with Prometheus Node Exporter.
 
 ```bash title=">_ Terminal"
-sed -i ${NODE_CONFIG}-config.json \
+sed -i config.json \
     -e "s/TraceBlockFetchDecisions\": false/TraceBlockFetchDecisions\": true/g" \
     -e "s/127.0.0.1/0.0.0.0/g"
-```
+    ```
 
   </TabItem>
 </Tabs>
@@ -190,28 +172,10 @@ The **unofficial** dynamic cardano-node, cardano-cli and cardano-submit-api bina
 
 :::tip
 
-All previous aarch64 binaries can be found in the [Binary repository](https://github.com/armada-alliance/cardano-node-binaries).
+All previous and future aarch64 binaries can be found in the [Binary repository](https://github.com/armada-alliance/cardano-node-binaries).
 
 :::
 
-### The cnvm command
-
-<Tabs groupId="BINARIES_CNVM">
-  <TabItem value="mainnet" label="Recommended Mainnet Binaries" default>
-
-```bash title=">_ Terminal"
-cnvm install-binaries 1.34.1
-```
-
-  </TabItem>
-  <TabItem value="testnet" label="Recommended Testnet Binaries">
-
-```bash title=">_ Terminal"
-cnvm install-binaries 1.35.2
-```
-
-  </TabItem>
-</Tabs>
 
 ### The manual commands
 
@@ -450,22 +414,6 @@ cardano-service start
 cardano-service status
 ```
 
-Otherwise download the latest snapshot:
-
-<Tabs groupId="RETRIEVE_NODE_FILES">
-  <TabItem value="cnvm" label="The cnvm command" default>
-
-Be sure your node is **not** running.
-
-```bash title=">_ Terminal"
-cardano-service stop
-```
-
-Then run:
-
-```bash title=">_ Terminal"
-cnvm download-snapshot
-```
 
 Once done, enable & start cardano-node.
 
@@ -536,8 +484,8 @@ sed -i env \
     -e "/#CNODEBIN/i. ${HOME}/.adaenv" \
     -e "s/\#CNODE_HOME=\"\/opt\/cardano\/cnode\"/CNODE_HOME=\"\${HOME}\/pi-pool\"/g" \
     -e "s/\#CNODE_PORT=6000"/CNODE_PORT=\"'${NODE_PORT}'\""/g" \
-    -e "s/\#CONFIG=\"\${CNODE_HOME}\/files\/config.json\"/CONFIG=\"\${NODE_FILES}\/"'${NODE_CONFIG}'"-config.json\"/g" \
-    -e "s/\#TOPOLOGY=\"\${CNODE_HOME}\/files\/topology.json\"/TOPOLOGY=\"\${NODE_FILES}\/"'${NODE_CONFIG}'"-topology.json\"/g" \
+    -e "s/\#CONFIG=\"\${CNODE_HOME}\/files\/config.json\"/CONFIG=\"\${NODE_FILES}\config.json\"/g" \
+    -e "s/\#TOPOLOGY=\"\${CNODE_HOME}\/files\/topology.json\"/TOPOLOGY=\"\${NODE_FILES}\topology.json\"/g" \
     -e "s/\#LOG_DIR=\"\${CNODE_HOME}\/logs\"/LOG_DIR=\"\${CNODE_HOME}\/logs\"/g"
 ```
 
