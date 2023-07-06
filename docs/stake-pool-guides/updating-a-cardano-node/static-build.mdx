@@ -8,7 +8,7 @@ This guide follows the same setup as our [Pi-Node guide and image](../pi-pool-tu
 :::
 
 :::success
-#### Current Official Cardano Node Version: 1.35.5
+#### Current Official Cardano Node Version: 8.1.1
 :::
 
 ### Overview 🗒
@@ -28,13 +28,13 @@ This guide follows the same setup as our [Pi-Node guide and image](../pi-pool-tu
 ### Static binaries and Cardano node configuration files are provided by [\[ZW3RK\]](https://armada-alliance.com/identities/zw3rk) pool🙏 and can be found at our [Github repository](https://github.com/armada-alliance/cardano-node-binaries/tree/main/static-binaries).
 
 ```bash title=">_ Terminal"
-wget -O 1_35_5.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/1_35_5.zip?raw=true
+wget -O 8_1_1.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/8_1_1.zip?raw=true
 ```
 
 Extract the content from the zip file.
 
 ```bash title=">_ Terminal"
-unzip 1_35_5.zip
+unzip 8_1_1.zip
 ```
 
 ### Check if cardano-node is running already
@@ -73,7 +73,7 @@ cardano-node --version
 #### Output:
 
 ```bash title=">_ Terminal"
-cardano-node 1.35.3 - linux-aarch64 - ghc-8.10
+cardano-node 8.1.1 - linux-aarch64 - ghc-8.10
 git rev 0000000000000000000000000000000000000000
 ```
 
@@ -86,7 +86,7 @@ cardano-cli --version
 #### Output:
 
 ```bash title=">_ Terminal"
-cardano-cli 1.35.3 - linux-aarch64 - ghc-8.10
+cardano-cli 8.1.1 - linux-aarch64 - ghc-8.10
 git rev 0000000000000000000000000000000000000000
 ```
 
@@ -106,6 +106,7 @@ wget https://book.world.dev.cardano.org/environments/mainnet/byron-genesis.json
 wget https://book.world.dev.cardano.org/environments/mainnet/shelley-genesis.json
 wget https://book.world.dev.cardano.org/environments/mainnet/alonzo-genesis.json
 wget https://book.world.dev.cardano.org/environments/mainnet/topology.json
+wget https://book.world.dev.cardano.org/environments/mainnet/conway-genesis.json
 ```
   </TabItem>
   <TabItem value="Pre-Production" label="Pre-Production">
@@ -117,6 +118,7 @@ wget https://book.world.dev.cardano.org/environments/preprod/byron-genesis.json
 wget https://book.world.dev.cardano.org/environments/preprod/shelley-genesis.json
 wget https://book.world.dev.cardano.org/environments/preprod/alonzo-genesis.json
 wget https://book.world.dev.cardano.org/environments/preprod/topology.json
+wget https://book.world.dev.cardano.org/environments/preprod/conway-genesis.json
 ```
   </TabItem>
   <TabItem value="Preview" label="Preview">
@@ -128,6 +130,7 @@ wget https://book.world.dev.cardano.org/environments/preview/byron-genesis.json
 wget https://book.world.dev.cardano.org/environments/preview/shelley-genesis.json
 wget https://book.world.dev.cardano.org/environments/preview/alonzo-genesis.json
 wget https://book.world.dev.cardano.org/environments/preview/topology.json
+wget https://book.world.dev.cardano.org/environments/preview/conway-genesis.json
 ```
   </TabItem>
 
@@ -136,12 +139,13 @@ wget https://book.world.dev.cardano.org/environments/preview/topology.json
 ## Download Database snapshot
 
 :::info
-Thanks to [OTG pool](https://armada-alliance.com/stake-pools/c825168836c5bf850dec38567eb4771c2e03eea28658ff291df768ae) for providing an up to date  snapshot of the Cardano blockchain to help speed up sync times for a node dramatically.
+Go [to cnsapshots](https://csnapshots.io/) if you want to download a Snapshot of the Database for whatever network you need.
+This will greatly reduce time to sync the chain for your node if using Mainnet or Preproduction networks.
 :::
-
+  
 ```bash title=">_ Terminal"
-cd $NODE_HOME && rm -rf db
-wget -r -np -nH -R "index.html*" -e robots=off https://$NODE_CONFIG.adamantium.online/db/
+mv /path/to/downloaded/snapshot/db $NODE_HOME
+
 ```
 
 ## Restart the Cardano Node

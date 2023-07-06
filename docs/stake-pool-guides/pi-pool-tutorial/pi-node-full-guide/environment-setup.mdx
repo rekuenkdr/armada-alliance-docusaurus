@@ -7,7 +7,6 @@ import TabItem from '@theme/TabItem';
 
 # Environment Setup
 
-## Choose testnet or mainnet.
 
 :::danger
 
@@ -135,8 +134,7 @@ which jq
 # /usr/local/bin/jq
 ```
 
-  </TabItem>
-  <TabItem value="manual" label="The manual commands">
+### Download latest config files
 
 ```bash title=">_ Terminal"
 cd $NODE_FILES
@@ -157,8 +155,6 @@ sed -i config.json \
     -e "s/127.0.0.1/0.0.0.0/g"
     ```
 
-  </TabItem>
-</Tabs>
 
 ### Retrieve aarch64 1.33.1 and cardano-submit-api binaries
 
@@ -179,8 +175,6 @@ All previous and future aarch64 binaries can be found in the [Binary repository]
 
 ### The manual commands
 
-<Tabs groupId="BINARIES">
-  <TabItem value="mainnet" label="Recommended Mainnet Binaries" default>
 
 ```bash title=">_ Terminal"
 cd ${HOME}/tmp
@@ -191,20 +185,6 @@ rm -r cardano*
 cd ${HOME}
 ```
 
-  </TabItem>
-  <TabItem value="testnet" label="Recommended Testnet Binaries">
-
-```bash title=">_ Terminal"
-cd ${HOME}/tmp
-wget -O 1_35_4.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/1_35_4.zip?raw=true
-unzip *.zip
-mv cardano-*/cardano-* ${HOME}/.local/bin
-rm -r cardano*
-cd ${HOME}
-```
-
-  </TabItem>
-</Tabs>
 
 :::caution
 
@@ -423,8 +403,6 @@ cardano-service start
 cardano-service status
 ```
 
-  </TabItem>
-  <TabItem value="manual" label="The manual commands">
 
 Be sure your node is **not** running & delete the db folder if it exists and download db/.
 
@@ -445,9 +423,6 @@ cardano-service enable
 cardano-service start
 cardano-service status
 ```
-
-  </TabItem>
-</Tabs>
 
 ## gLiveView.sh
 

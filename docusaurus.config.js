@@ -59,28 +59,32 @@ module.exports = {
       logo: {
         alt: "Armada Alliance ship logo",
         src: "img/armada-alliance-logo.png",
+
       },
       items: [
-        {
-          href: "https://armada-alliance.com",
-          label: "Armada Alliance Website",
-          className: "center-nav-item",
-          target: "_blank",
-        },
         {
           type: "localeDropdown", // Locale Dropdown
           position: "right",
         },
         {
-          href: "https://shop.armada-alliance.com",
-          label: "Armada Store",
+          href: "https://armada-alliance.com",
+          label: "Armada Website",
+          // className: "center-nav-item",
           position: "right",
+          // target: "_blank",
+          // className: "header-website-link",
         },
         {
           href: "https://github.com/armada-alliance/",
-          label: "GitHub",
+          // label: "GitHub",
           position: "right",
+          className: "header-github-link",
         },
+        // {
+        //   href: "https://shop.armada-alliance.com",
+        //   label: "Armada Store",
+        //   position: "right",
+        // },
       ],
     },
   },
