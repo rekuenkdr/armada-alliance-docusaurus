@@ -141,6 +141,8 @@ wget https://book.world.dev.cardano.org/environments/preview/topology.json
 wget https://book.world.dev.cardano.org/environments/preview/byron-genesis.json
 wget https://book.world.dev.cardano.org/environments/preview/shelley-genesis.json
 wget https://book.world.dev.cardano.org/environments/preview/alonzo-genesis.json
+wget https://book.world.dev.cardano.org/environments/preview/conway-genesis.json
+```
 ```
 
 Enable TraceBlockFetchDecisions and listen on all interfaces.
@@ -165,6 +167,7 @@ wget https://book.world.dev.cardano.org/environments/preprod/topology.json
 wget https://book.world.dev.cardano.org/environments/preprod/byron-genesis.json
 wget https://book.world.dev.cardano.org/environments/preprod/shelley-genesis.json
 wget https://book.world.dev.cardano.org/environments/preprod/alonzo-genesis.json
+wget https://book.world.dev.cardano.org/environments/preprod/conway-genesis.json
 ```
 
 Enable TraceBlockFetchDecisions, listen on all interfaces and change the ports for hasEKG and hasPrometheus.
@@ -340,8 +343,8 @@ or just download a set of statically linked binaries built by the Armada allianc
 
 ```bash title=">_ Terminal"
 cd ${HOME}/tmp
-wget https://ci.zw3rk.com/build/946062/download/1/aarch64-unknown-linux-musl-cardano-node-1.35.4.zip
-unzip aarch64-unknown-linux-musl-cardano-node-1.35.4.zip
+wget -O 8_1_1.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/8_1_1.zip?raw=true
+unzip 8_1_1.zip
 mv cardano-node/* ${HOME}/.local/bin
 ```
 Confirm Binaries are in $PATH.
