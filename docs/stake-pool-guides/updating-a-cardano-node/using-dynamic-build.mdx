@@ -3,14 +3,15 @@ import TabItem from "@theme/TabItem";
 
 # Dynamic Build
 
-_**We at the Armada Alliance actively build the required software packages needed to run a Cardano stake pool node on ARM-based computers like the Raspberry Pi or Apple's MacMini M1.**_
+**We at the Armada Alliance actively build the required software packages needed to run a Cardano stake pool node on ARM-based computers like the Raspberry Pi or Apple's MacMini M1.**_
 
 :::caution
-#### To use our dynamic arm64 cardano-node build you must have [libsodium](https://github.com/input-output-hk/libsodium) installed.
+#### To use our dynamic arm64 cardano-node build requires libsodium and secp256k1.
 :::
 
+
 :::success
-#### Current Official Cardano Node Version: 1.35.3
+#### Current Official Cardano Node Version: 8.1.1
 :::
 
 ### Overview 🗒
@@ -26,6 +27,22 @@ _**We at the Armada Alliance actively build the required software packages neede
 * [ ] Replace old configuration files with new ones (if needed)
 * [ ] Restart your Cardano Node
 * [ ] Check that node has started properly
+
+## Prerequisites for Ubuntu 20.04
+
+```bash title=">_ Terminal"
+sudo apt install automake build-essential pkg-config libffi-dev libgmp-dev libssl-dev libtinfo-dev libsystemd-dev zlib1g-dev make g++ tmux git jq wget libncursesw5 libtool autoconf liblmdb-dev -y
+```
+### For Ubuntu 22.04 LTS fresh install (missing libssl.so.1.1)
+
+```bash title=">_ Terminal"
+wget http://ports.ubuntu.com/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_arm64.deb
+
+sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_arm64.deb
+
+rm libssl1.1_1.1.1f-1ubuntu2_arm64.deb
+```
+
 
 ## Building Libsodium
 
@@ -54,7 +71,7 @@ git clone https://github.com/input-output-hk/libsodium
 
 ```bash title=">_ Terminal"
 cd libsodium
-git checkout 66f017f1
+git checkout dbb48cce5429cb6585c9034f002568964f1ce567
 ```
 
 ```bash title=">_ Terminal"
@@ -80,6 +97,41 @@ echo "export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"" >> ~/.
 source ~/.bashrc
 ```
 
+### Instructions to install secp256k1
+
+Create a working directory if you have not already
+
+```bash title=">_ Terminal"
+mkdir -p ~/src && cd ~/src
+```
+Download and install secp256k1
+
+```bash title=">_ Terminal"
+git clone https://github.com/bitcoin-core/secp256k1.git
+```
+
+```bash title=">_ Terminal"
+cd secp256k1
+git checkout ac83be33
+```
+
+```bash title=">_ Terminal"
+git reset --hard $SECP256K1_REF
+```
+
+```bash title=">_ Terminal"
+./autogen.sh
+```
+
+```bash title=">_ Terminal"
+./configure  --enable-module-schnorrsig --enable-experimental
+```
+
+```bash title=">_ Terminal"
+make
+sudo make install
+```
+
 For those who run cardano-node as a systemd service, run the following:
 
 ```
@@ -93,13 +145,12 @@ This ensures the system is aware of libsodium (not just at the user level).
 Dynamic binaries and Cardano node configuration files provided by [SRN pool ](https://armada-alliance.com/stake-pools/cc1b1c03798884c636703443a23b8d9e827d6c0417921600394198a0):pray: at our [Github repository](https://github.com/armada-alliance/cardano-node-binaries).
 
 ```bash title=">_ Terminal"
-wget -O cardano-1_35_3-aarch64-ubuntu_2004.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/dynamic-binaries/1.35.3/cardano-1_35_3-aarch64-ubuntu_2004.zip?raw=true
-```
+wget -O cardano-8_1_1-aarch64-ubuntu_2004.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/dynamic-binaries/8.1.1/cardano-8_1_1-aarch64-ubuntu_2004.zip?raw=true```
 
 Extract the content from the zip file.
 
 ```bash title=">_ Terminal"
-unzip cardano-1_35_3-aarch64-ubuntu_2004.zip?raw=true
+unzip cardano-8_1_1-aarch64-ubuntu_2004.zip
 ```
 
 ### Check if cardano-node is running already
@@ -126,7 +177,7 @@ If you use Linux's `htop` service just check for a processing running starting w
 If you are using the [Pi-Node guide](../pi-pool-tutorial/) and your cardano-node & cli in `~/.local/bin`
 
 ```bash title=">_ Terminal"
-mv cardano-1_35_3-aarch64-ubuntu_2004/cardano-node cardano-1_35_3-aarch64-ubuntu_2004/cardano-cli ~/.local/bin
+mv cardano-8_1_1-aarch64-ubuntu_2004/* ~/.local/bin
 ```
 
 ### Check your cardano-node version
@@ -138,8 +189,8 @@ cardano-node --version
 #### Output:
 
 ```bash title=">_ Terminal"
-cardano-node 1.35.3 - linux-aarch64 - ghc-8.10
-git rev 2cbe363874d0261bc62f52185cf23ed492cf4859
+cardano-node 8.1.1 - linux-aarch64 - ghc-8.10
+git rev 6f79e5c3ea109a70cd01910368e011635767305a
 ```
 
 ### Check your cardano-cli version
@@ -151,8 +202,8 @@ cardano-cli --version
 #### Output:
 
 ```bash title=">_ Terminal"
-cardano-cli 1.35.3 - linux-aarch64 - ghc-8.10
-git rev 2cbe363874d0261bc62f52185cf23ed492cf4859
+cardano-cli 8.1.1 - linux-aarch64 - ghc-8.10
+git rev 6f79e5c3ea109a70cd01910368e011635767305a
 ```
 
 ### Replace the Cardano node configuration files
@@ -163,35 +214,47 @@ This step is not needed every time you update your node, typically you only need
 
 :::
 
-We have already downloaded the configuration files needed for the networks mainnet and testnet, now we just need to move them to our pool files directory.
+Download the configuration files needed for the networks, now we just need to move them to our pool files directory.
 
 <Tabs>
-<TabItem value="mainnet config" label="MAINNET Config">
+  <TabItem value="Mainnet" label="Mainnet" default> 
 
 ```bash title=">_ Terminal"
-mv cardano-1_35_3-aarch64-ubuntu_2004/files/mainnet/* ~/pi-pool/files
+cd $NODE_FILES
+wget https://book.world.dev.cardano.org/environments/mainnet/config.json
+wget https://book.world.dev.cardano.org/environments/mainnet/byron-genesis.json
+wget https://book.world.dev.cardano.org/environments/mainnet/shelley-genesis.json
+wget https://book.world.dev.cardano.org/environments/mainnet/alonzo-genesis.json
+wget https://book.world.dev.cardano.org/environments/mainnet/topology.json
+wget https://book.world.dev.cardano.org/environments/mainnet/conway-genesis.json
 ```
-
-</TabItem>
-<TabItem value="testnet config" label="TESTNET Config">
+  </TabItem>
+  <TabItem value="Pre-Production" label="Pre-Production">
 
 ```bash title=">_ Terminal"
-mv cardano-1_35_3-aarch64-ubuntu_2004/files/testnet/* ~/pi-pool/files
+cd $NODE_FILES
+wget https://book.world.dev.cardano.org/environments/preprod/config.json
+wget https://book.world.dev.cardano.org/environments/preprod/byron-genesis.json
+wget https://book.world.dev.cardano.org/environments/preprod/shelley-genesis.json
+wget https://book.world.dev.cardano.org/environments/preprod/alonzo-genesis.json
+wget https://book.world.dev.cardano.org/environments/preprod/topology.json
+wget https://book.world.dev.cardano.org/environments/preprod/conway-genesis.json
 ```
+  </TabItem>
+  <TabItem value="Preview" label="Preview">
 
-</TabItem>
+```bash title=">_ Terminal"
+cd $NODE_FILES
+wget https://book.world.dev.cardano.org/environments/preview/config.json
+wget https://book.world.dev.cardano.org/environments/preview/byron-genesis.json
+wget https://book.world.dev.cardano.org/environments/preview/shelley-genesis.json
+wget https://book.world.dev.cardano.org/environments/preview/alonzo-genesis.json
+wget https://book.world.dev.cardano.org/environments/preview/topology.json
+wget https://book.world.dev.cardano.org/environments/preview/conway-genesis.json
+```
+  </TabItem>
+
 </Tabs>
-
-## Download Database snapshot
-
-:::info
-Thanks to [OTG pool](https://armada-alliance.com/stake-pools/c825168836c5bf850dec38567eb4771c2e03eea28658ff291df768ae) for providing an up to date  snapshot of the Cardano blockchain to help speed up sync times for a node dramatically.
-:::
-
-```bash title=">_ Terminal"
-cd $NODE_HOME && rm -rf db
-wget -r -np -nH -R "index.html*" -e robots=off https://$NODE_CONFIG.adamantium.online/db/
-```
 
 ## Restart the Cardano Node
 
