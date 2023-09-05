@@ -520,6 +520,38 @@ Update link cache for shared libraries and confirm.
 sudo ldconfig; ldconfig -p | grep secp256k1
 ```
 
+## blst
+
+Needed for 8.3.0-pre and above.
+
+```
+cd ~/git
+git clone https://github.com/supranational/blst
+cd blst
+git checkout v0.3.10
+./build.sh
+cat > libblst.pc << EOF
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libblst
+Description: Multilingual BLS12-381 signature library
+URL: https://github.com/supranational/blst
+Version: 0.3.10
+Cflags: -I${includedir}
+Libs: -L${libdir} -lblst
+EOF
+sudo cp libblst.pc /usr/local/lib/pkgconfig/
+sudo cp bindings/blst_aux.h bindings/blst.h bindings/blst.hpp  /usr/local/include/
+sudo cp libblst.a /usr/local/lib
+sudo chmod u=rw,go=r /usr/local/{lib/{libblst.a,pkgconfig/libblst.pc},include/{blst.{h,hpp},blst_aux.h}}
+```
+
+Update link cache for shared libraries and confirm.
+
+
 ## LLVM 12.0.1
 
 ```bash title=">_ Terminal"
@@ -556,8 +588,8 @@ ghcup upgrade
 ghcup install cabal 3.6.2.0
 ghcup set cabal 3.6.2.0
 
-ghcup install ghc 9.2.7
-ghcup set ghc 9.2.7
+ghcup install ghc 8.10.7
+ghcup set ghc 8.10.7
 ```
 
 Confirm.
@@ -577,15 +609,15 @@ git fetch --all --recurse-submodules --tags
 git checkout $(curl -s https://api.github.com/repos/input-output-hk/cardano-node/releases/latest | jq -r .tag_name)
 ```
 
-Configure with 9.2.7 & set libsodium
+Configure with 8.10.7 & set libsodium
 
 ```bash title=">_ Terminal"
 cabal update
-cabal configure -O0 -w ghc-9.2.7
+cabal configure -O0 -w ghc-8.10.7
 
 echo -e "package cardano-crypto-praos\n flags: -external-libsodium-vrf" > cabal.project.local
 sed -i $HOME/.cabal/config -e "s/overwrite-policy:/overwrite-policy: always/g"
-rm -rf dist-newstyle/build/aarch64-linux/ghc-9.2.7
+rm -rf dist-newstyle/build/aarch64-linux/ghc-8.10.7
 ```
 
 Build cardano-cli cardano-node.
