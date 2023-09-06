@@ -524,14 +524,18 @@ sudo ldconfig; ldconfig -p | grep secp256k1
 
 Needed for 8.3.0-pre and above.
 
-```
+```bash title=">_ Terminal"
 cd ~/git
 git clone https://github.com/supranational/blst
 cd blst
 git checkout v0.3.10
 ./build.sh
-cat > libblst.pc << EOF
-prefix=/usr/local
+sudo nano /usr/local/lib/pkgconfig/libblst.pc
+```
+
+Add this.
+```
+prefix=/usr
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
@@ -542,15 +546,16 @@ URL: https://github.com/supranational/blst
 Version: 0.3.10
 Cflags: -I${includedir}
 Libs: -L${libdir} -lblst
-EOF
-sudo cp libblst.pc /usr/local/lib/pkgconfig/
+
+```
+
+Copy other files into place.
+
+```bash title=">_ Terminal"
 sudo cp bindings/blst_aux.h bindings/blst.h bindings/blst.hpp  /usr/local/include/
 sudo cp libblst.a /usr/local/lib
 sudo chmod u=rw,go=r /usr/local/{lib/{libblst.a,pkgconfig/libblst.pc},include/{blst.{h,hpp},blst_aux.h}}
 ```
-
-Update link cache for shared libraries and confirm.
-
 
 ## LLVM 12.0.1
 
