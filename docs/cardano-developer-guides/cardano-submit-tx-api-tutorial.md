@@ -25,17 +25,17 @@ If you've set up your node using our [docker image guide](https://docs.armada-al
 Download the latest version of the Cardano node, cli, and tx-submit-api from the [Armada Alliance Github repository](https://github.com/armada-alliance/cardano-node-binaries).
 
 ```bash title=">_ Terminal"
-wget -O 1_33_1.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/1_33_1.zip?raw=true
+wget -O 8_1_2.zip https://github.com/armada-alliance/cardano-node-binaries/blob/main/static-binaries/8_1_2.zip?raw=true
 ```
 
 Unzip the contents of the zip file.
 
 ```bash title=">_ Terminal"
-unzip 1_33_1.zip -d cardano-node-1.33.1
+unzip 8_1_2.zip -d cardano-node-8.1.2
 ```
 
 ```bash title=">_ Terminal"
-mv cardano-node-1.33.1/cardano-node/cardano-submit-api ~/.local/bin/
+mv cardano-node-8.1.2/cardano-node/cardano-submit-api ~/.local/bin/
 ```
 
 ## Make a simple bash script to run the Cardano Submit API
