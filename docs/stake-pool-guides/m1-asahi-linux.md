@@ -535,7 +535,8 @@ sudo nano /usr/local/lib/pkgconfig/libblst.pc
 
 Add this.
 ```
-prefix=/usr
+
+prefix=/usr/local
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
