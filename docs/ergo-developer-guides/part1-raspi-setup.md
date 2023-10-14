@@ -4,9 +4,9 @@ Time Allotment:
 - 1hr to order parts (if you don't have it). Estimate ~$200 USD.
 - 1hr-3hr to execute (depending on skill level and snags)
 
-![rpi-bare-front-view.jpeg](/images/rpi-bare-front-view.jpeg)
+![rpi-bare-front-view.jpeg](../../static/ergo-images/rpi-bare-front-view.jpeg)
 
-![full-kit-hardware](/images/rpi-finished-seperate-top-view.jpeg)
+![full-kit-hardware](../../static/ergo-images/rpi-finished-seperate-top-view.jpeg)
 
 ## Full Kit Equipment
 1. Micro SD card 8Gb+ & Adapter, [Recommend: Amazon 32gb card ~$15](https://www.amazon.com/s?k=micro+sd+card&rh=n%3A516866%2Cp_n_feature_two_browse-bin%3A6518304011&crid=YXIYMGJA97E7&nav_sdd=aps&rnid=6518301011&sprefix=micro+sd+card&ref=nb_sb_ss_w_sbl-tr-t1_micro-sd-card_k0_1_13_2)
@@ -149,7 +149,7 @@ Now we need to delete the partitions and create a new one with a desirable file 
 sudo fdisk /dev/sda
 ```
 
-You should see "Welcome to fdisk (util-linus <version>)"
+You should see "Welcome to fdisk (util-linus version)"
 
 Type in `d` to delete the partitions (repeat until they are all gone). 
 

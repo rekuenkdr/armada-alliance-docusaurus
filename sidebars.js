@@ -204,6 +204,37 @@ module.exports = {
     },
     {
       type: "category",
+      label: "Ergo Guides",
+      link: {
+        type: "generated-index",
+        title: "Ergo Guides",
+        slug: "/ergo-guides/",
+        keywords: ["guides"],
+      },
+      items: [
+        {
+          type: "category",
+          collapsible: true,
+          label: "Raspberry Pi 4 Ergo Node",
+          link: {
+            type: "generated-index",
+            title: "RPi 4 Ergo Node",
+            slug: "/ergo-guides/ergo-node/",
+            keywords: ["guides"],
+          },
+          items: [
+            "ergo-developer-guides/README",
+            "ergo-developer-guides/part1-raspi-setup",
+            "ergo-developer-guides/part2-ergo-full-node",
+            "ergo-developer-guides/part3-run-node-in-background-tmux",
+            "ergo-developer-guides/part4-robust-run-node-in-background-systemd",
+            "ergo-developer-guides/part5-setup-satergo-full-node-wallet",
+          ],
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "How to Contribute",
       link: {
         type: "generated-index",

@@ -189,5 +189,5 @@ Type in the password in the browser node panel under "API Key". It should work.
 
 Congrats!! You should see the node syncing now on the Ergo Node Explorer panel.
 
-![ergo-node-start-sync](/images/successful_node_running_start.jpeg)
+![ergo-node-start-sync](../../static/ergo-images/successful_node_running_start.jpeg)
 

@@ -15,7 +15,7 @@ In reality, you only need to know about 5 things.
 
 Here's a video my super hacker brother shared with me:
 
-[![Tmux has forever changed the way I write code.](/images/tmux-youtube-shot.jpeg)](https://www.youtube.com/watch?v=DzNmUNvnB04)
+[![Tmux has forever changed the way I write code.](../../static/ergo-images/tmux-youtube-shot.jpeg)](https://www.youtube.com/watch?v=DzNmUNvnB04)
 
 In reality, you only need to know the basics, about 5 things, and level up from there.
 
@@ -111,7 +111,7 @@ Now let's get into the rpi thru tmux and do some practice work.
 
 From a tmux session that we started above, it should have a solid green bar at the bottom.
 
-![tmux-example](/images/tmux-example.jpeg)
+![tmux-example](../../static/ergo-images/tmux-example.jpeg)
 
 Let's get into the rpi
 
@@ -177,8 +177,4 @@ In the other tab, you should see a live read-only view of the node syncing.
 
 Congrats, you are now running the ergo-node sync as a tmux session in the background!
 
-![tmux-read-only-view](/images/tmux-read-only-screen.jpeg)
-
-
-
-
+![tmux-read-only-view](../../static/ergo-images/tmux-read-only-screen.jpeg)

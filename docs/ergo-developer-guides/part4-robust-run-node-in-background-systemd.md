@@ -75,7 +75,7 @@ sudo systemctl start ergo-node.service
 
 ## Monitoring and Common Troubleshooting
 
-See the [Command Cheatsheet, System Monitoring & Troubleshooting](/command_cheatsheet.md) guide.
+See the [Command Cheatsheet, System Monitoring & Troubleshooting](./command_cheatsheet.md) guide.
 
 The basic functions will be:
 - Stop
@@ -98,4 +98,4 @@ journalctl --unit=ergo-node --output=cat -f
 
 Congrats! You now will run the Ergo Node upon power up, reboot, and blips for a robust decentralized checker as strong as Ergo!
 
-![ergo-node-service-status](/images/ergo-node-service-status.jpeg)
+![ergo-node-service-status](../../static/ergo-images/ergo-node-service-status.jpeg)

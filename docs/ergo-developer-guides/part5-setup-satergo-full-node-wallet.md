@@ -3,7 +3,7 @@ This tutorial steps thru setting up your rpi full node as a "remote node for the
 
 Time allocation: 15-30min
 
-![satergo_settings](/images/satergo_settings.jpeg)
+![satergo_settings](../../static/ergo-images/satergo_settings.jpeg)
 
 Why [Satergo Wallet](https://satergo.com/) you say?
 - open source: [Satergo Github](https://github.com/Satergo/Satergo)
@@ -11,7 +11,7 @@ Why [Satergo Wallet](https://satergo.com/) you say?
 - beautiful design and gui (love the color themes)
 - grassroots community built: [Satergo Twitter](https://twitter.com/SatergoWallet)
 
-![why-satergo](/images/satergo_why_use.jpeg)
+![why-satergo](../../static/ergo-images/satergo_why_use.jpeg)
 
 ## Initialize Wallet on the Ergo Node Interface
 1. From http://headless.local:9053/panel/ the Ergo Node Explorer -> Initialize Wallet (top left)
@@ -19,7 +19,7 @@ Why [Satergo Wallet](https://satergo.com/) you say?
 3. Test Locking your wallet with your password
 4. On the left dashboard > Wallet > Wallet Information > Addresses > More
 
-![ergo-node-wallet](/images/ergo-node-explorer-wallet.jpeg)
+![ergo-node-wallet](../../static/ergo-images/ergo-node-explorer-wallet.jpeg)
 
 5. Click on the address hyperlink to open the Ergo Explorer for the wallet
 6. Copy the https address hyperlink.
@@ -33,11 +33,11 @@ You can inspect their code in the [Satergo Wallet Github](https://github.com/Sat
 2. There might be missing steps here, but once you download and unzip the file, double click `run.command` from the gui explorer or `./run.command` from terminal.
 3. If done correctly, you'll see the Satergo welcome screen below. Click `Remote Node`.
 
-![satergo-welcome](/images/satergo-welcome.jpeg)
+![satergo-welcome](../../static/ergo-images/satergo-welcome.jpeg)
 
 4. Paste in your Ergo Explorer https wallet address link like so
 
-![satergo-wallet-registration](/images/satergo-wallet-registeration.jpeg)
+![satergo-wallet-registration](../../static/ergo-images/satergo-wallet-registeration.jpeg)
 
 5. Restore wallet using Seed Phrase.
 6. Save your wallet file somewhere.
@@ -45,7 +45,7 @@ You can inspect their code in the [Satergo Wallet Github](https://github.com/Sat
 
 If you find this tutorial helpful, here's my donation tip jar!
 
-![donations-qr-code](/images/wallet-qr-code.jpeg)
+![donations-qr-code](../../static/ergo-images/wallet-qr-code.jpeg)
 
 
 ## Enable Port Forwarding
