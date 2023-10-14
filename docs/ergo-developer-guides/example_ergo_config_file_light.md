@@ -1,10 +1,17 @@
+```bash
 ergo {
     node {
         mining = false
         extraIndex = false
+
+        ## for light weight nipopow node using just block headers for state
+        ## uncomment the below stateType, blocksToKeep (for last 3 days), and nipopowBootstrap
+        stateType = "digest"
+        blocksToKeep = 1440
+
         utxo {
             # Download and apply UTxO set snapshot and full-blocks after that
-            utxoBootstrap = false
+            utxoBootstrap = true
 
             # How many utxo set snapshots to store, 0 means that they are not stored at all
             storingUtxoSnapshots = 2
@@ -16,7 +23,7 @@ ergo {
         # Settings releated to headers-chain bootstrapping via NiPoPows
         nipopow {
             # Download PoPoW proof on node utxoBootstrap
-            nipopowBootstrap = false
+            nipopowBootstrap = true
 
             #how many different proofs we are downloading from other peers
             # and compare with each other, before choosing the best one
@@ -38,3 +45,4 @@ scorex {
         # nodeName = "my-ergo-node"
     }
 }
+```

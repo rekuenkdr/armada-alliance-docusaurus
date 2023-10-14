@@ -1,3 +1,4 @@
+```bash
 # The Ergo Node Service (part of systemd)
 # file: /etc/systemd/system/ergo-node.service
 
@@ -25,3 +26,4 @@ RestartSec          =10
 
 [Install]
 WantedBy            =multi-user.target
+```

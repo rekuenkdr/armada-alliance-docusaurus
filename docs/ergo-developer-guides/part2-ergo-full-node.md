@@ -107,7 +107,7 @@ sudo nano ergo.conf
 ```
 Note: sudo is super user do (admin privileges). Nano is command line to touch and edit the ergo.conf file. You will now be inside the ergo.conf file. If the file didn't exist, it was just now created.
 
-Copy and paste the contents of the [Reference ergo.conf example file](/example_ergo_config_file.txt) into a separate text file:
+Copy and paste the contents of the [Reference ergo.conf example file](./example_ergo_config_file.md) into a separate text file:
 
     ergo {
         node {
@@ -159,7 +159,7 @@ You'll need to make the following updates:
   - declared address - update
   - nodeName - update
 
-For light weight full node using bootstrapping and NiPoPow, see [example_ergo_config_file_light.txt](/example_ergo_config_file_light.txt)
+For light weight full node using bootstrapping and NiPoPow, see [example_ergo_config_file_light](./example_ergo_config_file_light.md)
 
 Give it a go and run it! Ctrl+X to overwrite and Yes enter to save.
 
