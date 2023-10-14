@@ -34,7 +34,7 @@ This is a cheat sheet list of references.
     - Discord is the other primary source of communication.
 
 - [Ergo Platform Matrix.org Space](https://matrix.to/#/#ergo-platform:matrix.org)
-    - [Matrix.org](www.matrix.org) is a decentralized communication protocol that I highly recommend using. Element App is the best, but there are a ton of other client options. From the Space all the chat rooms are bridged and can join.
+    - [Matrix.org](https://www.matrix.org) is a decentralized communication protocol that I highly recommend using. Element App is the best, but there are a ton of other client options. From the Space all the chat rooms are bridged and can join.
 
 
 ## Explorers
